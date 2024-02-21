@@ -1,48 +1,54 @@
-<style>
-    /* Style the video: 100% width and height to cover the entire window */
-#myVideo {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: auto;
-}
-.content {
-  position: fixed;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  color: #f1f1f1;
-  width: 100%;
-  padding: 20px;
-}
-
-/* Style the button used to pause/play the video */
-#myBtn {
-  width: 200px;
-  font-size: 18px;
-  padding: 10px;
-  border: none;
-  background: #000;
-  color: #fff;
-  cursor: pointer;
-}
-
-#myBtn:hover {
-  background: #ddd;
-  color: black;
-}
-</style>
-
-
-<!-- The video -->
-<video autoplay muted loop id="myVideo">
-    <source src="bienvenida.mp4" type="video/mp4">
-  </video>
-
-<div class="content">
-    <h1>Inicia tu huerto!</h1>
-    <p>Bienvenido al sistema operativo del jardín</p>
-    <!-- Use a button to pause/play the video with JavaScript -->
-    <a href="bienvenida/index.html"><button id="myBtn">Ingresar</button></a>
-  </div>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>GardenOS</title>
+    </head>
+    <style>
+      #myVideo {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: auto;
+      }
+      .content {
+        position: fixed;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        color: #f1f1f1;
+        width: 100%;
+        padding: 20px;
+      }
+      
+      #myBtn {
+        width: 200px;
+        font-size: 18px;
+        padding: 10px;
+        border: none;
+        background: #000;
+        color: #fff;
+        cursor: pointer;
+      }
+      
+      #myBtn:hover {
+        background: #ddd;
+        color: black;
+      }
+    </style>
   
+    <body>
+      <video autoplay muted loop id="myVideo">
+        <source src="bienvenida.mp4" type="video/mp4">
+      </video>
+    
+      <div class="content">
+        <h1>Inicia tu huerto!</h1>
+        <p>Bienvenido al sistema operativo del jardín</p>
+        <a href="bienvenida/index.html"><button id="myBtn">Ingresar</button></a>
+      </div>
+    </body>
+</html>
+<!-- TODO usamos clases o id? -->
+<!-- TODO verificación de que el email del registro de verdad exista -->
+<!-- TODO mostrar errores en los formularios directamente en el formulario ¿¿pa k redirecciona?? -->

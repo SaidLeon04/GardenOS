@@ -16,8 +16,7 @@ if(isset($_POST['registrar'])){
                 header("Location: ../login/iniciar_sesion.html");
             }else {
                 include("pass_diferente.html");
-            }
-                                 
+            }                      
     }else{
         include("campos_no_llenos.html");
     }
