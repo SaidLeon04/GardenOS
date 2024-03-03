@@ -205,14 +205,10 @@
             include("../conexion.php");
             $nombre_planta = $_GET['nombre_planta'];
             $id_planta = $_GET['id_planta'];
-
-            $date = date('Y-m-d', $time= time());
-            $fecha_hoy = date('Y-m-d', $timestamp);
-
         ?>
         <input type="text" name="id_planta" hidden value="<?php echo $id_planta ?>">
         <input type="text" name="planta" readonly value="<?php echo $nombre_planta ?>">
-        <input type="date" placeholder="Fecha" value="<?php echo $fecha_hoy?>" name="fecha" readonly>
+        <input type="date" placeholder="Fecha" value="<?php echo $fecha_hoy = date('Y-m-d') ?>" name="fecha" readonly>
         <select name="estado">
             <option value="germinacion">Germinación</option>
             <option value="siembra">Siembra</option>
