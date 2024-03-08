@@ -1,0 +1,19 @@
+*{
+    margin: 10px;
+}
+h1{
+    font-size: 3rem;
+}
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 10px;
+}
+ul{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+}

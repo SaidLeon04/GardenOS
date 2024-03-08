@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REGISTRARSE</title>
+    <link rel="stylesheet" href="esilos_registrarse.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>¡REGISTRATE!</h1>
+    <form action="registrarse.php" method="POST" id="form">
+        <input type="text" placeholder="Nombre de usuario" name="nombre" id="nombre" required minlength="5" maxlength="50">
+        <input type="email" placeholder="Correo electrónico" name="correo" id="correo" required>
+        <input type="password" placeholder="Contraseña" name="passwd" minlength="8" id="passwd" required maxlength="30">
+        <input type="password" placeholder="Repetir Contraseña" name="passwd_r" minlength="8" id="passwd_r" required maxlength="30">
+        <input type="submit" value="Registrar" name="registrar" id="registrarBtn">
+        <a href="../login/iniciar_sesion.html">Iniciar Sesión</a>
+    </form>
+</div>
+</body>
+</html>
+
+
