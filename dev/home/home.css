@@ -7,11 +7,12 @@
 }
 
 :root{
-    --sidebar-color: #FFF;
-    --primary-color: #695CFE;
+    --sidebar-color: #ffffffce;
+    --primary-color: #0cc42d;
     --primary-color-light: #F6F5FF;
     --toggle-color: #DDD;
     --text-color: #707070;
+    --body-color: #f5f5f5;
 
     --tran-03: all 0.2s ease;
     --tran-03: all 0.3s ease;
@@ -20,7 +21,12 @@
 }
 
 body{
-    background-color: #F6F5FF;
+    min-height: 100vh;
+    transition: all 0.3s ease;
+    background-color: var(--body-color);
+}   
+header{
+    background-color: var(--sidebar-color);
 }
 
 ::selection{
@@ -51,11 +57,13 @@ body{
     margin-top: 10px;
 }
 
-.sidebar header .image,
+.sidebar  .image,
 .sidebar .icon{
     min-width: 60px;
     border-radius: 6px;
 }
+
+
 
 .sidebar .icon{
     min-width: 60px;

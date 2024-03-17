@@ -2,65 +2,66 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="barra_lateral.css">
-        <link rel="stylesheet" href="estilos_boton_mas.css">
+    <meta name="viewport" content="width=device-width, init-scale=1.0">
+        <link rel="stylesheet" href="../assets/css/barra_lateral.css">
+        <link rel="stylesheet" href="../assets/css/btn_mas.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <title>Dashboard</title>
+    <title>Plantas</title>
     <style type="text/css">
-    table{
-        width: 150px;
-        height: 300px;
-        text-align: center;
-        border-radius: 18px;
-    }    
-    td{
-        border: 0px;
-    }
-    img{
-        border-top-left-radius: 15px;
-        border-top-right-radius: 15px;
+        table{
+            width: 150px;
+            height: 300px;
+            text-align: center;
+            border-radius: 18px;
+        }    
+        td{
+            border: 0px;
+        }
+        img{
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
 
-    }
-    .descripcion{
-        background-color: white;
-    }
-    .datos{
-        color: black;
-        background-color: white;
-    }
-    .links{
-        background-color: #b7ebcd;
-    }
+        }
+        .descripcion{
+            background-color: white;
+        }
+        .datos{
+            color: black;
+            background-color: white;
+        }
+        .links{
+            background-color: #b7ebcd;
+        }
 
-    table:hover {
-        transform: scale(1.15);
-        box-shadow: 5px 5px 15px rgba(0 , 0 , 0 , 0.6 ) ;
-        transition: 0.5s ease;
-        cursor: pointer;
-        margin: 30px;
-    }
-    h5{
-        color: #695cfe;
-    }
-    .scroll{
-        height:50px;
-        width:350px;
-        scroll-snap-type: y mandatory;        
-        overflow: auto;
-        border-radius: 10px;
+        table:hover {
+            transform: scale(1.15);
+            box-shadow: 5px 5px 15px rgba(0 , 0 , 0 , 0.6 ) ;
+            transition: 0.5s ease;
+            cursor: pointer;
+            margin: 30px;
+        }
+        h5{
+            color: #695cfe;
+        }
+        .scroll{
+            height:50px;
+            width:350px;
+            scroll-snap-type: y mandatory;        
+            overflow: auto;
+            border-radius: 10px;
 
-    }
+        }
 
-    ::-webkit-scrollbar{
-        width: 5px;
-    }
-    ::-webkit-scrollbar-track{
-        background:  white;
-    }
-    ::-webkit-scrollbar-thumb{
-        background: #695CFE;
-        border-radius: .5rem;
-    }
+        ::-webkit-scrollbar{
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track{
+            background:  white;
+        }
+        ::-webkit-scrollbar-thumb{
+            background: #695CFE;
+            border-radius: .5rem;
+        }
     </style>
 </head>
 <script type="text/javascript">
@@ -73,12 +74,12 @@
             }
     }
 </script>
-<body bgcolor="#F6F5FF">
+
 <nav class="sidebar close">
     <header>
         <div class="image-text">
             <span class="image">
-                <img src=" ">
+                <img src="" alt="pfp.jpg">
             </span>
 
             <div class="text logo-text">
@@ -102,7 +103,7 @@
                 <ul class="menu-links">
                     
                     <li class="nav-link">
-                        <a href="home.php" title="Volver al inicio">
+                        <a href="../home/home.php" title="Volver al inicio">
                             <span class="material-symbols-outlined icon">
                                 home
                             </span>
@@ -152,7 +153,6 @@
             </div>
 
             <div class="bottom-content">
-
                 <li class="nav-link">
                     <a href="logout.php">
                         <span class="material-symbols-outlined icon">
@@ -161,11 +161,10 @@
                         <span class="text nav-text">Salir</span>
                     </a>
                 </li>
-
             </div>
         </div>
 </nav>
-
+<body>
 <section class="home">
     <div class="text">
         <header>
@@ -176,7 +175,7 @@
             ?>
 
         </header>
-            <a href="../formularios/formulario_plantas.php">
+            <a href="formulario_plantas.php">
             <button class="btn_mas">+</button>
         </a> 
 
@@ -193,7 +192,7 @@
         <?php
             while ($row = $resultado->fetch_array()) {
                 echo '<table border="2px">';
-                        echo '<tr><td colspan = "3"><img src="'.$row['imagen'].'" alt="La imagen te persigue, pero tu eres mas rápido" width="350px" height="200px"></td></tr>';
+                        echo '<tr><td colspan = "3"><img height="250px" width="250px" src="data:image;base64,' . $row['imagen'] . '"/>;</td></tr>';
                         echo '<tr class 
                         
                         = "datos"><td colspan = "3"><h5>' . $row["tipo"] . '</h5>';
@@ -201,7 +200,7 @@
                         echo '<tr class = "descripcion"><td colspan = "3"><div class="scroll">' . $row["descripcion"] . '</tr></td>';
                         echo '<tr class = "links">
                                 <td>
-                                    <a href="../formularios/formulario_lote.php?
+                                    <a href="../lotes/formulario_lote.php?
                                         nombre_planta='.$row["nombre"].'
                                         &id_planta='.$row["id_planta"].'">
                                             Crear lote
@@ -225,7 +224,7 @@
         </div>
     </center>
 </section>
-<script src="script_barra_lateral.js"></script>
 </body>
+<script src="../assets/js/barra_lateral.js"></script>
 </html>
 

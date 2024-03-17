@@ -1,4 +1,3 @@
-
 CREATE TABLE `cambio_tierra` (
   `id_tierra` int(11) NOT NULL,
   `id_lote` int(11) DEFAULT NULL,

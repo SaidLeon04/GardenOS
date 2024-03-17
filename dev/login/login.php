@@ -17,11 +17,15 @@
 					session_start();
 					$_SESSION['id_usuario'] = $id_usuario; 
 					$_SESSION['nombre'] = $nombre_usuario;
-					header("Location: ../inicios/home.php");
+					header("Location: ../home/home.php");
 				}
 			}else{
-				echo "Error en el logeo jajas";
+				echo "Error en la consulta SQL ";
 			}
+		}else{
+			echo "Error en el envio de los campos";
 		}
+	}else{
+		echo "Error en el boton acceder";
 	}
 ?>

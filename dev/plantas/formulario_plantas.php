@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Agregar Plantas</title>
-        <link rel="stylesheet" type="text/css" href="../inicios/estilos_barra_lateral.css">
+        <link rel="stylesheet" href="../assets/css/barra_lateral.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <style>
+<style>
     .container {
         max-width: 300px;
         margin: 100px auto;
@@ -87,7 +87,7 @@
         animation: pulse 1s infinite;
         transform: scale(1.05);
     }
-    </style>
+</style>
 </head>
 <body>
 <nav class="sidebar close">
@@ -190,15 +190,14 @@
             <select name="tipo" required>
                 <option value="Hortaliza">Hortaliza</option>
                 <option value="Ornato">Ornato</option> 
-               <!-- <option value="Matorral">Matorral</option> -->
+            </select>
                 <input type="text" placeholder="Descripción" name="descripcion" required>
                 <input type="file" name="imagen">
                 <input type="submit" value="Guardar" name="guardar">
-            </select>
         </form>
     </div> 
 </section>
 </body>
-<script src="../inicios/script_barra_lateral.js"></script>
+<script src="../assets/js/barra_lateral.js"></script>
 </html>
 

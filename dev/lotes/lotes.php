@@ -2,10 +2,10 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8"> 
-    <link rel="stylesheet" type="text/css" href="barra_lateral.css">   
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <title>Dashboard</title>
-    <style type="text/css">
+        <link rel="stylesheet" href="../assets/css/barra_lateral.css">   
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <title>Crea un nuevo lote!</title>
+<style type="text/css">
     table{
         width: 150px;
         height: 300px;
@@ -41,7 +41,7 @@
     h5{
         color: #695cfe;
     }
-    </style>
+</style>
 </head>
 <body>
 <?php
@@ -145,8 +145,6 @@
         </header> 
     </div>
         <?php
-
-
             $consulta = "SELECT * FROM plantas JOIN lote ON plantas.id_planta = lote.id_planta  WHERE id_usuario = '$id_usuario' AND estado != 'finalizado' GROUP BY nombre_lote";
             $resultado = mysqli_query($conexion,$consulta);
         ?>
@@ -171,7 +169,7 @@
                         include("contador.php");
                         if($numero > 1){
                             echo '<td><a href="historial_re.php?id_usuario='.$id_usuario.'&id_lote='.$id_lote.'&nombre_lote='.$nombre_lote.'">Historial</a></td></tr>';
-}
+                        }
                 echo '</table>'; ?>
             <br> 
             <?php             
@@ -181,5 +179,5 @@
     </center>
 </section>
 </body>
-<script src="script_barra_lateral.js"></script>
+<script src="../assets/js/barra_lateral.js"></script>
 </html>
