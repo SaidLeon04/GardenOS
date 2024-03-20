@@ -7,7 +7,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease-in-out;
     animation: fade 1s;
-    background-image: linear-gradient(to bottom, #7DCEA0, #E9F7EF);
+    background-image: linear-gradient(to bottom, #AAB7B8, #F4F6F6);
 }
 
 .container:hover {
@@ -23,23 +23,24 @@
     }
 }
 
-h1{ 
+h1 {
     color: #000000;
     font-size: 32px;
     margin-bottom: 20px;
     transition: color 0.3s ease;
 }
 
-h1:hover{
-    color: #2f5f18;
+h1:hover {
+    color: #4D5656;
     transform: scale(1.05);
 }
 
 input[type="text"],
+input[type="date"],
+input[type="time"],
+input[type="number"],
 input[type="submit"],
-input[type="file"],
-select,
-textarea{
+select {
     border: none;
     border-radius: 20px;
     padding: 10px 20px;
@@ -52,12 +53,14 @@ textarea{
 }
 
 input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+input[type="number"]:focus,
 input[type="submit"]:focus,
-input[type="file"]:focus,
-select:focus{
-        background-color: rgb(200, 243, 214);
-        outline: none;
-        transform: scale(1.05);
+select:focus {
+    background-color: #D5D8DC;
+    outline: none;
+    transform: scale(1.05);
 }
 
 input[type="submit"]{
@@ -65,7 +68,7 @@ input[type="submit"]{
     border-radius: 20px;
     padding: 10px 20px;
     font-size: 16px;
-    background-image: linear-gradient(to right, #7DCEA0, #000000);
+    background-image: linear-gradient(to right, #AAB7B8, #000000);
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
@@ -74,8 +77,20 @@ input[type="submit"]{
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-input[type="submit"]:hover{
-    background-image: linear-gradient(to right, #000000, #7DCEA0);
+input[type="submit"]:hover {
+    background-image: linear-gradient(to right, #000000, #AAB7B8);
     animation: pulse 1s infinite;
     transform: scale(1.05);
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
 }

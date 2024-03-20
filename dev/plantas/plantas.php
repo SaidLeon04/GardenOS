@@ -1,67 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, init-scale=1.0">
-        <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-        <link rel="stylesheet" href="../assets/css/btn_mas.css">
-    <style type="text/css">
-        table{
-            width: 150px;
-            height: 300px;
-            text-align: center;
-            border-radius: 18px;
-        }    
-        td{
-            border: 0px;
-        }
-        img{
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-
-        }
-        .descripcion{
-            background-color: white;
-        }
-        .datos{
-            color: black;
-            background-color: white;
-        }
-        .links{
-            background-color: #b7ebcd;
-        }
-
-        table:hover {
-            transform: scale(1.15);
-            box-shadow: 5px 5px 15px rgba(0 , 0 , 0 , 0.6 ) ;
-            transition: 0.5s ease;
-            cursor: pointer;
-            margin: 30px;
-        }
-        h5{
-            color: #695cfe;
-        }
-        .scroll{
-            height:50px;
-            width:350px;
-            scroll-snap-type: y mandatory;        
-            overflow: auto;
-            border-radius: 10px;
-
-        }
-
-        ::-webkit-scrollbar{
-            width: 5px;
-        }
-        ::-webkit-scrollbar-track{
-            background:  white;
-        }
-        ::-webkit-scrollbar-thumb{
-            background: #695CFE;
-            border-radius: .5rem;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, init-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/barra_lateral.css">
+    <link rel="stylesheet" href="../assets/css/btn_mas.css">
+    <link rel="stylesheet" href="CRUD/css/plantas.css">
 </head>
+<body>
     <nav class="sidebar close">
         <header>
             <div class="image-text">
@@ -116,6 +62,15 @@
                     </li>  
 
                     <li class="nav-link">
+                        <a href="../sensores/sensores.php">
+                            <img src="../assets/svg/humedad.svg" alt="icono_humedad" class="icon">
+                            <span class="text nav-text">
+                                Sensores
+                            </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
                         <a href="../zen/zen.php">
                             <img src="../assets/svg/zen.svg" alt="icono_zen" class="icon">
                             <span class="text nav-text">
@@ -143,11 +98,11 @@
 
         </div>
     </nav>
-<body>
-    <section class="home">
-        <div class="text">
-            <header>
-                Catalogo de plantas
+
+<section class="home">
+    <div class="text">
+        <header>
+            Catalogo de plantas
                 <?php 
                     echo "de:<strong> ". $_SESSION['nombre']."</strong>"; 
                 ?>
@@ -166,8 +121,8 @@
         <div>
             <?php
                 while ($row = $resultado->fetch_array()) {
-                echo '<table border="2px">';
-                        echo '<tr><td colspan = "3"><img height="250px" width="250px" src="data:image;base64,' . $row['imagen'] . '" alt="imagen.jpg"/>;</td></tr>';
+                echo '<table>';
+                        echo '<tr><td colspan = "3"><img height="250px" width="250px" src="data:image;base64,' . $row['imagen'] . '" alt="imagen.jpg"/></td></tr>';
                         echo '<tr class = "datos"><td colspan = "3"><h5>' . $row["tipo"] . '</h5>';
                         echo '<h3>' . $row["nombre"] .'</h3></td></tr>';
                         echo '<tr class = "descripcion"><td colspan = "3"><div class="scroll">' . $row["descripcion"] . '</tr></td>';
@@ -180,12 +135,12 @@
                                     </a>
                                 </td>';
                         echo '  <td>
-                                    <a href="CRUD/borrar_planta.php?id_planta='.$row['id_planta'].'">
-                                        Borrar Planta
+                                    <a href="view_planta.php?id_planta='.$row['id_planta'].'">
+                                        Información Planta
                                     </a>
                                 </td>';
                         
-                        echo '<td colspan = "2"><a href="CRUD/modificar_planta.php?id_planta='.$row['id_planta'].'&nombre='.$row['nombre'].'&descripcion='.$row['descripcion'].'">Modificar Información</a></tr></td>';
+            
                     echo '</table>';
                     echo '<br>';  
                 }

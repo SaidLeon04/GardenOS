@@ -1,204 +1,97 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>LOTE</title> 
-    <body bgcolor="#BFC9CA">
+<html lang="es">
+<head> 
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="../inicios/estilos_barra_lateral.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <style>
-        .container {
-            max-width: 300px;
-            margin: 100px auto;
-            text-align: center;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease-in-out;
-            animation: fade 1s;
-            background-image: linear-gradient(to bottom, #AAB7B8, #F4F6F6);
-        }
-
-        .container:hover {
-            transform: translateY(-5px);
-        }
-
-        @keyframes fade {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
-        h1 {
-            color: #000000;
-            font-size: 32px;
-            margin-bottom: 20px;
-            transition: color 0.3s ease;
-        }
-
-        h1:hover {
-            color: #4D5656;
-            transform: scale(1.05);
-        }
-
-        input[type="text"],
-        input[type="date"],
-        input[type="time"],
-        input[type="number"],
-        input[type="submit"],
-        select {
-            border: none;
-            border-radius: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            margin-bottom: 10px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            width: 100%;
-            box-sizing: border-box;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-        }
-
-        input[type="text"]:focus,
-        input[type="date"]:focus,
-        input[type="time"]:focus,
-        input[type="number"]:focus,
-        input[type="submit"]:focus,
-        select:focus {
-            background-color: #D5D8DC;
-            outline: none;
-            transform: scale(1.05);
-        }
-
-        input[type="submit"]{
-            border: none;
-            border-radius: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-image: linear-gradient(to right, #AAB7B8, #000000);
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            width: 100%;
-            box-sizing: border-box;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-        }
-
-        input[type="submit"]:hover {
-            background-image: linear-gradient(to right, #000000, #AAB7B8);
-            animation: pulse 1s infinite;
-            transform: scale(1.05);
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crea un lote</title>
+    <link rel="stylesheet" href="../assets/css/barra_lateral.css">
+    <link rel="stylesheet" href="CRUD/css/formulario_lote.css">
 </head>
 <body>
 <nav class="sidebar close">
-    <header>
-        <div class="image-text">
-            <span class="image">
-                <img src=" ">
-            </span>
-
-            <div class="text logo-text">
-                <span class="name">
-                    <?php 
-                        include("../conexion.php");
-                        session_start();
-                        $id_usuario = $_SESSION['id_usuario'];
-                        echo $_SESSION['nombre'];
-                    ?>
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="../assets/img/clean.png" alt="pfp.jpg">
                 </span>
+
+                <div class="text logo-text">
+                    <span class="name">
+                        <?php 
+                            include("../conexion.php");
+                            session_start();
+                            $id_usuario = $_SESSION['id_usuario'];
+                            $usuario = $_SESSION['nombre'];
+				            echo $usuario;
+                        ?>
+                    </span>
+                </div>
             </div>
-        </div>
-            <span class="material-symbols-outlined toggle">
-                chevron_right
-            </span>
-    </header>
+                <img src="../assets/svg/arrow.svg" alt="icono_arrow" class="toggle">
+        </header>
 
         <div class="menu-bar">
             <div class="menu">
                 <ul class="menu-links">
-                    
                     <li class="nav-link">
-                        <a href="../inicios/home.php" title="Volver al inicio">
-                            <span class="material-symbols-outlined icon">
-                                home
-                            </span>
+                        <a href="../home/home.php" title="Volver al inicio">
+                            <img src="../assets/svg/home.svg" alt="icono_home" class="icon">
                             <span class="text nav-text">Inicio</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="../inicios/plantas.php" title="Ver catálogo de tus plantas">
-                            <span class="material-symbols-outlined icon">
-                                potted_plant
-                            </span>
+                        <a href="../plantas/plantas.php" title="Ver catálogo de plantas">
+                            <img src="../assets/svg/planta.svg" alt="icono_planta" class="icon">
                             <span class="text nav-text">Plantas</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="../inicios/lotes.php">
-                            <span class="material-symbols-outlined icon">
-                                ballot
-                            </span>
+                        <a href="lotes.php">
+                            <img src="../assets/svg/lotes.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="../inicios/lotes_terminados.php">
-                            <span class="material-symbols-outlined icon" style="color: blue;">
-                                ballot
-                            </span>
+                        <a href="../lotes_terminados/lotes_terminados.php">
+                            <img src="../assets/svg/lotes_terminados.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes Terminados</span>
                         </a>
-                    </li>    
+                    </li>  
 
                     <li class="nav-link">
-                        <a href="../inicios/plagas.php">
-                            <span class="material-symbols-outlined icon">
-                                bug_report
-                            </span>
+                        <a href="../zen/zen.php">
+                            <img src="../assets/svg/zen.svg" alt="icono_zen" class="icon">
                             <span class="text nav-text">
-                                Plagas
+                                Zen
                             </span>
                         </a>
                     </li>
-
                 </ul>
             </div>
 
             <div class="bottom-content">
-
                 <li class="nav-link">
-                    <a href="../inicios/logout.php">
-                        <span class="material-symbols-outlined icon">
-                            logout
-                            </span>
+                    <a href="../ayuda/ayuda.php">
+                        <img src="../assets/svg/help.svg" alt="icono_help" class="icon">
+                        <span class="text nav-text">Ayuda</span>
+                    </a>
+                </li>
+                <li class="nav-link">
+                    <a href="../logout/logout.php">
+                        <img src="../assets/svg/logout.svg" alt="icono_logout" class="icon">
                         <span class="text nav-text">Salir</span>
                     </a>
                 </li>
-
             </div>
+
         </div>
 </nav>
+
 <div class="container">
-    <h1>LOTE</h1>
+    <h1>Crea un lote</h1>
     <form action="formulario_lote_action.php" method="POST">
         <input type="text" name="nombre_lote" placeholder="Nombre Lote">
         <?php 
@@ -220,6 +113,6 @@
     </form>
 </div>
 </body>
-<script src="../inicios/script_barra_lateral.js"></script>
+<script src="../assets/js/barra_lateral.js"></script>
 </html>
  

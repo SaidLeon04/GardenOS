@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
+<html>
+<head lang="es">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, init-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/barra_lateral.css">   
-    <link rel="stylesheet" href="CRUD/css/lote.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrar Planta</title>
+    <link rel="stylesheet" href="../../assets/css/barra_lateral.css">
+    <link rel="stylesheet" href="css/borrar_planta.css">
 </head>
 <body>
     <nav class="sidebar close">
@@ -40,14 +41,14 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="../plantas/plantas.php" title="Ver catálogo de plantas">
+                        <a href="plantas.php" title="Ver catálogo de plantas">
                             <img src="../assets/svg/planta.svg" alt="icono_planta" class="icon">
                             <span class="text nav-text">Plantas</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="lotes.php">
+                        <a href="../lotes/lotes.php">
                             <img src="../assets/svg/lotes.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes</span>
                         </a>
@@ -59,6 +60,15 @@
                             <span class="text nav-text">Lotes Terminados</span>
                         </a>
                     </li>  
+
+                    <li class="nav-link">
+                        <a href="../sensores/sensores.php">
+                            <img src="../assets/svg/humedad.svg" alt="icono_humedad" class="icon">
+                            <span class="text nav-text">
+                                Sensores
+                            </span>
+                        </a>
+                    </li>
 
                     <li class="nav-link">
                         <a href="../zen/zen.php">
@@ -88,38 +98,18 @@
 
         </div>
     </nav>
-<section class="home">
-    <div class="text">
-        <header>
-            Lotes de: <strong> <?php echo $usuario; ?></strong>
-        </header> 
-    </div>
-        <?php
-            $stmt = $conexion->prepare("SELECT plantas.id_planta, plantas.nombre, plantas.tipo, plantas.imagen, lote.id_lote, lote.nombre_lote, lote.fecha_inicial, lote.cantidad_actual, lote.estado FROM plantas JOIN lote ON plantas.id_planta = lote.id_planta WHERE id_usuario = ? AND estado != 'finalizado' GROUP BY nombre_lote");
-            $stmt->bind_param("i", $id_usuario);
-            $stmt->execute();
-            $result = $stmt->get_result();
-        ?>
-    <center>
-        <div>
-            <?php
-                while ($row = $result->fetch_assoc()) {
-                    echo '<table>';
-                        echo '<tr><td colspan="5"><img src="data:image;base64,' . $row['imagen'] . '" alt="imagen.jpg"></td></tr>';
-                        echo '<tr><td colspan="5"><h5>'.$row['nombre'].'</h5>';
-                        echo '<h5>Fecha de registro: ' . $row["fecha_inicial"] . '</h5>';  
-                        echo '<h1>'. $row["nombre_lote"].'</h1></td></tr>';
-                        echo '<tr class = "descripcion"><td colspan="5">Estado actual: ' . $row["estado"] . '</tr></td>';
-                        echo '<tr class = "descripcion"><td colspan="5">Cantidad actual: ' . $row["cantidad_actual"] . '</tr></td>';
-                        echo '<tr colspan="5" class = "links"><td><a href="borrar_lote.php?id_lote='.$row['id_lote'].'">Información Lote</a></td>';                   
-                        echo '<td><a href="acciones_lote.php?id_lote='.$row['id_lote'].'&nombre_lote='.$row['nombre_lote'].'">Actividad</a></td>';
-                    echo '</table>'; 
-                }
-            ?>
-           <br>
-        </div>
-    </center>
-</section>
+
+<div class="container">
+    <h1>Eliminar Planta</h1>
+    <form action="borrar_planta_action.php" method="POST">
+        <input type="number" name="id_planta" readonly value="<?php echo $id_planta?>" hidden>
+        <input type="text" name="nombre_planta" placeholder="Nombre de la planta">
+        <label>Esta acción eliminará definitivamente una planta.</label><br><br>
+        <label>No puedes realizar esta acción si la planta existe en un lote</label><br><br>
+        <input type="submit" name="eliminar" value="Eliminar" onclick="return eliminarPlanta()">
+    </form>
+</div>
 </body>
-<script src="../assets/js/barra_lateral.js"></script>
+<script src="../../assets/js/barra_lateral.js"></script>
+<script src="js/borrar_planta.js"></script>
 </html>

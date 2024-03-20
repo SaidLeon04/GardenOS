@@ -1,0 +1,35 @@
+table{
+    width: 150px;
+    height: 300px;
+    text-align: center;
+    border-radius: 18px;
+}    
+td{
+    border: 0px;
+}
+img{
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+
+}
+.descripcion{
+    background-color: white;
+}
+.datos{
+    color: black;
+    background-color: white;
+}
+.links{
+    background-color: #f7dc6f;
+}
+
+table:hover {
+    transform: scale(1.15);
+    box-shadow: 5px 5px 15px rgba(0 , 0 , 0 , 0.6 ) ;
+    transition: 0.5s ease;
+    cursor: pointer;
+    margin: 30px;
+}
+h5{
+    color: #695cfe;
+}
