@@ -7,7 +7,7 @@
 ### Levantamiento de requerimientos
 
 |no|Tarea|Asiganado|Terminado (S/N)|
-|--|--|--|
+|--|--|--|--|
 |1.|Antecedentes|Said|s/n|
 |2.|Problematica|Amairani|s/n|
 |3.|Requerimientos Funcionales|Daniela|s/n|
@@ -21,7 +21,7 @@
 ### Diseño de aplicacion web
 
 |no|Tarea|Asiganado|Terminado (S/N)|
-|--|--|--|
+|--|--|--|--|
 |1.|Rediseño de interfaz para visualizar datos ya registrados|Todos|s/n|
 |2.|Diseño de dashboard para visualizar datos|Jair|s/n|
 |3.|Diseño de interfaz de IA|Daniela|s/n|
@@ -32,7 +32,7 @@
 ### Desarrollo de aplicacion web
 
 |no|Tarea|Asiganado|Terminado (S/N)|
-|--|--|--|
+|--|--|--|--|
 |1.|Desarrollo de modulo de estadisticas|Said|s/n|
 |2.|Desarrollo del modulo de Agrupación de datos|Daniela|s/n|
 |3.|Desarrollo del modulo de perfil personal|Amairani|s/n|
@@ -45,7 +45,7 @@
 ### Diseño de aplicacion movil
 
 |no|Tarea|Asiganado|Terminado (S/N)|
-|--|--|--|
+|--|--|--|--|
 |1.|Diseño de la interfaz de login|Amairani/Jair|s/n|
 |2.|Diseño de  interfaces para visualizar registros previos|Said|s/n|
 |3.|Diseño del dashboard principal|Said/Daniela|s/n|
@@ -55,7 +55,7 @@
 ### Desarrollo de aplicacion movil
 
 |no|Tarea|Asiganado|Terminado (S/N)|
-|--|--|--|
+|--|--|--|--|
 |1.|Desarrollo de validación de usuarios|Daniela/Jair|s/n|
 |2.|Desarrollo de dashboard|Said|s/n|
 |3.|Desarrollo de páginas de visualización de registros|Amairani|s/n|
@@ -64,7 +64,7 @@
 ### Testeo de aplicaciones
 
 |no|Tarea|Asiganado|Terminado (S/N)|
-|--|--|--|
+|--|--|--|--|
 |1.|Pruebas de funcionamiento|Jair|s/n|
 |2.|Pruebas de conexión con la BD y IoT|Said|s/n|
 |3.|Pruebas de validación de formularios|Daniela|s/n|
@@ -75,7 +75,7 @@
 ### Implementacion de IoT
 
 |no|Tarea|Asiganado|Terminado (S/N)|
-|--|--|--|
+|--|--|--|--|
 |1.|Desarrollo de dispositivos de IoT|Todos|s/n|
 |2.|Conexión de los dispositivos de IoT con las aplicaciones|Jair|s/n|
 |3.|Pruebas de conexión de los dispositivos|Todos|s/n|
