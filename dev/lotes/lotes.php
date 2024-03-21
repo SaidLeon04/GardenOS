@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, init-scale=1.0">
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">   
     <link rel="stylesheet" href="CRUD/css/lote.css">
+    <?php 
+        include("../conexion.php");
+        include("../statements.php");
+        session_start();
+        $id_usuario = $_SESSION['id_usuario'];
+        $usuario = $_SESSION['nombre'];
+    ?>
 </head>
 <body>
     <nav class="sidebar close">
@@ -16,13 +23,9 @@
 
                 <div class="text logo-text">
                     <span class="name">
-                        <?php 
-                            include("../conexion.php");
-                            session_start();
-                            $id_usuario = $_SESSION['id_usuario'];
-                            $usuario = $_SESSION['nombre'];
-				            echo $usuario;
-                        ?>
+                    <?php
+				        echo $usuario;
+                    ?>
                     </span>
                 </div>
             </div>
@@ -61,6 +64,15 @@
                     </li>  
 
                     <li class="nav-link">
+                        <a href="../sensores/sensores.php">
+                            <img src="../assets/svg/humedad.svg" alt="icono_humedad" class="icon">
+                            <span class="text nav-text">
+                                Sensores
+                            </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
                         <a href="../zen/zen.php">
                             <img src="../assets/svg/zen.svg" alt="icono_zen" class="icon">
                             <span class="text nav-text">
@@ -88,17 +100,21 @@
 
         </div>
     </nav>
+    <?php 
+
+    ?>
 <section class="home">
     <div class="text">
         <header>
-            Lotes de: <strong> <?php echo $usuario; ?></strong>
+            Lotes Activos
         </header> 
     </div>
         <?php
-            $stmt = $conexion->prepare("SELECT plantas.id_planta, plantas.nombre, plantas.tipo, plantas.imagen, lote.id_lote, lote.nombre_lote, lote.fecha_inicial, lote.cantidad_actual, lote.estado FROM plantas JOIN lote ON plantas.id_planta = lote.id_planta WHERE id_usuario = ? AND estado != 'finalizado' GROUP BY nombre_lote");
+            $stmt = $conexion->prepare($consulta_join);
             $stmt->bind_param("i", $id_usuario);
             $stmt->execute();
             $result = $stmt->get_result();
+            
         ?>
     <center>
         <div>
@@ -111,8 +127,8 @@
                         echo '<h1>'. $row["nombre_lote"].'</h1></td></tr>';
                         echo '<tr class = "descripcion"><td colspan="5">Estado actual: ' . $row["estado"] . '</tr></td>';
                         echo '<tr class = "descripcion"><td colspan="5">Cantidad actual: ' . $row["cantidad_actual"] . '</tr></td>';
-                        echo '<tr colspan="5" class = "links"><td><a href="borrar_lote.php?id_lote='.$row['id_lote'].'">Información Lote</a></td>';                   
-                        echo '<td><a href="acciones_lote.php?id_lote='.$row['id_lote'].'&nombre_lote='.$row['nombre_lote'].'">Actividad</a></td>';
+                        echo '<tr colspan="5"><td><a href="view_lote.php?id_lote='.$row['id_lote'].'">Información Lote</a></td>';                   
+                        echo '<td><a href="../stats/actividad.php?id_lote='.$row['id_lote'].'&nombre_lote='.$row['nombre_lote'].'">Actividad</a></td>';
                     echo '</table>'; 
                 }
             ?>

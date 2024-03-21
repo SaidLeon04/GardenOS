@@ -6,6 +6,35 @@
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">
     <link rel="stylesheet" href="../assets/css/btn_mas.css">
     <link rel="stylesheet" href="CRUD/css/plantas.css">
+    <?php 
+        include("../conexion.php");
+        include("../statements.php");
+        session_start();
+        $id_usuario = $_SESSION['id_usuario'];
+        $usuario = $_SESSION['nombre'];
+
+        $stmt = $conexion->prepare($plantas_usuario);
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $id_planta = [];
+            $nombres = [];
+            $tipos = [];
+            $descripciones = [];
+            $imagenes = [];
+            $cantidad_registros = $result->num_rows;
+            while ($info = $result->fetch_assoc()) {
+                $id_planta[] = $info['id_planta'];
+                $nombres[] = $info['nombre'];
+                $tipos[] = $info['tipo'];
+                $descripciones[] = $info['descripcion'];
+                $imagenes[] = $info['imagen'];
+            }
+        } else {
+            echo "La planta no existe";
+        }
+    ?>
 </head>
 <body>
     <nav class="sidebar close">
@@ -17,13 +46,11 @@
 
                 <div class="text logo-text">
                     <span class="name">
-                        <?php 
-                            include("../conexion.php");
-                            session_start();
-                            $id_usuario = $_SESSION['id_usuario'];
-                            $usuario = $_SESSION['nombre'];
-				            echo $usuario;
-                        ?>
+                        <a href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>">
+                            <?php 
+				                echo $usuario;
+                            ?>
+                        </a>
                     </span>
                 </div>
             </div>
@@ -99,56 +126,31 @@
         </div>
     </nav>
 
-<section class="home">
-    <div class="text">
-        <header>
-            Catalogo de plantas
-                <?php 
-                    echo "de:<strong> ". $_SESSION['nombre']."</strong>"; 
-                ?>
+    <section class="home">
+        <div class="text">
+            <header>
+                Catalogo de plantas
+                <button><a href="formulario_plantas.php">Agregar</a></button>
             </header>
-            <a href="formulario_plantas.php">
-                <button class="btn_mas">+</button>
-            </a> 
         </div>
-        <?php
-            include("../conexion.php");
+        
+        <center>
+            <div class="main-container">
+                <div class="container">
+                <?php
+                    for ($i = 0; $i < $cantidad_registros; $i++) {
+                ?>
+                <img src="data:image;base64,<?php echo $imagenes[$i]; ?>" alt="imagen_planta" class="card-img-top">
+                <h5><?php echo $nombres[$i]; ?></h5>
+                <p><?php echo $tipos[$i]; ?></p>
+                <p><?php echo $descripciones[$i]; ?></p>
+                <a href="view_planta.php?id_planta=<?php echo $id_planta[$i]; }?>">Detalle</a>                    
 
-            $query = "SELECT * FROM plantas WHERE id_usuario = $id_usuario";
-            $resultado = mysqli_query($conexion,$query);
-       ?>
-    <center>
-        <div>
-            <?php
-                while ($row = $resultado->fetch_array()) {
-                echo '<table>';
-                        echo '<tr><td colspan = "3"><img height="250px" width="250px" src="data:image;base64,' . $row['imagen'] . '" alt="imagen.jpg"/></td></tr>';
-                        echo '<tr class = "datos"><td colspan = "3"><h5>' . $row["tipo"] . '</h5>';
-                        echo '<h3>' . $row["nombre"] .'</h3></td></tr>';
-                        echo '<tr class = "descripcion"><td colspan = "3"><div class="scroll">' . $row["descripcion"] . '</tr></td>';
-                        echo '<tr class = "links">
-                                <td>
-                                    <a href="../lotes/formulario_lote.php?
-                                        nombre_planta='.$row["nombre"].'
-                                        &id_planta='.$row["id_planta"].'">
-                                            Crear lote
-                                    </a>
-                                </td>';
-                        echo '  <td>
-                                    <a href="view_planta.php?id_planta='.$row['id_planta'].'">
-                                        Información Planta
-                                    </a>
-                                </td>';
-                        
-            
-                    echo '</table>';
-                    echo '<br>';  
-                }
-            ?>
-        </div>
-    </center>
-</section>
+            </div>
+        </center>
+    </section>
 </body>
 <script src="../assets/js/barra_lateral.js"></script>
+
 </html>
 

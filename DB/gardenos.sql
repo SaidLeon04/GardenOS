@@ -34,9 +34,11 @@ CREATE TABLE lote (
 CREATE TABLE sensores(
   id_sensor int(10) AUTO_INCREMENT PRIMARY KEY,
   id_lote int(10),
+  id_usuario int(10),
   nombre varchar(128) NOT NULL,
   valor float(20) NOT NULL,
-  foreign key (id_lote) references lote(id_lote) on delete cascade on update cascade
+  foreign key (id_lote) references lote(id_lote) on delete cascade on update cascade,
+  foreign key (id_usuario) references usuario(id_usuario) on delete cascade on update cascade
 );
 
 CREATE TABLE lotes_terminados (

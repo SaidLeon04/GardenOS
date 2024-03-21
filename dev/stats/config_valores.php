@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="CRUD/css/view_planta.css">
+    <link rel="stylesheet" href="css/config_valores.css">
     <?php 
         include("../statements.php");
         include("../conexion.php");
@@ -12,7 +12,8 @@
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
-        $id_planta = $_GET['id_planta'];
+        $id_lote = $_GET['id_lote'];
+        
     ?>
 </head>
 <body>
@@ -102,61 +103,61 @@
 
         </div>
     </nav>
-    <?php
-        $stmt = $conexion->prepare($consulta_planta);
-        $stmt->bind_param('i', $id_planta);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $planta = $result->fetch_assoc();
-            $nombre = $planta['nombre'];
-            $tipo = $planta['tipo'];
-            $descripcion = $planta['descripcion'];
-            $imagen = $planta['imagen'];
-        } else {
-            echo "La planta no existe";
-        }
-    ?>
+
     <section class="home">
         <div class="text">
             <header>
-                Información de la planta    
+                Establecer valores óptimos 
+            <?php
+                $stmt = $conexion->prepare($consulta_lote);
+                $stmt->bind_param("i", $id_lote);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if ($result->num_rows > 0) {
+                    $info = $result->fetch_assoc();
+                    $id_planta = $info['id_planta'];
+                    $nombre_lote = $info['nombre_lote'];
+                    $estado = $info['estado'];
+                    $temperatura_optima = $info['temperatura_optima'];
+                    $humedad_optima = $info['humedad_optima'];
+                } else {
+                    echo "El lote no existe";
+                }
+            ?>
             </header>
         </div>
         <center>
             <div class="form-info">
                 <div class="info">
-                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_planta" id="imagen_planta">
-            
-                    <form id="planta" enctype="multipart/form-data" method=POST action="CRUD/editar_planta.php">
-                        <input type="hidden" name="id_planta" value=<?php echo $id_planta; ?>>
-                        <label for="nombre" class="text">Nombre: </label>
-                            <input type="text" id="nombre" name="nombre" value=<?php echo $nombre; ?> readonly>
+                    <form id="valores" enctype="multipart/form-data" method=POST action="editar_valores_optimos.php">
+                        <input hidden readonly name="id_lote" value=<?php echo $id_lote; ?>>
+                        <label for="nombre_lote" class="text">Nombre lote: </label>
+                            <input type="text" id="nombre_lote" name="nombre_lote" value=<?php echo $nombre_lote; ?> readonly>
                             <br>
-                        <label for="nombre" class="text">Tipo: </label>
-                            <input type="text" id="tipo" name="tipo" value=<?php echo $tipo; ?> readonly>
+                        <label for="estado" class="text">Estado Actual: </label>
+                            <input type="text" id="estado" name="estado" value=<?php echo $estado; ?> readonly>
                             <br>
-                        <label for="nombre" class="text">Descripción: </label>
-                            <input type="text" id="descripcion" name="descripcion" value=<?php echo $descripcion; ?> readonly>
+                        <label for="temperatura" class="text">Temperatura óptima: </label>
+                            <input type="text" id="temperatura" name="temperatura_optima" value=<?php echo $temperatura_optima; ?> readonly>
                             <br>
-                        <label for="imagen" class="text" id="label-imagen" hidden>Imagen: </label>
-                            <input type="file" name="imagen" accept="image/*" id="input-imagen" hidden>
-                            <br>
+                        <label for="humedad" class="text">Humedad óptima: </label>
+                            <input type="text" id="humedad" name="humedad_optima" value=<?php echo $humedad_optima; ?> readonly>
+                            <br>   
+                        <!--TODO riego || ocupas modificar la bd-->
                 </div>
                 <div class="actions">
-                        <button class="create-button" id="btn-crear"><a href="../lotes/formulario_lote.php?nombre_planta=<?php echo $nombre; ?>&id_planta=<?php echo $id_planta; ?>">Crear Lote</a></button>
-                        <button class="create-button" id="btn-guardar" onclick="return editarPlanta()" type="submit" hidden>Guardar</button>
-                        <button class="edit-button" id="btn-edit" onclick="return editActive('planta')" type="button"><a href="#">Editar</a></button>
-                        <button class="delete-button" id="btn-delete" onclick="return eliminarPlanta()"><a href="CRUD/borrar_planta.php?id_planta=<?php echo $id_planta; ?>">Eliminar Planta</a></button>
-                        <button class="delete-button" id="btn-cancel" onclick="return editInactive('planta')" type="button" hidden><a href="#">Cancelar</a></button>
+                        <button class="create-button" id="btn-comparar"><a href="../stats/comparar_valores.php">Comparar</a></button>
+                        <button class="create-button" id="btn-guardar" onclick="return editarValores()" type="submit" hidden>Guardar</button>
+                        <button class="edit-button" id="btn-edit" onclick="return editActive('valores')" type="button"><a href="#">Editar</a></button>
+                        <button class="delete-button" id="btn-volver"><a href="actividad.php?nombre_lote=<?php echo $nombre_lote; ?>&id_lote=<?php echo $id_lote ; ?>">Volver</a></button>
+                        <button class="delete-button" id="btn-cancel" onclick="return editInactive('valores')" type="button" hidden><a href="#">Cancelar</a></button>
                     </form>
                 </div>    
             </div>
         </center>
     </section>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 <script src="../assets/js/barra_lateral.js"></script>
-<script src="CRUD/js/functions.js"></script>
+<script src="js/functions.js"></script>
 </html>
 

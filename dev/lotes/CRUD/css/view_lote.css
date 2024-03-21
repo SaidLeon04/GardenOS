@@ -1,7 +1,7 @@
 .form-info{
     display: flex;
     flex-direction: column;
-    width: 950px;
+    width: 1000px;
     margin: 20px;
     border-radius: 20px;
 }
@@ -87,4 +87,10 @@ input[type="text"]{
 .delete-button:hover{
     background-image: linear-gradient(to right, #FF416C, #f26046);
     transform: scale(1.05);
+}
+
+.alert{
+    background-color: #FF416C;
+    margin: 10px;
+    border-radius: 15px;
 }

@@ -1,11 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modificar Planta</title>
-    <link rel="stylesheet" href="css/modificar_planta.css">
-    <link rel="stylesheet" href="../../assets/css/barra_lateral.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, init-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/barra_lateral.css">
+    <link rel="stylesheet" href="../assets/css/btn_mas.css">
+    <link rel="stylesheet" href="CRUD/css/plantas.css">
+    <?php 
+        include("../conexion.php");
+        include("../statements.php");
+        session_start();
+        $id_usuario = $_SESSION['id_usuario'];
+        $usuario = $_SESSION['nombre'];
+
+        $stmt = $conexion->prepare($sensores_usuario);
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $id_sensor = [];
+            $id_lote = [];
+            $nombre = [];
+            $cantidad_registros = $result->num_rows;
+            while ($info = $result->fetch_assoc()) {
+                $id_sensor[] = $info['id_sensor'];
+                $id_lote[] = $info['id_lote'];
+                $nombre[] = $info['nombre'];
+            }
+        } else {
+            $nothing = "No hay sensores registrados";
+        }
+    ?>
 </head>
 <body>
     <nav class="sidebar close">
@@ -18,10 +43,6 @@
                 <div class="text logo-text">
                     <span class="name">
                         <?php 
-                            include("../conexion.php");
-                            session_start();
-                            $id_usuario = $_SESSION['id_usuario'];
-                            $usuario = $_SESSION['nombre'];
 				            echo $usuario;
                         ?>
                     </span>
@@ -41,7 +62,7 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="plantas.php" title="Ver catálogo de plantas">
+                        <a href="../plantas/plantas.php" title="Ver catálogo de plantas">
                             <img src="../assets/svg/planta.svg" alt="icono_planta" class="icon">
                             <span class="text nav-text">Plantas</span>
                         </a>
@@ -62,7 +83,7 @@
                     </li>  
 
                     <li class="nav-link">
-                        <a href="../sensores/sensores.php">
+                        <a href="sensores.php">
                             <img src="../assets/svg/humedad.svg" alt="icono_humedad" class="icon">
                             <span class="text nav-text">
                                 Sensores
@@ -99,24 +120,35 @@
         </div>
     </nav>
 
-<!-- TODO mejorar formularios -->
-<section class="home"> 
-    <div class="container">
-        <h1>MODIFICAR PLANTA</h1>  
-        <form action="modificar_planta_action.php" method="POST" enctype="multipart/form-data">
-            <input text="text" name="id_planta" value="<?php echo $id_planta ?>" hidden>
-            <input type="text" name="nombre" placeholder="Nombre Planta" value="<?php echo $nombre ?>">
-            <select name="tipo">
-                <option value="Hortaliza">Hortaliza</option>
-                <option value="Ornato">Ornato</option> 
-            </select>
-            <input type="text" placeholder="Descripción" name="descripcion" value="<?php echo $descripcion; ?>">
-            <input type="file" name="imagen">
-            <input type="submit" value="Actualizar" name="actualizar">
-        </form>
-    </div>
-</section>
+    <section class="home">
+        <div class="text">
+            <header>
+                Sensores registrados
+                <button><a href="formulario_plantas.php">Agregar</a></button>
+            </header>
+        </div>
+        
+        <center>
+            <div class="main-container">
+                <div class="container">
+                <?php
+                    if (isset($nothing)) {
+                        echo $nothing;
+                    } else {
+                        for ($i = 0; $i < $cantidad_registros; $i++) {
+                  
+                ?>
+                <img src="data:image;base64,<?php echo $imagenes[$i]; ?>" alt="imagen_planta" class="card-img-top">
+                <h5><?php echo $nombres[$i]; ?></h5>
+                <p><?php echo $tipos[$i]; ?></p>
+                <p><?php echo $descripciones[$i]; ?></p>
+                <a href="view_planta.php?id_planta=<?php echo $id_planta[$i]; }}?>">Detalle</a>                    
+
+            </div>
+        </center>
+    </section>
 </body>
-<script src="../../assets/js/barra_lateral.js"></script>
+<script src="../assets/js/barra_lateral.js"></script>
+
 </html>
 

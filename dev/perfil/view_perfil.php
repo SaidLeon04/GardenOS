@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="CRUD/css/view_planta.css">
+    <link rel="stylesheet" href="view_perfil.css">
     <?php 
         include("../statements.php");
         include("../conexion.php");
@@ -12,7 +12,7 @@
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
-        $id_planta = $_GET['id_planta'];
+        $id_usuario = $_GET['id_usuario'];
     ?>
 </head>
 <body>
@@ -103,52 +103,57 @@
         </div>
     </nav>
     <?php
-        $stmt = $conexion->prepare($consulta_planta);
-        $stmt->bind_param('i', $id_planta);
+        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
-            $planta = $result->fetch_assoc();
-            $nombre = $planta['nombre'];
-            $tipo = $planta['tipo'];
-            $descripcion = $planta['descripcion'];
-            $imagen = $planta['imagen'];
+            $usuario = $result->fetch_assoc();
+            $nombre = $usuario['nombre'];
+            $correo = $usuario['correo'];
+            $dias_str = $usuario['dias'];
+            $imagen = $usuario['imagen'];
         } else {
-            echo "La planta no existe";
+            echo "El usuario no existe";
         }
+
+        $fecha_inicial = new DateTime($dias_str);
+        $fecha_actual = new DateTime();
+        $diferencia = $fecha_inicial->diff($fecha_actual);
+        $dias = $diferencia->days;
     ?>
     <section class="home">
         <div class="text">
             <header>
-                Información de la planta    
+                Perfil de GardenOS 
             </header>
         </div>
         <center>
             <div class="form-info">
                 <div class="info">
-                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_planta" id="imagen_planta">
+                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_usuario" id="imagen_usuario">
             
-                    <form id="planta" enctype="multipart/form-data" method=POST action="CRUD/editar_planta.php">
-                        <input type="hidden" name="id_planta" value=<?php echo $id_planta; ?>>
+                    <form id="usuario" enctype="multipart/form-data" method=POST action="">
+                        <input type="hidden" name="id_planta" value=<?php echo $id_usuario; ?>>
                         <label for="nombre" class="text">Nombre: </label>
                             <input type="text" id="nombre" name="nombre" value=<?php echo $nombre; ?> readonly>
                             <br>
-                        <label for="nombre" class="text">Tipo: </label>
-                            <input type="text" id="tipo" name="tipo" value=<?php echo $tipo; ?> readonly>
+                        <label for="nombre" class="text">Correo: </label>
+                            <input type="text" id="correo" name="correo" value=<?php echo $correo; ?> readonly>
                             <br>
-                        <label for="nombre" class="text">Descripción: </label>
-                            <input type="text" id="descripcion" name="descripcion" value=<?php echo $descripcion; ?> readonly>
+                        <label for="nombre" class="text">Días: </label>
+                            <input type="text" id="dias" name="dias" value=<?php echo $dias; ?> readonly>
                             <br>
                         <label for="imagen" class="text" id="label-imagen" hidden>Imagen: </label>
                             <input type="file" name="imagen" accept="image/*" id="input-imagen" hidden>
                             <br>
                 </div>
                 <div class="actions">
-                        <button class="create-button" id="btn-crear"><a href="../lotes/formulario_lote.php?nombre_planta=<?php echo $nombre; ?>&id_planta=<?php echo $id_planta; ?>">Crear Lote</a></button>
-                        <button class="create-button" id="btn-guardar" onclick="return editarPlanta()" type="submit" hidden>Guardar</button>
-                        <button class="edit-button" id="btn-edit" onclick="return editActive('planta')" type="button"><a href="#">Editar</a></button>
-                        <button class="delete-button" id="btn-delete" onclick="return eliminarPlanta()"><a href="CRUD/borrar_planta.php?id_planta=<?php echo $id_planta; ?>">Eliminar Planta</a></button>
-                        <button class="delete-button" id="btn-cancel" onclick="return editInactive('planta')" type="button" hidden><a href="#">Cancelar</a></button>
+                        <button class="create-button" id="btn-editar" onclick="return editActive('usuario')" type="button"><a href="#">Editar perfil</a></button>
+                        <button class="create-button" id="btn-guardar" onclick="return saveData()" type="submit" hidden>Guardar</button>
+                        <button class="edit-button" id="btn-passwd" onclick="return changePasswd()"><a href="passwd_form.php">Cambiar contraseña</a></button>
+                        <button class="delete-button" id="btn-delete" onclick="return deleteUser()"><a href="borrar_perfil.php?id_usuario=<?php echo $id_usuario; ?>">Eliminar Perfil</a></button>
+                        <button class="delete-button" id="btn-cancel" onclick="return editInactive('usuario')" type="button" hidden><a href="#">Cancelar</a></button>
                     </form>
                 </div>    
             </div>
@@ -157,6 +162,6 @@
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 <script src="../assets/js/barra_lateral.js"></script>
-<script src="CRUD/js/functions.js"></script>
+<script src="view_perfil.js"></script>
 </html>
 

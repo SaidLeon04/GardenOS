@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="CRUD/css/view_planta.css">
+    <link rel="stylesheet" href="CRUD/css/view_lote.css">
     <?php 
         include("../statements.php");
         include("../conexion.php");
@@ -12,7 +12,7 @@
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
-        $id_planta = $_GET['id_planta'];
+        $id_lote = $_GET['id_lote'];
     ?>
 </head>
 <body>
@@ -45,14 +45,14 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="plantas.php" title="Ver catálogo de plantas">
+                        <a href="../plantas/plantas.php" title="Ver catálogo de plantas">
                             <img src="../assets/svg/planta.svg" alt="icono_planta" class="icon">
                             <span class="text nav-text">Plantas</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="../lotes/lotes.php">
+                        <a href="lotes.php">
                             <img src="../assets/svg/lotes.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes</span>
                         </a>
@@ -103,52 +103,56 @@
         </div>
     </nav>
     <?php
-        $stmt = $conexion->prepare($consulta_planta);
-        $stmt->bind_param('i', $id_planta);
+        $stmt = $conexion->prepare($lote_usuario);
+        $stmt->bind_param('ii',$id_usuario, $id_lote);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
-            $planta = $result->fetch_assoc();
-            $nombre = $planta['nombre'];
-            $tipo = $planta['tipo'];
-            $descripcion = $planta['descripcion'];
-            $imagen = $planta['imagen'];
+            $lote = $result->fetch_assoc();
+            $id_planta = $lote['id_planta'];
+            $nombre_planta = $lote['nombre'];
+            $imagen = $lote['imagen'];
+            $tipo = $lote['tipo'];
+            $id_sensor = $lote['id_sensor'];
+            $nombre_lote = $lote['nombre_lote'];
+            $fecha_inicial = $lote['fecha_inicial'];
+            $cantidad_actual = $lote['cantidad_actual'];
+            $estado = $lote['estado'];
+            $temperatura_optima = $lote['temperatura_optima'];
+            $humedad_optima = $lote['humedad_optima'];       
         } else {
-            echo "La planta no existe";
+            echo "EL lote no existe";
         }
     ?>
     <section class="home">
         <div class="text">
             <header>
-                Información de la planta    
+                Información del lote   
             </header>
         </div>
         <center>
             <div class="form-info">
                 <div class="info">
-                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_planta" id="imagen_planta">
+                    <!-- TODO can save all moves in a lot, like change date = show it in history??? -->
+                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_lote" id="imagen_lote">
             
-                    <form id="planta" enctype="multipart/form-data" method=POST action="CRUD/editar_planta.php">
-                        <input type="hidden" name="id_planta" value=<?php echo $id_planta; ?>>
-                        <label for="nombre" class="text">Nombre: </label>
-                            <input type="text" id="nombre" name="nombre" value=<?php echo $nombre; ?> readonly>
+                    <form id="lote" enctype="multipart/form-data" method=POST action="CRUD/editar_lote.php">
+                        <p class="alert">Zona peligrosa. Editar aspectos del lote puede alterar cultivos reales.</p>
+                        <input type="hidden" name="id_lote" value=<?php echo $id_lote; ?>>
+                        <input type="hidden" name="id_usuario" value=<?php echo $id_usuario ?>>
+                        <label for="nombre_lote" class="text">Nombre del lote: </label>
+                            <input type="text" id="nombre_lote" name="nombre_lote" value=<?php echo $nombre_lote; ?> readonly>
                             <br>
-                        <label for="nombre" class="text">Tipo: </label>
-                            <input type="text" id="tipo" name="tipo" value=<?php echo $tipo; ?> readonly>
-                            <br>
-                        <label for="nombre" class="text">Descripción: </label>
-                            <input type="text" id="descripcion" name="descripcion" value=<?php echo $descripcion; ?> readonly>
-                            <br>
-                        <label for="imagen" class="text" id="label-imagen" hidden>Imagen: </label>
-                            <input type="file" name="imagen" accept="image/*" id="input-imagen" hidden>
+                        <label for="cantidad_actual" class="text">Cantidad actual: </label>
+                            <input type="text" id="cantidad_actual" name="cantidad_actual" value=<?php echo $cantidad_actual; ?> readonly>
                             <br>
                 </div>
                 <div class="actions">
-                        <button class="create-button" id="btn-crear"><a href="../lotes/formulario_lote.php?nombre_planta=<?php echo $nombre; ?>&id_planta=<?php echo $id_planta; ?>">Crear Lote</a></button>
-                        <button class="create-button" id="btn-guardar" onclick="return editarPlanta()" type="submit" hidden>Guardar</button>
-                        <button class="edit-button" id="btn-edit" onclick="return editActive('planta')" type="button"><a href="#">Editar</a></button>
-                        <button class="delete-button" id="btn-delete" onclick="return eliminarPlanta()"><a href="CRUD/borrar_planta.php?id_planta=<?php echo $id_planta; ?>">Eliminar Planta</a></button>
-                        <button class="delete-button" id="btn-cancel" onclick="return editInactive('planta')" type="button" hidden><a href="#">Cancelar</a></button>
+                        <button class="create-button" id="btn-crear"><a href="../stats/actividad.php?nombre_lote=<?php echo $nombre_lote; ?>&id_lote=<?php echo $id_lote ; ?>">Actividad</a></button>
+                        <button class="create-button" id="btn-guardar" onclick="return editarLote()" type="submit" hidden>Guardar</button>
+                        <button class="edit-button" id="btn-edit" onclick="return editActive('lote')" type="button"><a href="#">Editar</a></button>
+                        <button class="delete-button" id="btn-delete" onclick="return eliminarLote()"><a href="CRUD/borrar_lote.php?id_lote=<?php echo $id_lote; ?>&id_usuario=<?php echo $id_usuario; ?>">Eliminar lote</a></button>
+                        <button class="delete-button" id="btn-cancel" onclick="return editInactive('lote')" type="button" hidden><a href="#">Cancelar</a></button>
                     </form>
                 </div>    
             </div>
