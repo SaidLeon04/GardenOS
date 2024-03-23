@@ -3,27 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GardenOS</title>
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <title>GardenOS</title>
+    <?php
+        include("../conexion.php");
+        include("../statements.php");
+
+        session_start();
+        $id_usuario = $_SESSION['id_usuario'];
+        $usuario = $_SESSION['nombre'];
+
+        $stmt = $conexion->prepare($load_pfp);
+        $stmt->bind_param('i', $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $pfp = $result->fetch_assoc();
+        $pfp = $pfp['imagen'];
+    ?>
 </head>
 <body>
     <nav class="sidebar close">
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="../assets/img/clean.png" alt="pfp.jpg">
+                    <img src="data:image;base64,<?php echo $pfp; ?>" alt="pfp" id="pfp">
                 </span>
 
                 <div class="text logo-text">
                     <span class="name">
-                        <?php 
-                            include("../conexion.php");
-                            session_start();
-                            $id_usuario = $_SESSION['id_usuario'];
-                            $usuario = $_SESSION['nombre'];
-				            echo $usuario;
-                        ?>
+                        <a href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>" class="pfp-link"><?php echo $usuario; ?></a>
                     </span>
                 </div>
             </div>
@@ -60,6 +68,15 @@
                             <span class="text nav-text">Lotes Terminados</span>
                         </a>
                     </li>  
+
+                    <li class="nav-link">
+                        <a href="../sensores/sensores.php">
+                            <img src="../assets/svg/humedad.svg" alt="icono_humedad" class="icon">
+                            <span class="text nav-text">
+                                Sensores
+                            </span>
+                        </a>
+                    </li>
 
                     <li class="nav-link">
                         <a href="../zen/zen.php">

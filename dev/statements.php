@@ -1,6 +1,10 @@
 <?php
     $consulta_usuario = "SELECT * FROM usuarios WHERE id_usuario = ?";
 
+    $update_usuario = "UPDATE usuarios SET nombre = ?, correo = ?, imagen = ? WHERE id_usuario = ?";
+
+    $load_pfp = "SELECT imagen FROM usuarios WHERE id_usuario = ?";
+
     $consulta_planta = "SELECT * FROM plantas WHERE id_planta = ?";
 
     $consulta_lote = "SELECT * FROM lote WHERE id_lote = ?"; #TODO make id_usuario a row in lote table

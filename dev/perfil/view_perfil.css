@@ -88,3 +88,13 @@ input[type="text"]{
     background-image: linear-gradient(to right, #FF416C, #f26046);
     transform: scale(1.05);
 }
+
+.parrafo{
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    background-color: white;
+}

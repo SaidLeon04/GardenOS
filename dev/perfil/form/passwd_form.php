@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="view_perfil.css">
+    <link rel="stylesheet" href="../../assets/css/barra_lateral.css">
+    <link rel="stylesheet" href="../view_perfil.css">
     <title>Perfil</title>
     <?php 
-        include("../statements.php");
-        include("../conexion.php");
+        include("../../statements.php");
+        include("../../conexion.php");
 
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
@@ -21,17 +21,10 @@
         if ($result->num_rows > 0) {
             $datos_usuario = $result->fetch_assoc();
             $nombre = $datos_usuario['nombre'];
-            $correo = $datos_usuario['correo'];
-            $dias_str = $datos_usuario['dias'];
             $imagen = $datos_usuario['imagen'];
         } else {
             echo "El usuario no existe";
         }
-
-        $fecha_inicial = new DateTime($dias_str);
-        $fecha_actual = new DateTime();
-        $diferencia = $fecha_inicial->diff($fecha_actual);
-        $dias = $diferencia->days;
     ?>
 </head>
 <body>
@@ -48,7 +41,7 @@
                     </span>
                 </div>
             </div>
-                <img src="../assets/svg/arrow.svg" alt="icono_arrow" class="toggle">
+                <img src="../../assets/svg/arrow.svg" alt="icono_arrow" class="toggle">
         </header>
 
         <div class="menu-bar">
@@ -56,35 +49,35 @@
                 <ul class="menu-links">
                     <li class="nav-link">
                         <a href="../home/home.php" title="Volver al inicio">
-                            <img src="../assets/svg/home.svg" alt="icono_home" class="icon">
+                            <img src="../../assets/svg/home.svg" alt="icono_home" class="icon">
                             <span class="text nav-text">Inicio</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="../plantas/plantas.php" title="Ver catálogo de plantas">
-                            <img src="../assets/svg/planta.svg" alt="icono_planta" class="icon">
+                            <img src="../../assets/svg/planta.svg" alt="icono_planta" class="icon">
                             <span class="text nav-text">Plantas</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="../lotes/lotes.php">
-                            <img src="../assets/svg/lotes.svg" alt="icono_lotes" class="icon">
+                            <img src="../../assets/svg/lotes.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="../lotes_terminados/lotes_terminados.php">
-                            <img src="../assets/svg/lotes_terminados.svg" alt="icono_lotes" class="icon">
+                            <img src="../../assets/svg/lotes_terminados.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes Terminados</span>
                         </a>
                     </li>  
 
                     <li class="nav-link">
                         <a href="../sensores/sensores.php">
-                            <img src="../assets/svg/humedad.svg" alt="icono_humedad" class="icon">
+                            <img src="../../assets/svg/humedad.svg" alt="icono_humedad" class="icon">
                             <span class="text nav-text">
                                 Sensores
                             </span>
@@ -93,7 +86,7 @@
 
                     <li class="nav-link">
                         <a href="../zen/zen.php">
-                            <img src="../assets/svg/zen.svg" alt="icono_zen" class="icon">
+                            <img src="../../assets/svg/zen.svg" alt="icono_zen" class="icon">
                             <span class="text nav-text">
                                 Zen
                             </span>
@@ -105,13 +98,13 @@
             <div class="bottom-content">
                 <li class="nav-link">
                     <a href="../ayuda/ayuda.php">
-                        <img src="../assets/svg/help.svg" alt="icono_help" class="icon">
+                        <img src="../../assets/svg/help.svg" alt="icono_help" class="icon">
                         <span class="text nav-text">Ayuda</span>
                     </a>
                 </li>
                 <li class="nav-link">
                     <a href="../logout/logout.php">
-                        <img src="../assets/svg/logout.svg" alt="icono_logout" class="icon">
+                        <img src="../../assets/svg/logout.svg" alt="icono_logout" class="icon">
                         <span class="text nav-text">Salir</span>
                     </a>
                 </li>
@@ -132,14 +125,18 @@
             
                     <form id="usuario" enctype="multipart/form-data" method=POST action="crud/editar_perfil.php">
                         <label for="nombre" class="text">Nombre: </label>
-                            <input type="text" id="nombre" name="nombre" value=<?php echo $nombre; ?> readonly>
+                            <p class="parrafo"><?php echo $nombre ?></p>
                             <br>
-                        <label for="nombre" class="text">Correo: </label>
-                            <p class="parrafo"><?php echo $correo ?></p>
-                        <label for="nombre" class="text">Días: </label> 
-                            <p class="parrafo"><?php echo $dias ?></p>
-                        <label for="imagen" class="text" id="label-imagen" hidden>Imagen: </label>
-                            <input type="file" name="imagen" accept="image/*" id="input-imagen" hidden>
+                        <label for="passwd" class="text">Contraseña actual: </label>
+                            <input type="text" id="passwd" name="paswd">
+                            <br>
+
+                        <label for="new_passwd" class="text">Contraseña nueva: </label>
+                            <input type="text" id="new_passwd" name="new_passwd">
+                            <br>
+
+                        <label for="new_passwdr" class="text">Repite contraseña: </label>
+                            <input type="text" id="new_passwdr" name="new_passwdr">
                             <br>
                 </div>
                 <div class="actions">
@@ -156,7 +153,7 @@
     </section>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
-<script src="../assets/js/barra_lateral.js"></script>
-<script src="view_perfil.js"></script>
+<script src="../../assets/js/barra_lateral.js"></script>
+<script src="../view_perfil.js"></script>
 </html>
 

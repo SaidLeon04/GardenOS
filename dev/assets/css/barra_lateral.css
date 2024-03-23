@@ -294,3 +294,14 @@ body.dark .switch::before{
     width: calc(100% - 78px);
 }
 
+.pfp-link{
+    text-decoration: none;
+    color: black;
+    border-radius: 5px;
+}
+.pfp-link:hover{
+    background-color: var(--primary-color);
+    color: var(--sidebar-color);
+    transition: var(--tran-03);
+}
+

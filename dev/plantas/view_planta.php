@@ -2,9 +2,11 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, init-scale=1.0">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">
     <link rel="stylesheet" href="CRUD/css/view_planta.css">
+    <title>Detalles de Planta</title>
     <?php 
         include("../statements.php");
         include("../conexion.php");
@@ -13,6 +15,20 @@
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
         $id_planta = $_GET['id_planta'];
+        $stmt = $conexion->prepare($consulta_planta);
+        $stmt->bind_param('i', $id_planta);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $planta = $result->fetch_assoc();
+            $nombre = $planta['nombre'];
+            $tipo = $planta['tipo'];
+            $descripcion = $planta['descripcion'];
+            $imagen = $planta['imagen'];
+        } else {
+            header("Location: ../error/planta_null.php");
+        }
+        
     ?>
 </head>
 <body>
@@ -102,21 +118,6 @@
 
         </div>
     </nav>
-    <?php
-        $stmt = $conexion->prepare($consulta_planta);
-        $stmt->bind_param('i', $id_planta);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $planta = $result->fetch_assoc();
-            $nombre = $planta['nombre'];
-            $tipo = $planta['tipo'];
-            $descripcion = $planta['descripcion'];
-            $imagen = $planta['imagen'];
-        } else {
-            echo "La planta no existe";
-        }
-    ?>
     <section class="home">
         <div class="text">
             <header>
