@@ -1,31 +1,44 @@
 <?php
-	include("../conexion.php");
+include("../conexion.php");
+include("../sql/login.php");
 
-	if(isset($_POST['acceder'])){
-    	if (strlen($_POST['usuario'])> 0 && strlen($_POST['passwd'])>0) {
-        	$usuario = trim($_POST['usuario']);
-        	$passwd = trim($_POST['passwd']);
-			$passhash = md5($passwd);
+if (strlen($_POST['nombre'])> 0 && strlen($_POST['passwd'])>0) {
+    $nombre = trim($_POST['nombre']);
+    $passwd = trim($_POST['passwd']);
+	$passhash = md5($passwd);
 			
-			$query = "SELECT id_usuario, nombre, passwd FROM usuarios WHERE nombre='$usuario' AND passwd='$passhash'";
-			$resultado = mysqli_query($conexion,$query);
-			if($resultado == true){
-				while($row = $resultado->fetch_array()){
-					$id_usuario = $row['id_usuario'];
-					$nombre_usuario = $row['nombre'];
-					
-					session_start();
-					$_SESSION['id_usuario'] = $id_usuario; 
-					$_SESSION['nombre'] = $usuario;
-					header("Location: ../home/home.php");
-				}
-			}else{
-				echo "Error en la consulta SQL ";
-			}
-		}else{
-			echo "Error en el envio de los campos";
-		}
+	$stmt = $conexion->prepare($login_nombre);
+	$stmt->bind_param("ss", $nombre, $passhash);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	if ($result->num_rows > 0){
+		$usuario = $result->fetch_assoc();
+		session_start();
+		$_SESSION['id_usuario'] = $usuario['id_usuario'];
+		$_SESSION['nombre'] = $usuario['nombre'];
+		header("Location: ../home/home.php");
+		
 	}else{
-		echo "Error en el boton acceder";
+		echo "Nombre de usuario o contraseña incorrecta";
 	}
+	
+	$stmt = $conexion->prepare($login_correo);
+	$stmt->bind_param("ss", $nombre, $passhash);
+	$stmt->execute();
+	$result = $stmt->get_result();
+		if ($result->num_rows > 0){
+			$usuario = $result->fetch_assoc();
+			session_start();
+			$_SESSION['id_usuario'] = $usuario['id_usuario'];
+			$_SESSION['nombre'] = $usuario['nombre'];
+			header("Location: ../home/home.php");
+		}else{
+			echo "Correo o contraseña incorrecta";
+		}
+	
+	$stmt->close();
+	$conexion->close();
+}else{
+	echo "Faltan datos";
+}
 ?>

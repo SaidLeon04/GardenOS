@@ -10,7 +10,7 @@ window.onload = () => {
     }
 
 function deleteUser() {
-    var respuesta = confirm("¿Eliminar Usuario?");
+    var respuesta = confirm("Atención: Al eliminar su cuenta no podrá recuperarla. ¿Eliminar Usuario?");
     if (respuesta == true) {
         return true;
     }else{
@@ -29,7 +29,16 @@ function saveData() {
 }
 
 function changePasswd(){
-    var respuesta = confirm("Atención: Al editar su perfil será necesario que inicie sesión otra vez. ¿Editar Usuario?");
+    var respuesta = confirm("Atención: Al editar su contraseña será necesario que inicie sesión otra vez. ¿Continuar?");
+    if (respuesta == true) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function changeCorreo(){
+    var respuesta = confirm("Atención: Al editar su correo será necesario que confirme la nueva dirección e inicie sesión otra vez. ¿Continuar?");
     if (respuesta == true) {
         return true;
     }else{

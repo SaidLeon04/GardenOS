@@ -134,20 +134,39 @@
             </header>
         </div>
         
-        <center>
-            <div class="main-container">
-                <div class="container">
-                <?php
-                    for ($i = 0; $i < $cantidad_registros; $i++) {
-                ?>
-                <img src="data:image;base64,<?php echo $imagenes[$i]; ?>" alt="imagen_planta" class="card-img-top">
-                <h5><?php echo $nombres[$i]; ?></h5>
-                <p><?php echo $tipos[$i]; ?></p>
-                <p><?php echo $descripciones[$i]; ?></p>
-                <a href="view_planta.php?id_planta=<?php echo $id_planta[$i]; }?>">Detalle</a>                    
+        <div class="main-container">
+            <?php
+                $registros_impresos = 0;
+                $contador_grupo = 0;
+            ?>
+            <div class="group-tile">
+                <?php for ($i = 0; $i < $cantidad_registros; $i++) { ?>
+                <div class="plant-tile">
+                    <a href="view_planta.php?id_planta=<?php echo $id_planta[$i]; ?>" class="tile-link">
+                        <center>
+                            <h3><?php echo $nombres[$i]; ?></h3>
+                        
+                            <img src="data:image;base64,<?php echo $imagenes[$i]; ?>" alt="imagen_planta" class="img-tile">
 
-            </div>
-        </center>
+                            <p><?php echo $tipos[$i]; ?></p>
+                            <p><?php echo $descripciones[$i]; ?></p>
+                        </center>
+                    </a>
+                </div>
+          
+
+            <?php
+                $registros_impresos++;
+                $contador_grupo++;
+                if ($contador_grupo == 3 && $i < $cantidad_registros - 1) {
+                    echo '</div>'; // Cerrar el grupo actual
+                    echo '<div class="group-tile">'; // Abrir un nuevo grupo
+                    $contador_grupo = 0; // Reiniciar el contador de grupo
+                }
+            } ?>
+         
+
+        </div>
     </section>
 </body>
 <script src="../assets/js/barra_lateral.js"></script>

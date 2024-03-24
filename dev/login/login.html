@@ -5,19 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Iniciar Sesíón en GardenOS</title>
     <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="../assets/css/barra_lateral.css">
 </head>
-<body background="assets/img/background001.jpeg">
+<body>
 
 
 <div class="container">
-    <h1>INICIAR SESION</h1>
-    <form action="login.php" method="POST" id="form">
-        <input type="text" placeholder="Nombre de Usuario" name="usuario" id="name" required>
-        <input type="password" placeholder="Contraseña" name="passwd" minlength="8" required>
-        <input type="submit" value="Entrar" name="acceder">
-        <br><br><br>
-        <a href=../signup/registrarse.html>¿Eres nuevo?</a>
-    </form>
+    <div class="side-l">
+        <h1>Iniciar Sesión</h1>
+        <img src="../assets/svg/logo.svg" alt="logo" id="logo" class="logo-registro">
+    </div>
+    <div class="side-r">
+        <form action="login.php" method="POST" id="form">
+            <label for="nombre" class="text">Nombre o Correo: </label>
+            <input type="text" placeholder="Nombre o correo" name="nombre" required minlength="5" maxlength="50">
+            <label for="passwd" class="text">Contraseña: </label>
+            <input type="password" placeholder="Contraseña" name="passwd" minlength="8" required>
+            <input type="submit" value="Entrar" name="Acceder">
+            <br><br>
+            <a href=../signup/registrarse.html>¿Eres nuevo?</a><br><br>
+            <a href="../passwd/recuperacion.html">¿Olvidaste tu contraseña?</a>
+        </form>
+    </div>
 </div>
 </body>
 </html>

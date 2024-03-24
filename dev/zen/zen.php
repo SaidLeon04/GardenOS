@@ -2,36 +2,24 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="view_perfil.css">
-    <title>Perfil</title>
-    <?php 
-        include("../statements.php");
+    <link rel="stylesheet" href="zen.css">
+    <title>GardenOS Zen</title>
+    <?php
         include("../conexion.php");
+        include("../statements.php");
 
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
 
-        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt = $conexion->prepare($load_pfp);
         $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $datos_usuario = $result->fetch_assoc();
-            $nombre = $datos_usuario['nombre'];
-            $correo = $datos_usuario['correo'];
-            $dias_str = $datos_usuario['dias'];
-            $imagen = $datos_usuario['imagen'];
-        } else {
-            echo "El usuario no existe";
-        }
-
-        $fecha_inicial = new DateTime($dias_str);
-        $fecha_actual = new DateTime();
-        $diferencia = $fecha_inicial->diff($fecha_actual);
-        $dias = $diferencia->days;
+        $pfp = $result->fetch_assoc();
+        $pfp = $pfp['imagen'];
     ?>
 </head>
 <body>
@@ -39,12 +27,12 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="pfp" id="pfp">
+                    <img src="data:image;base64,<?php echo $pfp; ?>" alt="pfp" id="pfp">
                 </span>
 
                 <div class="text logo-text">
                     <span class="name">
-                        <a class="pfp-link" href="view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
+                        <a href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>" class="pfp-link"><?php echo $usuario; ?></a>
                     </span>
                 </div>
             </div>
@@ -92,7 +80,7 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="../zen/zen.php">
+                        <a href="zen.php">
                             <img src="../assets/svg/zen.svg" alt="icono_zen" class="icon">
                             <span class="text nav-text">
                                 Zen
@@ -122,40 +110,35 @@
     <section class="home">
         <div class="text">
             <header>
-                Perfil de GardenOS 
+                Zen: Simula y relajate
+                <button>Feedback Zen</button>
             </header>
         </div>
-        <center>
-            <div class="form-info">
-                <div class="info">
-                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_usuario" id="imagen_usuario" class="imagenForm">
-            
-                    <form id="usuario" enctype="multipart/form-data" method=POST action="crud/editar_perfil.php">
-                        <label for="nombre" class="text">Nombre: </label>
-                            <input type="text" id="nombre" name="nombre" value=<?php echo $nombre ?> readonly>
-                        <label for="correo" class="text">Correo: </label>
-                            <p class="parrafo" name="correo"><?php echo $correo ?></p>
-                        <label for="dias" class="text">Días: </label> 
-                            <p class="parrafo" name="dias"><?php echo $dias ?></p>
-                        <label for="imagen" class="text" id="label-imagen" hidden>Imagen: </label>
-                            <input type="file" name="imagen" accept="image/*" id="input-imagen" hidden>
-                            <br>
-                </div>
-                <div class="actions">
-                        <button class="create-button" id="btn-editar" onclick="return editActive('usuario')" type="button"><a href="#">Editar perfil</a></button>
-                        <button class="create-button" id="btn-guardar" onclick="return saveData()" type="submit" hidden>Guardar</button>
-                        <button class="edit-button" id="btn-passwd"><a href="form/passwd_form.php">Cambiar contraseña</a></button>
-                        <button class="edit-button" id="btn-email"><a href="form/email_form.php">Cambiar correo</a></button>
-                        <button class="delete-button" id="btn-delete"><a href="form/delete_form.php">Eliminar Perfil</a></button>
-                        <button class="delete-button" id="btn-cancel" onclick="return editInactive('usuario')" type="button" hidden><a href="#">Cancelar</a></button>
-                    </form>
-                </div>    
-            </div>
-        </center>
-    </section>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
-<script src="../assets/js/barra_lateral.js"></script>
-<script src="view_perfil.js"></script>
-</html>
 
+        <div class="main-container">
+            <div class="group-tile">
+                <div class="zen-tile">
+                    <a href="tiles/drawFlowers/drawFlowers.html" class="tile-link">
+                        <center>
+                            <h3>Dibuja flores</h3>
+                        
+                            <img src="assets/img/drawFlowers.png" alt="drawFlores.jpg" class="img-tile">
+
+                            <p>El lienzo para dibujar flores</p>
+                        </center>
+                    </a>
+                </div>
+                <div class="zen-tile"></div>
+                <div class="zen-tile"></div>
+            </div>
+            <div class="group-tile">
+                <div class="zen-tile"></div>
+                <div class="zen-tile"></div>
+                <div class="zen-tile"></div>
+            </div>
+        </div>
+        
+    </section>
+    <script type="text/javascript" src="../assets/js/barra_lateral.js"></script>
+</body>
+</html>

@@ -1,7 +1,15 @@
 <?php
     $consulta_usuario = "SELECT * FROM usuarios WHERE id_usuario = ?";
 
-    $update_usuario = "UPDATE usuarios SET nombre = ?, correo = ?, imagen = ? WHERE id_usuario = ?";
+    $consulta_passwd = "SELECT passwd FROM usuarios WHERE id_usuario = ? AND passwd = ?";
+
+    $update_usuario = "UPDATE usuarios SET nombre = ?, imagen = ? WHERE id_usuario = ?";
+
+    $update_correo = "UPDATE usuarios SET correo = ? WHERE id_usuario = ?";
+
+    $update_passwd = "UPDATE usuarios SET passwd = ? WHERE id_usuario = ?";
+
+    $borrar_usuario = "DELETE FROM usuarios WHERE id_usuario = ?";
 
     $load_pfp = "SELECT imagen FROM usuarios WHERE id_usuario = ?";
 

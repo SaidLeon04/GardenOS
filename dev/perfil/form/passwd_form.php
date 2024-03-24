@@ -123,29 +123,25 @@
                 <div class="info">
                     <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_usuario" id="imagen_usuario">
             
-                    <form id="usuario" enctype="multipart/form-data" method=POST action="crud/editar_perfil.php">
+                    <form id="usuario" enctype="multipart/form-data" method=POST action="../crud/editar_passwd.php">
                         <label for="nombre" class="text">Nombre: </label>
                             <p class="parrafo"><?php echo $nombre ?></p>
                             <br>
                         <label for="passwd" class="text">Contraseña actual: </label>
-                            <input type="text" id="passwd" name="paswd">
+                            <input type="password" id="passwd" name="passwd">
                             <br>
 
                         <label for="new_passwd" class="text">Contraseña nueva: </label>
-                            <input type="text" id="new_passwd" name="new_passwd">
+                            <input type="password" id="new_passwd" name="new_passwd">
                             <br>
 
                         <label for="new_passwdr" class="text">Repite contraseña: </label>
-                            <input type="text" id="new_passwdr" name="new_passwdr">
+                            <input type="password" id="new_passwdr" name="new_passwdr">
                             <br>
                 </div>
                 <div class="actions">
-                        <button class="create-button" id="btn-editar" onclick="return editActive('usuario')" type="button"><a href="#">Editar perfil</a></button>
-                        <button class="create-button" id="btn-guardar" onclick="return saveData()" type="submit" hidden>Guardar</button>
-                        <button class="edit-button" id="btn-passwd"><a href="form/passwd_form.php">Cambiar contraseña</a></button>
-                        <button class="edit-button" id="btn-email"><a href="form/email_form.php">Cambiar correo</a></button>
-                        <button class="delete-button" id="btn-delete"><a href="form/delete_form.php">Eliminar Perfil</a></button>
-                        <button class="delete-button" id="btn-cancel" onclick="return editInactive('usuario')" type="button" hidden><a href="#">Cancelar</a></button>
+                        <button class="create-button" id="btn-guardar" onclick="return changePasswd()" type="submit">Guardar</button>
+                        <button class="delete-button" id="btn-cancel" type="button"><a href="../view_perfil.php">Cancelar</a></button>
                     </form>
                 </div>    
             </div>

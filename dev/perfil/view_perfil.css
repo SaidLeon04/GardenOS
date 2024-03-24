@@ -35,7 +35,9 @@ a{
     color: white;
 }
 
-input[type="text"]{
+input[type="text"],
+input[type="password"],
+input[type="email"]{
     border-radius: 20px;
     padding: 10px 20px;
     font-size: 16px;
@@ -97,4 +99,15 @@ input[type="text"]{
     width: 100%;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     background-color: white;
+}
+
+.alert{
+    background-color: #FF416C;
+    margin: 10px;
+    border-radius: 15px;
+}
+
+.imagenForm{
+    width: 10px;
+    height: 500px;
 }

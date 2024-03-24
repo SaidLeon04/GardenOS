@@ -112,16 +112,12 @@
         </div>
             <!-- Consultas aquí -->
             <?php
-                $stmt = $conexion->prepare($consulta_join);
-                $stmt->bind_param("i", $id_usuario);
+                $stmt = $conexion->prepare($consulta_lote);
+                $stmt->bind_param("i", $id_lote);
                 $stmt->execute();
                 $result = $stmt->get_result();
                 if ($result->num_rows > 0) {
                     $info = $result->fetch_assoc();
-                    $id_planta = $info['id_planta'];
-                    $nombre_planta = $info['nombre'];
-                    $imagen = $info['imagen'];
-                    $tipo = $info['tipo'];
                     $id_sensor = $info['id_sensor'];
                     $fecha_inicial_str = $info['fecha_inicial'];
                     $cantidad_actual = $info['cantidad_actual'];
@@ -143,7 +139,6 @@
                 <div class="carta-stats">
                     <h3>Días Totales</h3>
                     <?php 
-                        
                         echo $dias;
                     ?>
                 </div>

@@ -27,6 +27,8 @@ body{
 }   
 header{
     background-color: var(--sidebar-color);
+    display: flex;
+    justify-content: space-between;
 }
 
 ::selection{
