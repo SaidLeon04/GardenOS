@@ -1,5 +1,5 @@
 <?php
-include("../conexion.php");
+include("../../conexion.php");
 include("../sql/login.php");
 
 if (strlen($_POST['nombre'])> 0 && strlen($_POST['passwd'])>0) {
@@ -16,10 +16,11 @@ if (strlen($_POST['nombre'])> 0 && strlen($_POST['passwd'])>0) {
 		session_start();
 		$_SESSION['id_usuario'] = $usuario['id_usuario'];
 		$_SESSION['nombre'] = $usuario['nombre'];
-		header("Location: ../home/home.php");
+		header("Location: ../../home/home.php");
 		
 	}else{
-		echo "Nombre de usuario o contraseña incorrecta";
+		# echo "Nombre de usuario o contraseña incorrecta";
+		header("Location: ../../error/login_name.php");
 	}
 	
 	$stmt = $conexion->prepare($login_correo);
@@ -33,12 +34,14 @@ if (strlen($_POST['nombre'])> 0 && strlen($_POST['passwd'])>0) {
 			$_SESSION['nombre'] = $usuario['nombre'];
 			header("Location: ../home/home.php");
 		}else{
-			echo "Correo o contraseña incorrecta";
+			# echo "Correo o contraseña incorrecta";
+			header("Location: ../../error/login_correo.php");
 		}
 	
 	$stmt->close();
 	$conexion->close();
 }else{
-	echo "Faltan datos";
+	# echo "Faltan datos";
+	header("Location: ../../error/login_null.php");
 }
 ?>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, init-scale=1.0">
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">   
-    <link rel="stylesheet" href="CRUD/css/lotes.css">
+    <link rel="stylesheet" href="css/read.css">
     <?php 
         include("../conexion.php");
         include("../statements.php");

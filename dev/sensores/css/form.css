@@ -1,0 +1,93 @@
+.form-info{
+    display: flex;
+    flex-direction: column;
+    background-color: #e4e6d9;
+    width: 950px;
+    margin: 20px;
+    border-radius: 20px;
+}
+
+.info{
+    display: flex;
+    flex-direction: row;
+}
+
+.actions{
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+    justify-content: space-evenly;
+}
+
+.info form{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+input[type="text"],
+select{
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.create-button{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-image: linear-gradient(to right, #7DCEA0, #67d21a);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+    color: white;
+}
+
+.create-button:hover{
+    background-image: linear-gradient(to right, #67d21a, #7DCEA0);
+    transform: scale(1.05);
+}
+
+.delete-button{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-image: linear-gradient(to right, #f26046, #FF416C);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.delete-button:hover{
+    background-image: linear-gradient(to right, #FF416C, #f26046);
+    transform: scale(1.05);
+}
+
+.help-button{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-image: linear-gradient(to right, #ffcd90, #FF8D21);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.help-button:hover{
+    background-image: linear-gradient(to right, #FF8D21, #ffcd90);
+    transform: scale(1.05);
+}
+
+.imagenForm{
+    height: 400px;
+    margin: 20px;
+}

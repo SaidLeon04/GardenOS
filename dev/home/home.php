@@ -13,12 +13,16 @@
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
 
-        $stmt = $conexion->prepare($load_pfp);
+        $stmt = $conexion->prepare($consulta_usuario);
         $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
-        $pfp = $result->fetch_assoc();
-        $pfp = $pfp['imagen'];
+        if ($result->num_rows > 0) {
+            $datos_usuario = $result->fetch_assoc();
+            $imagen = $datos_usuario['imagen'];
+        } else {
+            echo "El usuario no existe";
+        }
     ?>
 </head>
 <body>
@@ -26,7 +30,7 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="data:image;base64,<?php echo $pfp; ?>" alt="pfp" id="pfp">
+                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="pfp" id="pfp">
                 </span>
 
                 <div class="text logo-text">
@@ -109,10 +113,10 @@
     <section class="home">
         <div class="text">
             <header>
-                Bienvenido a tu panel de control 
+                Bienvenido:  <?php echo $usuario; ?> 
             </header>
         </div>
     </section>
-    <script type="text/javascript" src="../assets/js/barra_lateral.js"></script>
+    <script src="../assets/js/barra_lateral.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?php
-include("../conexion.php");
-
+include("../../conexion.php");
+#TODO PLANTAS SQL actualizado en ADD
 
 if(isset($_POST['guardar'])){
     $id_usuario = $_POST['id_usuario'];
@@ -15,7 +15,7 @@ if(isset($_POST['guardar'])){
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
-        header("Location: plantas.php");
+        header("Location: ../plantas.php");
     } else {
         echo "No se pudo insertar los datos.";
     }

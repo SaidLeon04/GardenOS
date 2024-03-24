@@ -50,6 +50,8 @@ function editActive(formularioId) {
         const btn_cancel = document.getElementById('btn-cancel');
         const label_imagen = document.getElementById('label-imagen');
         const input_imagen = document.getElementById('input-imagen');
+        const tipo_parrafo = document.getElementById('tipo_parrafo');
+        const selectTipo = document.getElementById('selectTipo');
         
         inputs.forEach(input => {
             input.removeAttribute('readonly');
@@ -61,6 +63,8 @@ function editActive(formularioId) {
         btn_cancel.removeAttribute('hidden');
         label_imagen.removeAttribute('hidden');
         input_imagen.removeAttribute('hidden');
+        tipo_parrafo.setAttribute('hidden', true);
+        selectTipo.removeAttribute('hidden');
 
     } else {
         console.error('El formulario especificado no fue encontrado.');
@@ -79,6 +83,8 @@ function editInactive(formularioId) {
         const btn_cancel = document.getElementById('btn-cancel');
         const label_imagen = document.getElementById('label-imagen');
         const input_imagen = document.getElementById('input-imagen');
+        const tipo_parrafo = document.getElementById('tipo_parrafo');
+        const selectTipo = document.getElementById('selectTipo');
 
         
         inputs.forEach(input => {
@@ -91,7 +97,8 @@ function editInactive(formularioId) {
         btn_cancel.setAttribute('hidden', true);
         label_imagen.setAttribute('hidden', true);
         input_imagen.setAttribute('hidden', true);
-        document.getElementById('nombre').setAttribute('value', nombre);
+        tipo_parrafo.removeAttribute('hidden');
+        selectTipo.setAttribute('hidden', true);
 
 
     } else {

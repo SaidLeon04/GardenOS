@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, init-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="../assets/css/btn_mas.css">
-    <link rel="stylesheet" href="CRUD/css/plantas.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, init-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/barra_lateral.css">   
     <?php 
         include("../conexion.php");
         include("../statements.php");
@@ -13,24 +11,15 @@
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
 
-        $stmt = $conexion->prepare($sensores_usuario);
-        $stmt->bind_param("i", $id_usuario);
+        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
-            $id_sensor = [];
-            $id_lote = [];
-            $nombre = [];
-            $tipo = [];
-            $cantidad_registros = $result->num_rows;
-            while ($info = $result->fetch_assoc()) {
-                $id_sensor[] = $info['id_sensor'];
-                $id_lote[] = $info['id_lote'];
-                $nombre[] = $info['nombre'];
-                $tipo[] = $info['tipo'];
-            }
+            $datos_usuario = $result->fetch_assoc();
+            $imagen = $datos_usuario['imagen'];
         } else {
-            $nothing = "No hay sensores registrados";
+            echo "El usuario no existe";
         }
     ?>
 </head>
@@ -39,14 +28,12 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="../assets/img/clean.png" alt="pfp.jpg">
+                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="pfp" id="pfp">
                 </span>
 
                 <div class="text logo-text">
                     <span class="name">
-                        <?php 
-				            echo $usuario;
-                        ?>
+                        <a class="pfp-link" href="view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
                     </span>
                 </div>
             </div>
@@ -71,21 +58,21 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="../lotes/lotes.php">
+                        <a href="lotes.php">
                             <img src="../assets/svg/lotes.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="../lotes_terminados/lotes_terminados.php">
+                        <a href="lotes_terminados.php">
                             <img src="../assets/svg/lotes_terminados.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes Terminados</span>
                         </a>
                     </li>  
 
                     <li class="nav-link">
-                        <a href="sensores.php">
+                        <a href="../sensores/sensores.php">
                             <img src="../assets/svg/humedad.svg" alt="icono_humedad" class="icon">
                             <span class="text nav-text">
                                 Sensores
@@ -121,37 +108,46 @@
 
         </div>
     </nav>
-
     <section class="home">
         <div class="text">
             <header>
-                Sensores registrados
-                <button><a href="form/add.php">Agregar Sensor</a></button>
-            </header>
+                Lotes Terminados
+            </header> 
         </div>
-        
-        <center>
-            <div class="main-container">
-                <div class="container">
+        <!--TODO make it xd
+        <div class="main-container">
+            <?php
+                $registros_impresos = 0;
+                $contador_grupo = 0;
+            ?>
+            <div class="group-tile">
+                <?php for ($i = 0; $i < $cantidad_registros; $i++) { ?>
+                <div class="lote-tile">
+                    <a href="view_lote.php?id_lote=<?php echo $id_lote[$i]; ?>" class="tile-link">
+                        <center>
+                            <h3><?php echo $nombre_lote[$i]; ?></h3>
+                        
+                            <img src="data:image;base64,<?php echo $imagen[$i]; ?>" alt="imagen_planta" class="img-tile">
+
+                            <p><?php echo $nombre_planta[$i]; ?></p>
+                            <p><?php echo $estado[$i]; ?></p>
+                            <p><?php echo $cantidad_actual[$i]; ?></p>
+                            <p><?php echo $fecha_inicial[$i]; ?></p>
+                        </center>
+                    </a>
+                </div>
                 <?php
-                    if (isset($nothing)) {
-                        echo "<p class='text'>" . $nothing . "</p>";
-                    } else {
-                        for ($i = 0; $i < $cantidad_registros; $i++) {
-                            echo "<div class='card'>";
-                            echo "<h5>".$nombre[$i]."</h5>";
-                            echo "<a href='view_sensor.php?id_sensor=".$id_sensor[$i]."'>Detalle</a>";
-                            echo "</div>";
-                        }
-                    }
-                  
-                ?>
-           
-            </div>
-        </center>
-    </section>
+                $registros_impresos++;
+                $contador_grupo++;
+                if ($contador_grupo == 3 && $i < $cantidad_registros - 1) {
+                    echo '</div>';
+                    echo '<div class="group-tile">';
+                    $contador_grupo = 0; 
+                }
+            } ?>
+        </div>-->
+
+</section>
 </body>
 <script src="../assets/js/barra_lateral.js"></script>
-
 </html>
-

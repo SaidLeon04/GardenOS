@@ -2,10 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, init-scale=1.0">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="CRUD/css/view_planta.css">
+    <link rel="stylesheet" href="css/view_planta.css">
     <title>Detalles de Planta</title>
     <?php 
         include("../statements.php");
@@ -28,6 +27,17 @@
         } else {
             header("Location: ../error/planta_null.php");
         }
+
+        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt->bind_param('i', $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $datos_usuario = $result->fetch_assoc();
+            $pfp = $datos_usuario['imagen'];
+        } else {
+            echo "El usuario no existe";
+        }
         
     ?>
 </head>
@@ -36,14 +46,12 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="../assets/img/clean.png" alt="pfp.jpg">
+                    <img src="data:image;base64,<?php echo $pfp; ?>" alt="pfp" id="pfp">
                 </span>
 
                 <div class="text logo-text">
                     <span class="name">
-                        <?php 
-				            echo $usuario;
-                        ?>
+                        <a href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>" class="pfp-link"><?php echo $usuario; ?></a>
                     </span>
                 </div>
             </div>
@@ -121,7 +129,7 @@
     <section class="home">
         <div class="text">
             <header>
-                Información de la planta    
+                Información de la planta
             </header>
         </div>
         <center>
@@ -129,13 +137,18 @@
                 <div class="info">
                     <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_planta" id="imagen_planta">
             
-                    <form id="planta" enctype="multipart/form-data" method=POST action="CRUD/editar_planta.php">
-                        <input type="hidden" name="id_planta" value=<?php echo $id_planta; ?>>
+                    <form id="planta" enctype="multipart/form-data" method=POST action="crud/edit.php">
                         <label for="nombre" class="text">Nombre: </label>
                             <input type="text" id="nombre" name="nombre" value=<?php echo $nombre; ?> readonly>
                             <br>
                         <label for="nombre" class="text">Tipo: </label>
-                            <input type="text" id="tipo" name="tipo" value=<?php echo $tipo; ?> readonly>
+                            <p id="tipo_parrafo" class="parrafo"><?php echo $tipo; ?></p>
+                            <select name="tipo" hidden id="selectTipo">
+                                <option value="<?php echo $tipo; ?>" default><?php echo $tipo; ?></option>
+                                <option value="hortaliza">Hortaliza</option>
+                                <option value="flor">Flor</option> 
+                                <option value="fruta">Fruta</option> 
+                            </select>
                             <br>
                         <label for="nombre" class="text">Descripción: </label>
                             <input type="text" id="descripcion" name="descripcion" value=<?php echo $descripcion; ?> readonly>
@@ -145,7 +158,7 @@
                             <br>
                 </div>
                 <div class="actions">
-                        <button class="create-button" id="btn-crear"><a href="../lotes/formulario_lote.php?nombre_planta=<?php echo $nombre; ?>&id_planta=<?php echo $id_planta; ?>">Crear Lote</a></button>
+                        <button class="create-button" id="btn-crear"><a href="../lotes/form/add.php?nombre_planta=<?php echo $nombre; ?>&id_planta=<?php echo $id_planta; ?>">Crear Lote</a></button>
                         <button class="create-button" id="btn-guardar" onclick="return editarPlanta()" type="submit" hidden>Guardar</button>
                         <button class="edit-button" id="btn-edit" onclick="return editActive('planta')" type="button"><a href="#">Editar</a></button>
                         <button class="delete-button" id="btn-delete" onclick="return eliminarPlanta()"><a href="CRUD/borrar_planta.php?id_planta=<?php echo $id_planta; ?>">Eliminar Planta</a></button>
@@ -158,6 +171,6 @@
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 <script src="../assets/js/barra_lateral.js"></script>
-<script src="CRUD/js/functions.js"></script>
+<script src="js/functions.js"></script>
 </html>
 

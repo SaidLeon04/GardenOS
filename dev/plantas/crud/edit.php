@@ -37,5 +37,4 @@ $existe = false;
 
 $stmt->close();
 $conexion->close();
-    
 ?>
