@@ -6,11 +6,23 @@
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">   
     <link rel="stylesheet" href="css/read.css">
     <?php 
+        
         include("../conexion.php");
         include("../statements.php");
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
+
+        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt->bind_param('i', $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $datos_usuario = $result->fetch_assoc();
+            $pfp = $datos_usuario['imagen'];
+        } else {
+            echo "El usuario no existe";
+        }
 
         $stmt = $conexion->prepare($consulta_join);
         $stmt->bind_param("i", $id_usuario);
@@ -48,19 +60,18 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="../assets/img/clean.png" alt="pfp.jpg">
+                    <img src="data:image;base64,<?php echo $pfp; ?>" alt="pfp" id="pfp">
                 </span>
 
                 <div class="text logo-text">
                     <span class="name">
-                    <?php
-				        echo $usuario;
-                    ?>
+                        <a class="pfp-link" href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
                     </span>
                 </div>
             </div>
                 <img src="../assets/svg/arrow.svg" alt="icono_arrow" class="toggle">
         </header>
+
 
         <div class="menu-bar">
             <div class="menu">

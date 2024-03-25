@@ -1,2 +1,6 @@
-mr.maxito2
-elwaos123
+<?php 
+$passwd = "elwaos123";
+$hashpasswd = md5($passwd);
+echo $hashpasswd;
+
+?>

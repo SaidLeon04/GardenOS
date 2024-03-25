@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="../../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="../view_perfil.css">
+    <link rel="stylesheet" href="../css/view_perfil.css">
     <title>Perfil</title>
     <?php 
         include("../../statements.php");
@@ -150,6 +150,6 @@
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 <script src="../../assets/js/barra_lateral.js"></script>
-<script src="../view_perfil.js"></script>
+<script src="../js/view_perfil.js"></script>
 </html>
 

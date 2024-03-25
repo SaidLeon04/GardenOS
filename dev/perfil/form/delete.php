@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="../../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="../view_perfil.css">
+    <link rel="stylesheet" href="../css/view_perfil.css">
     <title>Perfil</title>
     <?php 
         include("../../statements.php");
@@ -124,7 +124,7 @@
                 <div class="info">
                     <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_usuario" id="imagen_usuario">
             
-                    <form id="usuario" enctype="multipart/form-data" method=POST action="../crud/eliminar_perfil.php">
+                    <form id="usuario" enctype="multipart/form-data" method=POST action="../crud/delete.php">
                         <p class="alert">Eliminara todo su perfil y registros utiles que podria utilizar en un futuro<br><strong>Por favor valide sus datos de inicio de sesión</strong></p>
                         
                         <label for="nombre" class="text">Nombre de usuario: </label>
@@ -133,10 +133,13 @@
                         <label for="passwd" class="text">Contraseña: </label>
                             <input type="password" id="passwd" name="passwd">
                             <br>
+                        <a href="" class="link-forgot">¿Olvidaste tu contraseña?</a>
+                        
                 </div>
                 <div class="actions">
                         <button class="delete-button" id="btn-guardar" onclick="return deleteUser()" type="submit">Eliminar mi perfil</button>
                         <button class="create-button" id="btn-cancel" type="button" ><a href="../view_perfil.php">Cancelar</a></button>
+                        
                     </form>
                 </div>    
             </div>
@@ -145,6 +148,6 @@
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 <script src="../../assets/js/barra_lateral.js"></script>
-<script src="../view_perfil.js"></script>
+<script src="../js/view_perfil.js"></script>
 </html>
 

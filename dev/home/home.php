@@ -19,7 +19,7 @@
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             $datos_usuario = $result->fetch_assoc();
-            $imagen = $datos_usuario['imagen'];
+            $pfp = $datos_usuario['imagen'];
         } else {
             echo "El usuario no existe";
         }
@@ -30,7 +30,7 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="pfp" id="pfp">
+                    <img src="data:image;base64,<?php echo $pfp; ?>" alt="pfp" id="pfp">
                 </span>
 
                 <div class="text logo-text">

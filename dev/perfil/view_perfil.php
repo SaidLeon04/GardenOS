@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="view_perfil.css">
+    <link rel="stylesheet" href="css/view_perfil.css">
     <title>Perfil</title>
     <?php 
         include("../statements.php");
@@ -23,7 +23,7 @@
             $nombre = $datos_usuario['nombre'];
             $correo = $datos_usuario['correo'];
             $dias_str = $datos_usuario['dias'];
-            $imagen = $datos_usuario['imagen'];
+            $pfp = $datos_usuario['imagen'];
         } else {
             echo "El usuario no existe";
         }
@@ -39,7 +39,7 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="pfp" id="pfp">
+                    <img src="data:image;base64,<?php echo $pfp; ?>" alt="pfp" id="pfp">
                 </span>
 
                 <div class="text logo-text">
@@ -128,9 +128,9 @@
         <center>
             <div class="form-info">
                 <div class="info">
-                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_usuario" id="imagen_usuario" class="imagenForm">
+                    <img src="data:image;base64,<?php echo $pfp; ?>" alt="imagen_usuario" id="imagen_usuario" class="imagenForm">
             
-                    <form id="usuario" enctype="multipart/form-data" method=POST action="crud/editar_perfil.php">
+                    <form id="usuario" enctype="multipart/form-data" method=POST action="crud/edit.php">
                         <label for="nombre" class="text">Nombre: </label>
                             <input type="text" id="nombre" name="nombre" value=<?php echo $nombre ?> readonly>
                         <label for="correo" class="text">Correo: </label>
@@ -144,9 +144,9 @@
                 <div class="actions">
                         <button class="create-button" id="btn-editar" onclick="return editActive('usuario')" type="button"><a href="#">Editar perfil</a></button>
                         <button class="create-button" id="btn-guardar" onclick="return saveData()" type="submit" hidden>Guardar</button>
-                        <button class="edit-button" id="btn-passwd"><a href="form/passwd_form.php">Cambiar contraseña</a></button>
-                        <button class="edit-button" id="btn-email"><a href="form/email_form.php">Cambiar correo</a></button>
-                        <button class="delete-button" id="btn-delete"><a href="form/delete_form.php">Eliminar Perfil</a></button>
+                        <button class="edit-button" id="btn-passwd"><a href="form/passwd.php">Cambiar contraseña</a></button>
+                        <button class="edit-button" id="btn-email"><a href="form/email.php">Cambiar correo</a></button>
+                        <button class="delete-button" id="btn-delete"><a href="form/delete.php">Eliminar Perfil</a></button>
                         <button class="delete-button" id="btn-cancel" onclick="return editInactive('usuario')" type="button" hidden><a href="#">Cancelar</a></button>
                     </form>
                 </div>    
@@ -156,6 +156,6 @@
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 <script src="../assets/js/barra_lateral.js"></script>
-<script src="view_perfil.js"></script>
+<script src="js/view_perfil.js"></script>
 </html>
 

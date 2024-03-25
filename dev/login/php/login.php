@@ -19,8 +19,8 @@ if (strlen($_POST['nombre'])> 0 && strlen($_POST['passwd'])>0) {
 		header("Location: ../../home/home.php");
 		
 	}else{
-		# echo "Nombre de usuario o contraseña incorrecta";
-		header("Location: ../../error/login_name.php");
+		echo "Nombre de usuario o contraseña incorrecta";
+		# header("Location: ../../error/login_name.php");
 	}
 	
 	$stmt = $conexion->prepare($login_correo);
@@ -34,8 +34,8 @@ if (strlen($_POST['nombre'])> 0 && strlen($_POST['passwd'])>0) {
 			$_SESSION['nombre'] = $usuario['nombre'];
 			header("Location: ../home/home.php");
 		}else{
-			# echo "Correo o contraseña incorrecta";
-			header("Location: ../../error/login_correo.php");
+			echo "Correo o contraseña incorrecta";
+			# header("Location: ../../error/login_correo.php");
 		}
 	
 	$stmt->close();

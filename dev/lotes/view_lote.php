@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="CRUD/css/view_lote.css">
+    <link rel="stylesheet" href="css/view_lote.css">
     <?php 
+        include("sql/lotes.php");
         include("../statements.php");
         include("../conexion.php");
 
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
-        $id_lote = $_GET['id_lote'];
+        $id_lote = $_POST['id_lote'];
+        
     ?>
 </head>
 <body>
@@ -20,14 +22,12 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="../assets/img/clean.png" alt="pfp.jpg">
+                    <img src="data:image;base64,<?php echo $pfp; ?>" alt="pfp" id="pfp">
                 </span>
 
                 <div class="text logo-text">
                     <span class="name">
-                        <?php 
-				            echo $usuario;
-                        ?>
+                        <a class="pfp-link" href="view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
                     </span>
                 </div>
             </div>
@@ -103,8 +103,8 @@
         </div>
     </nav>
     <?php
-        $stmt = $conexion->prepare($lote_usuario);
-        $stmt->bind_param('ii',$id_usuario, $id_lote);
+        $stmt = $conexion->prepare($lote_one);
+        $stmt->bind_param('i',$id_lote);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
@@ -148,7 +148,7 @@
                             <br>
                 </div>
                 <div class="actions">
-                        <button class="create-button" id="btn-crear"><a href="../stats/actividad.php?nombre_lote=<?php echo $nombre_lote; ?>&id_lote=<?php echo $id_lote ; ?>">Actividad</a></button>
+                        <button class="create-button" id="btn-crear"><a href="../stats/actividad.php?id_lote=<?php echo $id_lote; ?>">Actividad</a></button>
                         <button class="create-button" id="btn-guardar" onclick="return editarLote()" type="submit" hidden>Guardar</button>
                         <button class="edit-button" id="btn-edit" onclick="return editActive('lote')" type="button"><a href="#">Editar</a></button>
                         <button class="delete-button" id="btn-delete" onclick="return eliminarLote()"><a href="CRUD/borrar_lote.php?id_lote=<?php echo $id_lote; ?>&id_usuario=<?php echo $id_usuario; ?>">Eliminar lote</a></button>
@@ -161,6 +161,6 @@
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 <script src="../assets/js/barra_lateral.js"></script>
-<script src="CRUD/js/functions.js"></script>
+<script src="js/functions.js"></script>
 </html>
 

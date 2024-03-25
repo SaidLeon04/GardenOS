@@ -27,17 +27,14 @@ if($existe){
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
-        header("Location: ../view_perfil.php");
+        session_unset();
+        session_destroy();
+        header("Location: ../../login/login.html");
+        $stmt->close();
+        $conexion->close();
     } else {
         echo "No se realizaron cambios.";
     }
 }
-
-session_unset();
-session_destroy();
-
-$stmt->close();
-$conexion->close();
-header("Location: ../../login/login.html")
 
 ?>
