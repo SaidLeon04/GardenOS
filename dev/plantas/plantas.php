@@ -12,15 +12,17 @@
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
 
-        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt = $conexion->prepare($consulta_pfp);
         $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             $datos_usuario = $result->fetch_assoc();
-            $imagen = $datos_usuario['imagen'];
-        } else {
-            echo "El usuario no existe";
+            $pfp = $datos_usuario['imagen'];
+            $result->free_result();
+        }else{
+            session_destroy();
+            header("Location: ../login/login.php");
         }
 
         $stmt = $conexion->prepare($plantas_usuario);
@@ -42,7 +44,7 @@
                 $imagenes[] = $info['imagen'];
             }
         } else {
-            echo "La planta no existe";
+            $nothing = "No hay plantas registradas";
         }
     ?>
 </head>
@@ -51,12 +53,12 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="pfp" id="pfp">
+                    <img src="data:image;base64,<?php echo $pfp; ?>" alt="pfp" id="pfp">
                 </span>
 
                 <div class="text logo-text">
                     <span class="name">
-                        <a class="pfp-link" href="view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
+                        <a class="pfp-link" href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
                     </span>
                 </div>
             </div>
@@ -165,9 +167,9 @@
                 $registros_impresos++;
                 $contador_grupo++;
                 if ($contador_grupo == 3 && $i < $cantidad_registros - 1) {
-                    echo '</div>'; // Cerrar el grupo actual
-                    echo '<div class="group-tile">'; // Abrir un nuevo grupo
-                    $contador_grupo = 0; // Reiniciar el contador de grupo
+                    echo '</div>';
+                    echo '<div class="group-tile">';
+                    $contador_grupo = 0;
                 }
             } ?>
          

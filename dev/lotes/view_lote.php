@@ -13,7 +13,33 @@
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
-        $id_lote = $_POST['id_lote'];
+        $id_lote = $_GET['id_lote'];
+
+        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt->bind_param('i', $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $datos_usuario = $result->fetch_assoc();
+            $pfp = $datos_usuario['imagen'];
+        } else {
+            echo "El usuario no existe";
+        }
+
+        $stmt = $conexion->prepare($lote_one);
+        $stmt->bind_param('ii',$id_usuario, $id_lote);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $lote = $result->fetch_assoc();
+            $nombre_planta = $lote['nombre'];
+            $imagen = $lote['imagen'];
+            $nombre_lote = $lote['nombre_lote'];
+            $fecha_inicial = $lote['fecha_inicial'];
+            $cantidad_actual = $lote['cantidad_actual'];      
+        } else {
+            echo "EL lote no existe";
+        }
         
     ?>
 </head>
@@ -27,7 +53,7 @@
 
                 <div class="text logo-text">
                     <span class="name">
-                        <a class="pfp-link" href="view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
+                        <a class="pfp-link" href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
                     </span>
                 </div>
             </div>
@@ -102,28 +128,7 @@
 
         </div>
     </nav>
-    <?php
-        $stmt = $conexion->prepare($lote_one);
-        $stmt->bind_param('i',$id_lote);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $lote = $result->fetch_assoc();
-            $id_planta = $lote['id_planta'];
-            $nombre_planta = $lote['nombre'];
-            $imagen = $lote['imagen'];
-            $tipo = $lote['tipo'];
-            $id_sensor = $lote['id_sensor'];
-            $nombre_lote = $lote['nombre_lote'];
-            $fecha_inicial = $lote['fecha_inicial'];
-            $cantidad_actual = $lote['cantidad_actual'];
-            $estado = $lote['estado'];
-            $temperatura_optima = $lote['temperatura_optima'];
-            $humedad_optima = $lote['humedad_optima'];       
-        } else {
-            echo "EL lote no existe";
-        }
-    ?>
+
     <section class="home">
         <div class="text">
             <header>
@@ -133,10 +138,10 @@
         <center>
             <div class="form-info">
                 <div class="info">
-                    <!-- TODO can save all moves in a lot, like change date = show it in history??? -->
+                    <!-- TODO can save all moves in a lot, like edit date = show it in history??? -->
                     <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_lote" id="imagen_lote">
             
-                    <form id="lote" enctype="multipart/form-data" method=POST action="CRUD/editar_lote.php">
+                    <form id="lote" enctype="multipart/form-data" method=POST action="crud/edit.php">
                         <p class="alert">Zona peligrosa. Editar aspectos del lote puede alterar cultivos reales.</p>
                         <input type="hidden" name="id_lote" value=<?php echo $id_lote; ?>>
                         <input type="hidden" name="id_usuario" value=<?php echo $id_usuario ?>>
@@ -151,7 +156,7 @@
                         <button class="create-button" id="btn-crear"><a href="../stats/actividad.php?id_lote=<?php echo $id_lote; ?>">Actividad</a></button>
                         <button class="create-button" id="btn-guardar" onclick="return editarLote()" type="submit" hidden>Guardar</button>
                         <button class="edit-button" id="btn-edit" onclick="return editActive('lote')" type="button"><a href="#">Editar</a></button>
-                        <button class="delete-button" id="btn-delete" onclick="return eliminarLote()"><a href="CRUD/borrar_lote.php?id_lote=<?php echo $id_lote; ?>&id_usuario=<?php echo $id_usuario; ?>">Eliminar lote</a></button>
+                        <button class="delete-button" id="btn-delete" onclick="return eliminarLote()"><a href="crud/delete.php?id_lote=<?php echo $id_lote; ?>">Eliminar lote</a></button>
                         <button class="delete-button" id="btn-cancel" onclick="return editInactive('lote')" type="button" hidden><a href="#">Cancelar</a></button>
                     </form>
                 </div>    

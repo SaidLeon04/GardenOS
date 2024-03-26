@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, init-scale=1.0">
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">   
-    <link rel="stylesheet" href="css/read.css">
+    <link rel="stylesheet" href="css/lotes.css">
     <?php 
         
         include("../conexion.php");
@@ -184,3 +184,8 @@
 </body>
 <script src="../assets/js/barra_lateral.js"></script>
 </html>
+
+
+if (isset($nothing)) {
+                        echo "<p class='text'>" . $nothing . "</p>";
+                    } else {}

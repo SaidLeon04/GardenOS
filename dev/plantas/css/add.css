@@ -1,81 +1,94 @@
-.container {
-    max-width: 300px;
-    margin: 100px auto;
-    text-align: center;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease-in-out;
-    animation: fade 1s;
-    background-image: linear-gradient(to bottom, #7DCEA0, #E9F7EF);
+.form-info{
+    display: flex;
+    flex-direction: column;
+    background-color: #e4e6d9;
+    width: 1000px;
+    margin: 20px;
+    border-radius: 20px;
 }
 
-.container:hover {
-    transform: translateY(-5px);
+.info{
+    display: flex;
+    flex-direction: row;
 }
 
-@keyframes fade {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
+.actions{
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+    justify-content: space-evenly;
 }
 
-h1{ 
-    color: #000000;
-    font-size: 32px;
-    margin-bottom: 20px;
-    transition: color 0.3s ease;
+.info form{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    justify-content: space-between;
 }
 
-h1:hover{
-    color: #2f5f18;
-    transform: scale(1.05);
+a{
+    text-decoration: none;
+    color: white;
 }
 
 input[type="text"],
-input[type="submit"],
-input[type="file"],
-select,
-textarea{
-    border: none;
+select{
     border-radius: 20px;
     padding: 10px 20px;
     font-size: 16px;
     margin-bottom: 10px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
     width: 100%;
-    box-sizing: border-box;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-input[type="text"]:focus,
-input[type="submit"]:focus,
-input[type="file"]:focus,
-select:focus{
-        background-color: rgb(200, 243, 214);
-        outline: none;
-        transform: scale(1.05);
-}
-
-input[type="submit"]{
+.create-button{
     border: none;
     border-radius: 20px;
     padding: 10px 20px;
     font-size: 16px;
-    background-image: linear-gradient(to right, #7DCEA0, #000000);
-    color: white;
+    background-image: linear-gradient(to right, #7DCEA0, #67d21a);
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    width: 100%;
-    box-sizing: border-box;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+    color: white;
+}
+
+.create-button:hover{
+    background-image: linear-gradient(to right, #67d21a, #7DCEA0);
+    transform: scale(1.05);
+}
+
+.delete-button{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-image: linear-gradient(to right, #f26046, #FF416C);
+    cursor: pointer;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-input[type="submit"]:hover{
-    background-image: linear-gradient(to right, #000000, #7DCEA0);
-    animation: pulse 1s infinite;
+.delete-button:hover{
+    background-image: linear-gradient(to right, #FF416C, #f26046);
     transform: scale(1.05);
+}
+
+.help-button{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-image: linear-gradient(to right, #ffcd90, #FF8D21);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.help-button:hover{
+    background-image: linear-gradient(to right, #FF8D21, #ffcd90);
+    transform: scale(1.05);
+}
+
+.imagenForm{
+    height: 350px;
+    margin: 20px;
 }

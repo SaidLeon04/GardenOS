@@ -11,8 +11,42 @@
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
-        $nombre_lote = $_GET['nombre_lote'];
         $id_lote = $_GET['id_lote'];
+
+        $stmt = $conexion->prepare($consulta_lote);
+        $stmt->bind_param("i", $id_lote);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $info = $result->fetch_assoc();
+            $nombre_lote = $info['nombre_lote'];
+            $id_sensor = $info['id_sensor'];
+            $fecha_inicial_str = $info['fecha_inicial'];
+            $cantidad_actual = $info['cantidad_actual'];
+            $estado = $info['estado'];
+            $temperatura_optima = $info['temperatura_optima'];
+            $humedad_optima = $info['humedad_optima'];
+        } else {
+            echo "La planta no existe";
+        }
+        # date stuff
+        $fecha_inicial = new DateTime($fecha_inicial_str);
+        $fecha_actual = new DateTime();
+        $diferencia = $fecha_inicial->diff($fecha_actual);
+        $dias = $diferencia->days;
+
+
+        
+        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt->bind_param('i', $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $datos_usuario = $result->fetch_assoc();
+            $pfp = $datos_usuario['imagen'];
+        } else {
+            echo "El usuario no existe";
+        }
     ?>
     <title>Dashboard <?php echo $nombre_lote; ?></title>
 </head>
@@ -21,14 +55,12 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="../assets/img/clean.png" alt="pfp.jpg">
+                    <img src="data:image;base64,<?php echo $pfp; ?>" alt="pfp" id="pfp">
                 </span>
 
                 <div class="text logo-text">
                     <span class="name">
-                    <?php
-				        echo $usuario;
-                    ?>
+                        <a class="pfp-link" href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
                     </span>
                 </div>
             </div>
@@ -53,7 +85,7 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="../lotes/  lotes.php">
+                        <a href="../lotes/lotes.php">
                             <img src="../assets/svg/lotes.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes</span>
                         </a>
@@ -110,29 +142,6 @@
                 Lote: <strong> <?php echo $nombre_lote; ?> </strong>
             </header> 
         </div>
-            <!-- Consultas aquí -->
-            <?php
-                $stmt = $conexion->prepare($consulta_lote);
-                $stmt->bind_param("i", $id_lote);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                if ($result->num_rows > 0) {
-                    $info = $result->fetch_assoc();
-                    $id_sensor = $info['id_sensor'];
-                    $fecha_inicial_str = $info['fecha_inicial'];
-                    $cantidad_actual = $info['cantidad_actual'];
-                    $estado = $info['estado'];
-                    $temperatura_optima = $info['temperatura_optima'];
-                    $humedad_optima = $info['humedad_optima'];
-                } else {
-                    echo "La planta no existe";
-                }
-                # date stuff
-                $fecha_inicial = new DateTime($fecha_inicial_str);
-                $fecha_actual = new DateTime();
-                $diferencia = $fecha_inicial->diff($fecha_actual);
-                $dias = $diferencia->days;
-            ?>
         <center>
         <div class="main-container">
             <div class="general">
@@ -152,7 +161,7 @@
                 </div>
                 <div class="carta-stats">
                     <h3>Previsión</h3>
-                    <?php #TODO consulta para obtener dias ?>
+                    <?php #TODO consulta para obtener previsión ?>
                 </div>
             </div>
 

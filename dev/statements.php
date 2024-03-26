@@ -35,4 +35,5 @@
 
     $actualizar_valores_optimos = "UPDATE lote SET temperatura_optima = ?, humedad_optima = ? WHERE id_lote = ?";
 
+    $consulta_pfp = "SELECT imagen FROM usuarios WHERE id_usuario = ?";
 ?>

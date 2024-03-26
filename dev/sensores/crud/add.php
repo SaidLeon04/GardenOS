@@ -4,7 +4,7 @@ include("../../statements.php");
 
 session_start();
 $id_usuario = $_SESSION['id_usuario'];
-$usuario = $_SESSION['nombre'];
+
 $nombre = $_POST['nombre'];
 $tipo = $_POST['tipo'];
 $lote = $_POST['lote'];
@@ -23,7 +23,33 @@ if ($result->num_rows > 0) {
         $stmt = $conexion->prepare("INSERT INTO sensores (id_usuario, id_lote, nombre, tipo, url_conexion) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("iisss", $id_usuario, $lote, $nombre, $tipo, $url_conexion);
         $stmt->execute();
-        header("Location: ../../sensores/sensores.php");
+        if ($stmt->affected_rows > 0){
+            $stmt = $conexion->prepare("SELECT id_sensor, id_lote FROM sensores WHERE nombre = ?");
+            $stmt->bind_param("s", $nombre);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if($result->num_rows > 0){
+                $row = $result->fetch_assoc();
+                $id_sensor = $row['id_sensor'];
+                $id_lote = $row['id_lote'];
+                $stmt = $conexion->prepare("UPDATE lote SET id_sensor = ? WHERE id_lote = ?");
+                $stmt->bind_param("ii", $id_sensor, $id_lote);
+                $stmt->execute();
+                if ($stmt->affected_rows > 0){
+                    $stmt->close();
+                    $conexion->close();
+                    header("Location: ../../sensores/sensores.php");
+                }else{
+                    echo "No se pudo agregar el sensor al lote";
+                }
+            }else{
+
+            }
+            
+
+        }else{
+            echo "Error al insertar el sensor";
+        }
     } else {
         echo "El lote no existe";
     }
@@ -31,7 +57,6 @@ if ($result->num_rows > 0) {
     echo "El usuario no existe";
 }
 
-$stmt->close();
-$conexion->close();
+;
 
 ?>

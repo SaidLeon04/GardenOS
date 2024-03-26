@@ -4,14 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, init-scale=1.0">
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="../assets/css/btn_mas.css">
-    <link rel="stylesheet" href="CRUD/css/plantas.css">
+    <link rel="stylesheet" href="css/sensores.css">
     <?php 
         include("../conexion.php");
         include("../statements.php");
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
+
+        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt->bind_param('i', $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $datos_usuario = $result->fetch_assoc();
+            $pfp = $datos_usuario['imagen'];
+        } else {
+            echo "El usuario no existe";
+        }
 
         $stmt = $conexion->prepare($sensores_usuario);
         $stmt->bind_param("i", $id_usuario);
@@ -28,6 +38,7 @@
                 $id_lote[] = $info['id_lote'];
                 $nombre[] = $info['nombre'];
                 $tipo[] = $info['tipo'];
+                $valor[] = $info['valor'];
             }
         } else {
             $nothing = "No hay sensores registrados";
@@ -39,14 +50,12 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="../assets/img/clean.png" alt="pfp.jpg">
+                    <img src="data:image;base64,<?php echo $pfp; ?>" alt="pfp" id="pfp">
                 </span>
 
                 <div class="text logo-text">
                     <span class="name">
-                        <?php 
-				            echo $usuario;
-                        ?>
+                        <a class="pfp-link" href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
                     </span>
                 </div>
             </div>
@@ -130,25 +139,47 @@
             </header>
         </div>
         
-        <center>
-            <div class="main-container">
-                <div class="container">
-                <?php
-                    if (isset($nothing)) {
-                        echo "<p class='text'>" . $nothing . "</p>";
+        <div class="main-container">
+            <?php
+                $registros_impresos = 0;
+                $contador_grupo = 0;
+            ?>
+            <div class="group-tile">
+                <?php for ($i = 0; $i < $cantidad_registros; $i++) {
+                    $stmt = $conexion->prepare("SELECT nombre_lote FROM lote WHERE id_lote = ?");
+                    $stmt->bind_param('i', $id_lote[$i]);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    if ($result->num_rows > 0) {
+                        $lote = $result->fetch_assoc();
+                        $nombre_lote = $lote['nombre_lote'];    
                     } else {
-                        for ($i = 0; $i < $cantidad_registros; $i++) {
-                            echo "<div class='card'>";
-                            echo "<h5>".$nombre[$i]."</h5>";
-                            echo "<a href='view_sensor.php?id_sensor=".$id_sensor[$i]."'>Detalle</a>";
-                            echo "</div>";
-                        }
+                        $nombre_lote = "No esta asociado a ningún lote";
                     }
-                  
                 ?>
-           
-            </div>
-        </center>
+                <div class="lote-tile">
+                    <a href="view_sensor.php?id_sensor=<?php echo $id_sensor[$i]; ?>" class="tile-link">
+                        <center>
+                            <h3><?php echo $nombre[$i]; ?></h3>
+                        
+                            <img src="assets/img/dht22.png" alt="imagen_planta" class="img-tile">
+
+                            <p><?php echo $tipo[$i]; ?></p>
+                            <p><?php echo $valor[$i] ?></p>
+                            <h4>Conectado a: <?php echo $nombre_lote; ?></h4>
+                        </center>
+                    </a>
+                </div>
+                <?php
+                $registros_impresos++;
+                $contador_grupo++;
+                if ($contador_grupo == 3 && $i < $cantidad_registros - 1) {
+                    echo '</div>';
+                    echo '<div class="group-tile">';
+                    $contador_grupo = 0; 
+                }
+            } ?>
+        </div>
     </section>
 </body>
 <script src="../assets/js/barra_lateral.js"></script>

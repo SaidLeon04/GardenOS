@@ -17,11 +17,13 @@
         $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
+        if($result->num_rows > 0){
             $datos_usuario = $result->fetch_assoc();
             $pfp = $datos_usuario['imagen'];
-        } else {
-            echo "El usuario no existe";
+            $result -> free_result();   
+        }else{
+            session_destroy();
+            header("Location: ../login/login.php");
         }
     ?>
 </head>

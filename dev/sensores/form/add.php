@@ -10,7 +10,6 @@
         include("../../statements.php");
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
-        $usuario = $_SESSION['nombre'];
 
         $stmt = $conexion->prepare($consulta_usuario);
         $stmt->bind_param('i', $id_usuario);

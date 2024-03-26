@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="css/view_planta.css">
-    <title>Detalles de Planta</title>
+    <link rel="stylesheet" href="css/view_sensor.css">
     <?php 
         include("../statements.php");
         include("../conexion.php");
@@ -13,20 +12,7 @@
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
-        $id_planta = $_GET['id_planta'];
-        $stmt = $conexion->prepare($consulta_planta);
-        $stmt->bind_param('i', $id_planta);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $planta = $result->fetch_assoc();
-            $nombre = $planta['nombre'];
-            $tipo = $planta['tipo'];
-            $descripcion = $planta['descripcion'];
-            $imagen = $planta['imagen'];
-        } else {
-            header("Location: ../error/planta_null.php");
-        }
+        $id_sensor = $_GET['id_sensor'];
 
         $stmt = $conexion->prepare($consulta_usuario);
         $stmt->bind_param('i', $id_usuario);
@@ -38,6 +24,35 @@
         } else {
             echo "El usuario no existe";
         }
+        
+        $stmt = $conexion->prepare("SELECT * FROM sensores WHERE id_sensor = ? AND id_usuario = ?");
+        $stmt->bind_param('ii',$id_sensor, $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+                $id_sensor = $row['id_sensor'];
+                $id_lote = $row['id_lote'];
+                $nombre_sensor = $row['nombre'];
+                $valor = $row['valor'];
+                $tipo = $row['tipo'];
+                $url_conexion = $row['url_conexion'];  
+        } else {
+            header("Location: ../error/sensor_nulo.php");
+        }
+
+        $stmt = $conexion->prepare("SELECT nombre_lote FROM lote WHERE id_lote = ?");
+        $stmt->bind_param('i', $id_lote);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $lote = $result->fetch_assoc();
+            $nombre_lote = $lote['nombre_lote'];    
+        } else {
+            $nombre_lote = "No esta asociado a ningún lote";
+        }     
+
+
         
     ?>
 </head>
@@ -51,7 +66,7 @@
 
                 <div class="text logo-text">
                     <span class="name">
-                        <a href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>" class="pfp-link"><?php echo $usuario; ?></a>
+                        <a class="pfp-link" href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
                     </span>
                 </div>
             </div>
@@ -69,7 +84,7 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="plantas.php" title="Ver catálogo de plantas">
+                        <a href="../plantas/plantas.php" title="Ver catálogo de plantas">
                             <img src="../assets/svg/planta.svg" alt="icono_planta" class="icon">
                             <span class="text nav-text">Plantas</span>
                         </a>
@@ -90,7 +105,7 @@
                     </li>  
 
                     <li class="nav-link">
-                        <a href="../sensores/sensores.php">
+                        <a href="sensores.php">
                             <img src="../assets/svg/humedad.svg" alt="icono_humedad" class="icon">
                             <span class="text nav-text">
                                 Sensores
@@ -126,51 +141,55 @@
 
         </div>
     </nav>
+
     <section class="home">
         <div class="text">
             <header>
-                Información de la planta
+                Información del sensor: <?php echo $nombre_sensor; ?>  
             </header>
         </div>
         <center>
             <div class="form-info">
                 <div class="info">
-                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_planta" id="imagen_planta">
+                    <?php
+                        if ($tipo == "dht22") {
+                            echo "<img src='assets/img/dht22.png' alt='sensor_dht22' id='imagenSensor'>";
+                        }elseif ($tipo == "dht11"){
+                            echo "<img src='assets/img/dht11.png' alt='sensor_dht11' id='imagenSensor'>";
+                        }
+                    ?>
             
-                    <form id="planta" enctype="multipart/form-data" method=POST action="crud/edit.php">
-                        <input name="id_planta" value="<?php echo $id_planta; ?>" readonly hidden>
-                        <label for="nombre" class="text">Nombre: </label>
-                            <input type="text" id="nombre" name="nombre" value=<?php echo $nombre; ?> readonly>
-                            <br>
-                        <label for="nombre" class="text">Tipo: </label>
-                            <p id="tipo_parrafo" class="parrafo"><?php echo $tipo; ?></p>
-                            <select name="tipo" hidden id="selectTipo">
-                                <option value="<?php echo $tipo; ?>" default><?php echo $tipo; ?></option>
-                                <option value="hortaliza">Hortaliza</option>
-                                <option value="flor">Flor</option> 
-                                <option value="fruta">Fruta</option> 
-                            </select>
-                            <br>
-                        <label for="nombre" class="text">Descripción: </label>
-                            <input type="text" id="descripcion" name="descripcion" value=<?php echo $descripcion; ?> readonly>
-                            <br>
-                        <label for="imagen" class="text" id="label-imagen" hidden>Imagen: </label>
-                            <input type="file" name="imagen" accept="image/*" id="input-imagen" hidden>
+                    <form id="sensor" method=POST action="crud/edit.php">
+                        <input type="hidden" name="id_sensor" value=<?php echo $id_sensor; ?>>
+                        <label for="nombre_sensor" class="text">Nombre del sensor: </label>
+                            <input type="text" id="nombre_sensor" name="nombre_sensor" value=<?php echo $nombre_sensor; ?> readonly>
+                         
+                        <label for="nombre_lote" class="text">En lote: </label>
+                            <input type="text" id="nombre_lote" name="nombre_lote" value=<?php echo $nombre_lote; ?> readonly>
+            
+                        <label for="tipo" class="text">Tipo: </label>
+                            <input type="text" id="tipo" name="tipo" value=<?php echo $tipo; ?> readonly>
+       
+                        <label for="valor" class="text">Valor: </label>
+                            <input type="text" id="valor" name="valor" value=<?php echo $valor; ?> readonly>
+               
+                        <label for="url" class="text">URL de conexión: </label>
+                            <input type="text" id="url" name="url" value=<?php echo $url_conexion; ?> readonly>
                             <br>
                 </div>
                 <div class="actions">
-                        <button class="create-button" id="btn-crear"><a href="../lotes/form/add.php?id_planta=<?php echo $id_planta; ?>">Crear Lote</a></button>
-                        <button class="create-button" id="btn-guardar" onclick="return editarPlanta()" type="submit" hidden>Guardar</button>
-                        <button class="edit-button" id="btn-edit" onclick="return editActive('planta')" type="button"><a href="#">Editar</a></button>
-                        <button class="delete-button" id="btn-delete" onclick="return eliminarPlanta()"><a href="crud/delete.php?id_planta=<?php echo $id_planta; ?>">Eliminar Planta</a></button>
-                        <button class="delete-button" id="btn-cancel" onclick="return editInactive('planta')" type="button" hidden><a href="#">Cancelar</a></button>
+                        <button class="detele-button" id="btn-quit"><a href="sensores.php">Desasociar del lote</a></button>
+                        <button class="create-button" id="btn-guardar" onclick="return editarSensor()" type="submit" hidden>Guardar</button>
+                        <button class="edit-button" id="btn-edit" onclick="return editActive('sensor')" type="button"><a href="#">Editar</a></button>
+                        <button class="delete-button" id="btn-delete" onclick="return eliminarSensor()"><a href="crud/delete.php?id_lote=<?php echo $id_lote; ?>">Eliminar sensor</a></button>
+                        <button class="delete-button" id="btn-cancel" onclick="return editInactive('sensor')" type="button" hidden><a href="#">Cancelar</a></button>
                     </form>
                 </div>    
             </div>
         </center>
     </section>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+
 <script src="../assets/js/barra_lateral.js"></script>
 <script src="js/functions.js"></script>
 </html>

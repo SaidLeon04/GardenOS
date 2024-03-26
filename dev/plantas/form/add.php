@@ -75,7 +75,7 @@
                     </li>  
 
                     <li class="nav-link">
-                        <a href="../sensores.php">
+                        <a href="../../sensores.php">
                             <img src="../../assets/svg/humedad.svg" alt="icono_humedad" class="icon">
                             <span class="text nav-text">
                                 Sensores
@@ -110,23 +110,45 @@
             </div>
         </div>
     </nav>
- <section class="home">
-    <div class="container">
-            <h1>Agrega una planta</h1>
-        <form action="../crud/add.php" method="POST" enctype="multipart/form-data">
-            <input type="text" value="<?php echo $_SESSION['id_usuario'] ?>" hidden name="id_usuario" required>
-            <input type="text" placeholder="Nombre planta" name="nombre" required><br>
-            <select name="tipo" required>
-                <option value="Hortaliza">Hortaliza</option>
-                <option value="flor">Flor</option> 
-                <option value="Fruta">Fruta</option> 
-            </select>
-                <input type="text" placeholder="Descripción" name="descripcion" required>
-                <input type="file" name="imagen">
-                <input type="submit" value="Guardar" name="guardar">
-        </form>
-    </div> 
-</section>
+    <section class="home">
+        <div class="text">
+            <header>
+                Agrega una planta a tu catalogo
+            </header>
+        </div>
+        <center>
+            <div class="form-info">
+                <div class="info">
+                    <div>
+                        <br><br>
+                        <h3>Planta</h3>
+                        <img src="../assets/img/grow.jpg" alt="" class="imagenForm">
+                    </div>
+
+                    <form action="../crud/add.php" method="POST" enctype="multipart/form-data">
+                        <label for="nombre"  class="text">Nombre de la planta: </label>    
+                            <input type="text" placeholder="Nombre" name="nombre" required><br>
+                        <label for="tipo" class="text">Tipo: </label>
+                            <select name="tipo" required>
+                                <option value="Hortaliza">Hortaliza</option>
+                                <option value="flor">Flor</option> 
+                                <option value="Fruta">Fruta</option> 
+                            </select>
+                        <label for="descripcion"  class="text">Descripción: </label>
+                            <input type="text" placeholder="Descripción" name="descripcion" required>
+                        <label for="imagen"  class="text">Imagen: </label>
+                            <input type="file" name="imagen">
+                            <br>
+                </div>
+                <div class="actions">
+                    <input type="submit" class="create-button" value="Guardar" name="guardar">
+                    <button class="delete-button" type="button" ><a href="../plantas.php">Volver</a></button>
+                    <button class="help-button" type="button" ><a href="help/instalacion_sensor.html">Ayuda</a></button>
+                    </form>
+                </div>  
+            </div>
+        </center>
+    </section>
 </body>
 <script src="../../assets/js/barra_lateral.js"></script>
 </html>
