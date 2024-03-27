@@ -146,8 +146,8 @@
             ?>
             <div class="group-tile">
                 <?php for ($i = 0; $i < $cantidad_registros; $i++) {
-                    $stmt = $conexion->prepare("SELECT nombre_lote FROM lote WHERE id_lote = ?");
-                    $stmt->bind_param('i', $id_lote[$i]);
+                    $stmt = $conexion->prepare("SELECT nombre_lote FROM lote WHERE id_lote = ? AND id_sensor = ?");
+                    $stmt->bind_param('ii', $id_lote[$i], $id_sensor[$i]);
                     $stmt->execute();
                     $result = $stmt->get_result();
                     if ($result->num_rows > 0) {

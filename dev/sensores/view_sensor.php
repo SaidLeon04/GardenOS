@@ -41,19 +41,32 @@
             header("Location: ../error/sensor_nulo.php");
         }
 
-        $stmt = $conexion->prepare("SELECT nombre_lote FROM lote WHERE id_lote = ?");
-        $stmt->bind_param('i', $id_lote);
+        $stmt = $conexion->prepare("SELECT nombre_lote FROM lote WHERE id_lote = ? AND id_sensor = ?");
+        $stmt->bind_param('ii', $id_lote, $id_sensor);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             $lote = $result->fetch_assoc();
-            $nombre_lote = $lote['nombre_lote'];    
+            $nombre_lote = $lote['nombre_lote']; 
+            $code = 0; 
         } else {
             $nombre_lote = "No esta asociado a ningún lote";
+            $code = 1;
         }     
 
-
-        
+        $stmt = $conexion->prepare("SELECT id_lote, nombre_lote FROM lote WHERE id_usuario = ?");
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $id_lote = [];
+            $nombre_lote_select = [];
+            $cantidad_registros = $result->num_rows;
+            while ($info = $result->fetch_assoc()) {
+                $id_lote[] = $info['id_lote'];
+                $nombre_lote_select[] = $info['nombre_lote'];
+            }
+        }
     ?>
 </head>
 <body>
@@ -145,7 +158,7 @@
     <section class="home">
         <div class="text">
             <header>
-                Información del sensor: <?php echo $nombre_sensor; ?>  
+                Información del sensor: <?php echo $nombre_sensor;?>  
             </header>
         </div>
         <center>
@@ -162,26 +175,42 @@
                     <form id="sensor" method=POST action="crud/edit.php">
                         <input type="hidden" name="id_sensor" value=<?php echo $id_sensor; ?>>
                         <label for="nombre_sensor" class="text">Nombre del sensor: </label>
-                            <input type="text" id="nombre_sensor" name="nombre_sensor" value=<?php echo $nombre_sensor; ?> readonly>
+                            <p class="parrafo"><?php echo $nombre_sensor; ?></p>
+                            <input type="text" id="nombre_sensor" name="nombre_sensor" value=<?php echo $nombre_sensor; ?> required hidden>
                          
                         <label for="nombre_lote" class="text">En lote: </label>
-                            <input type="text" id="nombre_lote" name="nombre_lote" value=<?php echo $nombre_lote; ?> readonly>
+                            <p class="parrafo"><?php echo $nombre_lote; ?></p>
+                            <select name="nombre_lote" id="select_lote" required hidden>
+                                <option value="" default>Selecciona un lote</option>
+                                <?php
+                                    for ($i = 0; $i < $cantidad_registros; $i++) {
+                                        echo "<option value='".$id_lote[$i]."'>".$nombre_lote_select[$i]."</option>";
+                                    }
+                                ?>
+                            </select>
             
                         <label for="tipo" class="text">Tipo: </label>
-                            <input type="text" id="tipo" name="tipo" value=<?php echo $tipo; ?> readonly>
-       
-                        <label for="valor" class="text">Valor: </label>
-                            <input type="text" id="valor" name="valor" value=<?php echo $valor; ?> readonly>
+                            <p class="parrafo"><?php echo $tipo; ?></p>
+                            <select name="tipo" id="select_tipo" required hidden>
+                                <option value="<?php echo $tipo ?>" default><?php echo $tipo ?></option>
+                                <option value="dht22">DHT22</option>
+                                <option value="dht11">DHT11</option>
+                            </select>
                
                         <label for="url" class="text">URL de conexión: </label>
-                            <input type="text" id="url" name="url" value=<?php echo $url_conexion; ?> readonly>
+                            <p class="parrafo"><?php echo $url_conexion; ?></p>
+                            <input type="text" id="url" name="url" value=<?php echo $url_conexion; ?> required hidden>
                             <br>
                 </div>
                 <div class="actions">
-                        <button class="detele-button" id="btn-quit"><a href="sensores.php">Desasociar del lote</a></button>
+                    <?php if ($code == 1) { ?>
+                            <button class='create-button' id='btn-vincular' onclick="return editActive('sensor')" type='button'>Vincular</button>
+                    <?php }else{ ?>
+                             <button class='delete-button' id='btn-desvincular' onclick='return desvincularSensor()' type='button'><a href="crud/desactivate?key=<?php echo $id_sensor ?>">Desvincular</a></button>
+                    <?php } ?>
+                        
                         <button class="create-button" id="btn-guardar" onclick="return editarSensor()" type="submit" hidden>Guardar</button>
-                        <button class="edit-button" id="btn-edit" onclick="return editActive('sensor')" type="button"><a href="#">Editar</a></button>
-                        <button class="delete-button" id="btn-delete" onclick="return eliminarSensor()"><a href="crud/delete.php?id_lote=<?php echo $id_lote; ?>">Eliminar sensor</a></button>
+                        <button class="delete-button" id="btn-delete" onclick="return eliminarSensor()" type="button"><a href="crud/delete.php?key=<?php echo $id_sensor; ?>">Eliminar sensor</a></button>
                         <button class="delete-button" id="btn-cancel" onclick="return editInactive('sensor')" type="button" hidden><a href="#">Cancelar</a></button>
                     </form>
                 </div>    
