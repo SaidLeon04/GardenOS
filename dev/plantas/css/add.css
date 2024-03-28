@@ -41,6 +41,16 @@ select{
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
+textarea{
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 150px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
 .create-button{
     border: none;
     border-radius: 20px;

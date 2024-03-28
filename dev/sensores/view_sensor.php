@@ -206,7 +206,7 @@
                     <?php if ($code == 1) { ?>
                             <button class='create-button' id='btn-vincular' onclick="return editActive('sensor')" type='button'>Vincular</button>
                     <?php }else{ ?>
-                             <button class='delete-button' id='btn-desvincular' onclick='return desvincularSensor()' type='button'><a href="crud/desactivate?key=<?php echo $id_sensor ?>">Desvincular</a></button>
+                             <button class='delete-button' id='btn-desvincular' onclick='return desvincularSensor()' type='button'><a href="crud/desactivate.php?key=<?php echo $id_sensor ?>">Desvincular</a></button>
                     <?php } ?>
                         
                         <button class="create-button" id="btn-guardar" onclick="return editarSensor()" type="submit" hidden>Guardar</button>

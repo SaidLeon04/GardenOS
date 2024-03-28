@@ -1,0 +1,48 @@
+.main-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 100px;
+}
+
+.timeline{
+    width: 100%;
+    max-width: 1000px;
+    display: grid;
+    grid-template-columns: 1fr 3px 1fr;
+}
+
+.line {
+    position: relative;
+    background-color: #159947;
+    width: 3px;
+    height: 100%;
+}
+
+.dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color:#5df616;
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+}
+
+.timeline-tile {
+    background-color:#e4e6d9 ;
+    border-radius: 5px;
+    color: black;
+    height: 200px;
+    margin: 20px;
+}
+
+.timeline-tile:hover{
+    -webkit-box-shadow: 21px 17px 36px 12px rgba(0,0,0,0.23);
+    -moz-box-shadow: 21px 17px 36px 12px rgba(0,0,0,0.23);
+    box-shadow: 21px 17px 36px 12px rgba(0,0,0,0.23);
+    transition: all 0.5s ease;
+}
+
+
+
+

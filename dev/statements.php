@@ -15,7 +15,7 @@
 
     $consulta_planta = "SELECT * FROM plantas WHERE id_planta = ?";
 
-    $consulta_lote = "SELECT * FROM lote WHERE id_lote = ?"; #TODO make id_usuario a row in lote table
+    $consulta_lote = "SELECT * FROM lote WHERE id_lote = ?";
 
     $lote_usuario = "SELECT * FROM lote WHERE id_usuario = ?";
 

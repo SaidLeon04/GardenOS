@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!--TODO PLANTAS rediseño formulario ADD-->
     <meta charset="UTF-8">
     <title>Tus Plantas</title>
     <link rel="stylesheet" href="../../assets/css/barra_lateral.css"> 
@@ -135,7 +134,8 @@
                                 <option value="Fruta">Fruta</option> 
                             </select>
                         <label for="descripcion"  class="text">Descripción: </label>
-                            <input type="text" placeholder="Descripción" name="descripcion" required>
+                            <textArea placeholder:"Descripción" name="descripcion" required></textArea>
+                            
                         <label for="imagen"  class="text">Imagen: </label>
                             <input type="file" name="imagen">
                             <br>

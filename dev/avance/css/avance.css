@@ -1,14 +1,16 @@
 .form-info{
     display: flex;
     flex-direction: column;
-    width: 1000px;
+    width: 950px;
     margin: 20px;
     border-radius: 20px;
+    background-color: #C0CFB2;
 }
 
 .info{
     display: flex;
-    flex-direction: row;
+    flex-direction: row;    
+    justify-content: space-evenly;
 }
 
 .actions{
@@ -16,12 +18,6 @@
     flex-direction: row;
     margin: 20px;
     justify-content: space-evenly;
-}
-
-.info img{
-    margin: 20px;
-    width:500px;
-    border-radius: 20px;
 }
 
 .info form{
@@ -36,6 +32,8 @@ a{
 }
 
 input[type="text"],
+input[type="date"],
+input[type="number"],
 select{
     border-radius: 20px;
     padding: 10px 20px;
@@ -60,21 +58,6 @@ select{
     transform: scale(1.05);
 }
 
-.edit-button{
-    border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-image: linear-gradient(to right, #3395eb, #1a0079);
-    cursor: pointer;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-.edit-button:hover{
-    background-image: linear-gradient(to right, #1a0079, #3395eb);
-    transform: scale(1.05);
-}
-
 .delete-button{
     border: none;
     border-radius: 20px;
@@ -90,11 +73,21 @@ select{
     transform: scale(1.05);
 }
 
-.alert{
-    background-color: #FF416C;
-    margin: 10px;
-    border-radius: 15px;
+.help-button{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-image: linear-gradient(to right, #ffcd90, #FF8D21);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
+
+.help-button:hover{
+    background-image: linear-gradient(to right, #FF8D21, #ffcd90);
+    transform: scale(1.05);
+}
+
 
 .parrafo{
     border-radius: 20px;
@@ -104,4 +97,10 @@ select{
     width: 100%;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     background-color: white;
+}
+
+.alert{
+    background-color: #FF416C;
+    margin: 10px;
+    border-radius: 15px;
 }

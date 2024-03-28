@@ -15,6 +15,7 @@
         $usuario = $_SESSION['nombre'];
         $id_lote = $_GET['key'];
 
+        
         $stmt = $conexion->prepare("SELECT imagen FROM usuarios WHERE id_usuario = ?");
         $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
@@ -23,21 +24,38 @@
             $datos_usuario = $result->fetch_assoc();
             $pfp = $datos_usuario['imagen'];
         } else {
-            echo "El usuario no existe";
+            header("Location: ../login/login.php");
         }
 
-        $stmt = $conexion->prepare("SELECT * FROM lote WHERE id_usuario = ? AND id_lote = ?");
-        $stmt->bind_param('ii',$id_usuario, $id_lote);
+        $stmt = $conexion->prepare("SELECT * FROM historial WHERE id_lote = ?");
+        $stmt->bind_param('i', $id_lote);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
-            $lote = $result->fetch_assoc();
-            $nombre_lote = $lote['nombre_lote'];
-            $fecha_inicial = $lote['fecha_inicial'];
-            $cantidad_actual = $lote['cantidad_actual'];      
+            $estados = [];
+            $fechas = [];
+            $cantidades = [];
+            $cantidad_registros = $result->num_rows;
+            while ($info = $result->fetch_assoc()) {
+                $estados[] = $info['estado'];
+                $fechas[] = $info['fecha'];
+                $cantidades[] = $info['cantidad'];
+            }
+            $stmt = $conexion->prepare("SELECT * FROM lote WHERE id_usuario = ? AND id_lote = ?");
+            $stmt->bind_param('ii',$id_usuario, $id_lote);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                $lote = $result->fetch_assoc();
+                $nombre_lote = $lote['nombre_lote'];
+            } else {
+                echo "EL lote no existe";
+            }
         } else {
-            echo "EL lote no existe";
+            echo "No hay historial";
         }
+
+        
     ?>
 </head>
 <body>
@@ -129,58 +147,61 @@
     <section class="home">
         <div class="text">
             <header>
-                Historial de: <?php echo $nombre_lote ?>   
+                Historial de: <?php echo $nombre_lote; ?>  
             </header>
         </div>
-        <center>
-        
-            <section class="design-section">
-            <div class="timeline">
-
-                    <!--Well, The reason for this div is to fill space. 
-            This space is technically used for keeping dates, 
-            but I didn't find the need for dates. However, I'll provide 
-            you the styling for dates, so that you can use it if you 
-            wanted to.-->
-                            <div class="timeline-empty">
-                            </div>
-
-            <!--This is the class where the timeline graphics are 
-            housed in. Note that we have timeline-circle 
-            here for that pointer in timeline.-->
-
-                        <div class="timeline-middle">
-                            <div class="timeline-circle"></div>
-                        </div>
-                        <div class="timeline-component timeline-content">
-                            <h3>HTML</h3>
-                            <p>Some Text</p>
-                    </div>
-                            <div class="timeline-component timeline-content">
-                                    <h3>CSS</h3>
-                                    <p>Some Text.</p>
-                            </div>
-                            <div class="timeline-middle">
-                                <div class="timeline-circle"></div>
-                            </div>
-                            <div class="timeline-empty">
-                            </div>
-
-                            <div class="timeline-empty">
-                            </div>
-
-                        <div class="timeline-middle">
-                            <div class="timeline-circle"></div>
-                        </div>
-                        <div class=" timeline-component timeline-content">
-                            <h3>Javascript</h3>
-                            <p>Some Text.</p>
+        <center>  
+            <section class="main-container">
+                <div class="timeline">
+                    <div>
+                        <!--Espacio-->
                     </div>
 
+                    <div class="line">
+                        <div class="dot"> <!--punto--> </div>
+                    </div>
+
+                    <div class="timeline-tile">
+                        <h3>HTML</h3>
+                        <p>Some Text</p>
+                    </div>
+
+                    <div class="timeline-tile">
+                        <h3>CSS</h3>
+                        <p>Some Text.</p>
+                    </div>
+
+                    <div class="line">
+                        <div class="dot"><!-- punto --></div>
+                    </div>
+                    
+                    <div>
+                    <!--Espacio-->
+                    </div>
+
+                    <div>
+                        <!--Espacio-->
+                    </div>
+
+                    <div class="line">
+                        <div class="dot"><!--punto--></div>
+                    </div>
+
+                    <div class="timeline-tile">
+                        <h3>Javascript</h3>
+                        <p>Some Text.</p>
+                    </div>
                 </div>
-                </div> 
             </section>
         </center>
+        <?php 
+        for ($i = 0; $i < $cantidad_registros; $i++) { 
+            echo $estados[$i];
+            echo $fechas[$i];
+            echo $cantidades[$i];
+        }
+
+        ?>
     </section>
 </body>
 <script src="../assets/js/barra_lateral.js"></script>

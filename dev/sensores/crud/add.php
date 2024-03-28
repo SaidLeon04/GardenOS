@@ -57,6 +57,6 @@ if ($result->num_rows > 0) {
     echo "El usuario no existe";
 }
 
-;
+
 
 ?>

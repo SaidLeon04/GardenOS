@@ -184,8 +184,3 @@
 </body>
 <script src="../assets/js/barra_lateral.js"></script>
 </html>
-
-
-if (isset($nothing)) {
-                        echo "<p class='text'>" . $nothing . "</p>";
-                    } else {}
