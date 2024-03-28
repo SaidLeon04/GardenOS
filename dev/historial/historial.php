@@ -2,33 +2,20 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="css/view_planta.css">
-    <title>Detalles de Planta</title>
-    <?php 
-        include("../statements.php");
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/barra_lateral.css">  
+    <link rel="stylesheet" href="css/historial.css">
+    <title>Historial</title>
+
+    <?php
         include("../conexion.php");
 
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
-        $id_planta = $_GET['id_planta'];
-        $stmt = $conexion->prepare($consulta_planta);
-        $stmt->bind_param('i', $id_planta);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $planta = $result->fetch_assoc();
-            $nombre = $planta['nombre'];
-            $tipo = $planta['tipo'];
-            $descripcion = $planta['descripcion'];
-            $imagen = $planta['imagen'];
-        } else {
-            header("Location: ../error/planta_null.php");
-        }
+        $id_lote = $_GET['key'];
 
-        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt = $conexion->prepare("SELECT imagen FROM usuarios WHERE id_usuario = ?");
         $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -38,7 +25,19 @@
         } else {
             echo "El usuario no existe";
         }
-        
+
+        $stmt = $conexion->prepare("SELECT * FROM lote WHERE id_usuario = ? AND id_lote = ?");
+        $stmt->bind_param('ii',$id_usuario, $id_lote);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $lote = $result->fetch_assoc();
+            $nombre_lote = $lote['nombre_lote'];
+            $fecha_inicial = $lote['fecha_inicial'];
+            $cantidad_actual = $lote['cantidad_actual'];      
+        } else {
+            echo "EL lote no existe";
+        }
     ?>
 </head>
 <body>
@@ -51,7 +50,7 @@
 
                 <div class="text logo-text">
                     <span class="name">
-                        <a href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>" class="pfp-link"><?php echo $usuario; ?></a>
+                        <a class="pfp-link" href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
                     </span>
                 </div>
             </div>
@@ -69,14 +68,14 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="plantas.php" title="Ver catálogo de plantas">
+                        <a href="../plantas/plantas.php" title="Ver catálogo de plantas">
                             <img src="../assets/svg/planta.svg" alt="icono_planta" class="icon">
                             <span class="text nav-text">Plantas</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="../lotes/lotes.php">
+                        <a href="lotes.php">
                             <img src="../assets/svg/lotes.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes</span>
                         </a>
@@ -126,52 +125,63 @@
 
         </div>
     </nav>
+
     <section class="home">
         <div class="text">
             <header>
-                Información de la planta
+                Historial de: <?php echo $nombre_lote ?>   
             </header>
         </div>
         <center>
-            <div class="form-info">
-                <div class="info">
-                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_planta" id="imagen_planta">
-            
-                    <form id="planta" enctype="multipart/form-data" method=POST action="crud/edit.php">
-                        <input name="id_planta" value="<?php echo $id_planta; ?>" readonly hidden>
-                        <label for="nombre" class="text">Nombre: </label>
-                            <input type="text" id="nombre" name="nombre" value=<?php echo $nombre; ?> readonly>
-                            <br>
-                        <label for="nombre" class="text">Tipo: </label>
-                            <p id="tipo_parrafo" class="parrafo"><?php echo $tipo; ?></p>
-                            <select name="tipo" hidden id="selectTipo">
-                                <option value="<?php echo $tipo; ?>" default><?php echo $tipo; ?></option>
-                                <option value="hortaliza">Hortaliza</option>
-                                <option value="flor">Flor</option> 
-                                <option value="fruta">Fruta</option> 
-                            </select>
-                            <br>
-                        <label for="nombre" class="text">Descripción: </label>
-                            <input type="text" id="descripcion" name="descripcion" value="<?php echo $descripcion; ?>" readonly>
-                            <br>
-                        <label for="imagen" class="text" id="label-imagen" hidden>Imagen: </label>
-                            <input type="file" name="imagen" accept="image/*" id="input-imagen" hidden>
-                            <br>
+        
+            <section class="design-section">
+            <div class="timeline">
+
+                    <!--Well, The reason for this div is to fill space. 
+            This space is technically used for keeping dates, 
+            but I didn't find the need for dates. However, I'll provide 
+            you the styling for dates, so that you can use it if you 
+            wanted to.-->
+                            <div class="timeline-empty">
+                            </div>
+
+            <!--This is the class where the timeline graphics are 
+            housed in. Note that we have timeline-circle 
+            here for that pointer in timeline.-->
+
+                        <div class="timeline-middle">
+                            <div class="timeline-circle"></div>
+                        </div>
+                        <div class="timeline-component timeline-content">
+                            <h3>HTML</h3>
+                            <p>Some Text</p>
+                    </div>
+                            <div class="timeline-component timeline-content">
+                                    <h3>CSS</h3>
+                                    <p>Some Text.</p>
+                            </div>
+                            <div class="timeline-middle">
+                                <div class="timeline-circle"></div>
+                            </div>
+                            <div class="timeline-empty">
+                            </div>
+
+                            <div class="timeline-empty">
+                            </div>
+
+                        <div class="timeline-middle">
+                            <div class="timeline-circle"></div>
+                        </div>
+                        <div class=" timeline-component timeline-content">
+                            <h3>Javascript</h3>
+                            <p>Some Text.</p>
+                    </div>
+
                 </div>
-                <div class="actions">
-                        <button class="create-button" id="btn-crear"><a href="../lotes/form/add.php?id_planta=<?php echo $id_planta; ?>">Crear Lote</a></button>
-                        <button class="create-button" id="btn-guardar" onclick="return editarPlanta()" type="submit" hidden>Guardar</button>
-                        <button class="edit-button" id="btn-edit" onclick="return editActive('planta')" type="button"><a href="#">Editar</a></button>
-                        <button class="delete-button" id="btn-delete" onclick="return eliminarPlanta()"><a href="crud/delete.php?id_planta=<?php echo $id_planta; ?>">Eliminar Planta</a></button>
-                        <button class="delete-button" id="btn-cancel" onclick="return editInactive('planta')" type="button" hidden><a href="#">Cancelar</a></button>
-                    </form>
-                </div>    
-            </div>
+                </div> 
+            </section>
         </center>
     </section>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 <script src="../assets/js/barra_lateral.js"></script>
-<script src="js/functions.js"></script>
 </html>
-

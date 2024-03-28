@@ -162,7 +162,13 @@
                         <center>
                             <h3><?php echo $nombre[$i]; ?></h3>
                         
-                            <img src="assets/img/dht22.png" alt="imagen_planta" class="img-tile">
+                            <?php
+                                if ($tipo[$i] == "dht22") {
+                                    echo "<img src='assets/img/dht22.png' alt='sensor_dht22' class='img-tile'>";
+                                }elseif ($tipo[$i] == "dht11"){
+                                    echo "<img src='assets/img/dht11.png' alt='sensor_dht11' class='img-tile'>";
+                                }
+                            ?>
 
                             <p><?php echo $tipo[$i]; ?></p>
                             <p><?php echo $valor[$i] ?></p>

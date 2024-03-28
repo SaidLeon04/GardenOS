@@ -216,7 +216,7 @@
 
                 <div class="controls">
                     <button class="btn">Avanzar al siguiente paso</button>
-                    <button class="btn">Historial</button>
+                    <button class="btn"><a href="../historial/historial.php?key=<?php echo $id_lote ?>">Historial</a></button>
                     <button class="btn">IA</button>
                 </div>
             </div>
