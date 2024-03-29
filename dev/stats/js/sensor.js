@@ -28,5 +28,5 @@
       }
     }
 
-    // Llamar a la función para obtener el número y mostrarlo en HTML
+
     obtenerNumeroYMostrar();

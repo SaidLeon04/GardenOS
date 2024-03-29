@@ -1,27 +1,34 @@
 .form-info{
     display: flex;
     flex-direction: column;
-    width: 500px;
+    width: 900px;
     margin: 20px;
     border-radius: 20px;
 }
 .actions{
     display: flex;
     flex-direction: row;
-    margin: 20px;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+.info{
+    display: flex;
+    flex-direction: row;
     justify-content: space-evenly;
 }
 
-.info img{
-    margin: 20px;
-    width:500px;
-    border-radius: 20px;
-}
-
-.info form{
+.info1{
     display: flex;
     flex-direction: column;
-    margin: 20px;
+    justify-content: space-evenly;
+    margin: 40px;
+    width: 400px;
+}
+
+.info2{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 a{
@@ -29,7 +36,8 @@ a{
     color: white;
 }
 
-input[type="text"]{
+input[type="text"],
+input[type="number"]{
     border-radius: 20px;
     padding: 10px 20px;
     font-size: 16px;
@@ -81,4 +89,21 @@ input[type="text"]{
 .delete-button:hover{
     background-image: linear-gradient(to right, #FF416C, #f26046);
     transform: scale(1.05);
+}
+
+
+.parrafo{
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    background-color: white;
+}
+
+.inputView{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 }

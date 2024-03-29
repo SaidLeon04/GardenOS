@@ -13,6 +13,8 @@ function editActive(formularioId) {
     if (formulario) {
         const temperaturaInput = document.getElementById('temperatura');
         const humedadInput = document.getElementById('humedad')
+        const riegoInput = document.getElementById('riego')
+        const intervaloInput = document.getElementById('intervalo')
         const btn_comparar = document.getElementById('btn-comparar');
         const btn_guardar = document.getElementById('btn-guardar');
         const btn_edit = document.getElementById('btn-edit');
@@ -21,6 +23,8 @@ function editActive(formularioId) {
         
         temperaturaInput.removeAttribute('readonly');
         humedadInput.removeAttribute('readonly');
+        riegoInput.removeAttribute('readonly');
+        intervaloInput.removeAttribute('readonly');
         btn_comparar.setAttribute('hidden', true);
         btn_guardar.removeAttribute('hidden');
         btn_edit.setAttribute('hidden', true);
@@ -37,6 +41,8 @@ function editInactive(formularioId) {
     if (formulario) {
         const temperaturaInput = document.getElementById('temperatura');
         const humedadInput = document.getElementById('humedad')
+        const riegoInput = document.getElementById('riego')
+        const intervaloInput = document.getElementById('intervalo')
         const btn_comparar = document.getElementById('btn-comparar');
         const btn_guardar = document.getElementById('btn-guardar');
         const btn_edit = document.getElementById('btn-edit');
@@ -45,6 +51,8 @@ function editInactive(formularioId) {
         
         temperaturaInput.setAttribute('readonly', true);
         humedadInput.setAttribute('readonly', true);
+        riegoInput.setAttribute('readonly', true);
+        intervaloInput.setAttribute('readonly', true);
         btn_comparar.removeAttribute('hidden');
         btn_guardar.setAttribute('hidden', true);
         btn_edit.removeAttribute('hidden');

@@ -26,6 +26,8 @@
             $estado = $info['estado'];
             $temperatura_optima = $info['temperatura_optima'];
             $humedad_optima = $info['humedad_optima'];
+            $riego = $info['riego'];
+            $intervalo = $info['intervalo'];
         } else {
             echo "La planta no existe";
         }
@@ -34,6 +36,8 @@
         $fecha_actual = new DateTime();
         $diferencia = $fecha_inicial->diff($fecha_actual);
         $dias = $diferencia->days;
+
+        $intervalo_convertido = $intervalo * 60 * 1000;
 
 
         
@@ -171,13 +175,15 @@
                         <h3 class="optimos-titulo">Valores Optimos</h3>
                         <button class="edit-button"><a href="config_valores.php?id_lote=<?php echo $id_lote; ?>">Establecer</a></button>
                     </div>
-                    <div class="nums">
+                    <div class="static-nums">
                         <?php
                             if ($temperatura_optima == 0 || $humedad_optima == 0) {
                                 echo "No hay valores óptimos establecidos correctamente.";
                             }else {
-                                echo "Temperatura: " . $temperatura_optima . "°C";
-                                echo "Humedad: " . $humedad_optima . "%";
+                                echo "<div class='static-num-unique'><h4>Humedad: </h4>" . $humedad_optima . "%</div>";
+                                echo "<div class='static-num-unique'><h4>Temperatura: </h4>" . $temperatura_optima . "°C</div>";
+                                echo "<div class='static-num-unique'><h4>Riego con humedad al: </h4>" . $riego . "%</div>";
+                                   
                             }
                         ?>
                     </div> 
@@ -188,11 +194,62 @@
                         <h3 class="actuales-titulo">Valores Actuales</h3>
                     </div>
                     <div class="nums">
+                        
                         <?php
                             if (is_null($id_sensor)) {
                                 echo "No hay un sensor conectado.";
                             } else {
-                                echo "Sensor conectado correctamente";
+                                echo "<div class='static-num-unique'>Tu sensor estara actualizando los valores cada: ". $intervalo . " minutos. </div>";
+                        ?>
+                            
+                            <h4>Humedad: </h4>
+                            <p id="humedad" class="texto-valores"> </p>
+                            <h4>Temperatura: </h4>
+                            <p id="temperatura" class="texto-valores"> </p>
+                        <?php
+                                $stmt = $conexion->prepare("SELECT url_conexion FROM sensores WHERE id_lote = ? AND id_usuario = ?");
+                                $stmt->bind_param("ii", $id_lote, $id_usuario);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                if ($result->num_rows > 0) {
+                                    $url = $result->fetch_assoc()['url_conexion'];
+                        ?>
+                                <script>
+                                    async function getValores(){
+                                        var url = "<?php echo $url; ?>";
+                                        const respuesta = await fetch(url);
+                                        const datos = await respuesta.json();
+                                        var humedad =  datos.humedad;
+                                        var temperatura = datos.temperatura;
+                                        const humedadParrafo = document.getElementById('humedad');
+                                        const temperaturaParrafo = document.getElementById('temperatura');
+                                        humedadParrafo.textContent = humedad + "%";
+                                        temperaturaParrafo.textContent = temperatura + "°C";
+
+                                        <?php 
+                                            $stmt = $conexion->prepare("INSERT INTO humedad (id_lote, fecha, hora, humedad) VALUES (?, ?, ?, ?)");
+                                            $stmt->bind_param("issf", $id_lote, $fecha, $hora, $humedad);
+                                            $stmt->execute();
+
+
+
+                                        ?>
+                                    }
+    
+
+                                    function monitorearCambios() {
+                                        getValores();
+                                        setInterval(obtenerDatosYMostrar, <?php echo $intervalo_convertido; ?>);
+                                    }
+
+                                    monitorearCambios();
+                                    
+                                </script>
+
+                        <?php
+                                } else {
+                                    echo "Ha ocurrido un problema en la conexión con el sensor.";
+                                }
                             }
                         ?>
                     </div>

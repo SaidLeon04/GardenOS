@@ -109,17 +109,18 @@
             <header>
                 Establecer valores óptimos 
             <?php
-                $stmt = $conexion->prepare($consulta_lote);
-                $stmt->bind_param("i", $id_lote);
+                $stmt = $conexion->prepare("SELECT * FROM lote WHERE id_lote = ? AND id_usuario = ?");
+                $stmt->bind_param("ii", $id_lote, $id_usuario);
                 $stmt->execute();
                 $result = $stmt->get_result();
                 if ($result->num_rows > 0) {
                     $info = $result->fetch_assoc();
-                    $id_planta = $info['id_planta'];
                     $nombre_lote = $info['nombre_lote'];
                     $estado = $info['estado'];
                     $temperatura_optima = $info['temperatura_optima'];
                     $humedad_optima = $info['humedad_optima'];
+                    $riego = $info['riego'];
+                    $intervalo = $info['intervalo'];
                 } else {
                     echo "El lote no existe";
                 }
@@ -129,21 +130,30 @@
         <center>
             <div class="form-info">
                 <div class="info">
-                    <form id="valores" enctype="multipart/form-data" method=POST action="editar_valores_optimos.php">
-                        <input hidden readonly name="id_lote" value=<?php echo $id_lote; ?>>
-                        <label for="nombre_lote" class="text">Nombre lote: </label>
-                            <input type="text" id="nombre_lote" name="nombre_lote" value=<?php echo $nombre_lote; ?> readonly>
-                            <br>
-                        <label for="estado" class="text">Estado Actual: </label>
-                            <input type="text" id="estado" name="estado" value=<?php echo $estado; ?> readonly>
-                            <br>
+                    <div class="info1">
+                        <form id="valores" method=POST action="editar_valores_optimos.php">
+                            <input hidden readonly name="id_lote" value=<?php echo $id_lote; ?>>
+                            <label for="nombre_lote" class="text">Nombre lote: </label>
+                                <p class="parrafo"><?php echo $nombre_lote ?></p>
+                                <br>
+                            <label for="estado" class="text">Estado Actual: </label>
+                                <p class="parrafo"><?php echo $estado ?></p>
+                                <br>
+                    </div>
+                    <div class="info2">
                         <label for="temperatura" class="text">Temperatura óptima: </label>
-                            <input type="text" id="temperatura" name="temperatura_optima" value=<?php echo $temperatura_optima; ?> readonly>
+                            <div class="inputView"><input type="number" id="temperatura" name="temperatura_optima" value=<?php echo $temperatura_optima; ?> readonly required min=1 max=80><p class="text">°C</p></div>
                             <br>
                         <label for="humedad" class="text">Humedad óptima: </label>
-                            <input type="text" id="humedad" name="humedad_optima" value=<?php echo $humedad_optima; ?> readonly>
+                            <div class="inputView"><input type="number" id="humedad" name="humedad_optima" value=<?php echo $humedad_optima; ?> readonly required min=1 max=100><p class="text">%</p></div>
                             <br>   
-                        <!--TODO riego || ocupas modificar la bd-->
+                        <label for="riego" class="text">Riego con la humedad al: </label>
+                            <div class="inputView"><input type="number" id="riego" name="riego" value="<?php echo $riego ?>" readonly required min=1 max=100><p class="text">%</p></div>
+                            <br>
+                        <label for="riego" class="text">Intervalo: </label>
+                            <div class="inputView"><input type="number" id="intervalo" name="intervalo" value="<?php echo $intervalo ?>" readonly required min=1 max=1000><p class="text">minutos</p></div>
+                            <br>
+                    </div>    
                 </div>
                 <div class="actions">
                         <button class="create-button" id="btn-comparar"><a href="../stats/comparar_valores.php">Comparar</a></button>

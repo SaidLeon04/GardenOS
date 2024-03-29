@@ -3,26 +3,22 @@
 include("../conexion.php");
 include("../statements.php");
 
-$id_lote = $_POST['id_lote'];
+session_start();
+$id_usuario = $_SESSION['id_usuario'];
 
+$id_lote = $_POST['id_lote'];
 $temperatura_optima = $_POST['temperatura_optima'];
 $humedad_optima = $_POST['humedad_optima'];
-$existe = false;
+$riego = $_POST['riego'];
+$intervalo = $_POST['intervalo'];
 
 $stmt = $conexion->prepare($consulta_lote);
 $stmt->bind_param("i", $id_lote);
 $stmt->execute();
 $result = $stmt->get_result();
-
 if ($result->num_rows > 0){
-    $existe = true;
-}else{
-    echo "El lote no existe";
-}
-
-if($existe){
-    $stmt = $conexion->prepare($actualizar_valores_optimos);
-    $stmt->bind_param("iii", $temperatura_optima, $humedad_optima, $id_lote);
+    $stmt = $conexion->prepare("UPDATE lote SET temperatura_optima = ?, humedad_optima = ?, riego = ?, intervalo = ? WHERE id_lote = ? AND id_usuario = ?");
+    $stmt->bind_param("iiiiii", $temperatura_optima, $humedad_optima, $riego, $intervalo, $id_lote, $id_usuario);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
@@ -30,6 +26,9 @@ if($existe){
     } else {
         echo "No se realizaron cambios.";
     }
+}else{
+    echo "El lote no existe";
 }
+
 
 ?>

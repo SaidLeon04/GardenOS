@@ -55,6 +55,12 @@
             echo "No hay historial";
         }
 
+        for ($i = 0; $i < count($cantidades) - 1; $i++) {
+            $resultado_resta = $cantidades[$i] - $cantidades[$i + 1];
+            $resultados[] = $resultado_resta;
+            
+        }
+
         
     ?>
 </head>
@@ -93,7 +99,7 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="lotes.php">
+                        <a href="../lotes/lotes.php">
                             <img src="../assets/svg/lotes.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes</span>
                         </a>
@@ -147,61 +153,79 @@
     <section class="home">
         <div class="text">
             <header>
-                Historial de: <?php echo $nombre_lote; ?>  
+                Historial de: <?php echo $nombre_lote;?>  
             </header>
         </div>
         <center>  
             <section class="main-container">
                 <div class="timeline">
-                    <div>
-                        <!--Espacio-->
-                    </div>
-
-                    <div class="line">
-                        <div class="dot"> <!--punto--> </div>
-                    </div>
-
-                    <div class="timeline-tile">
-                        <h3>HTML</h3>
-                        <p>Some Text</p>
-                    </div>
-
-                    <div class="timeline-tile">
-                        <h3>CSS</h3>
-                        <p>Some Text.</p>
-                    </div>
-
-                    <div class="line">
-                        <div class="dot"><!-- punto --></div>
-                    </div>
-                    
-                    <div>
-                    <!--Espacio-->
-                    </div>
-
-                    <div>
-                        <!--Espacio-->
-                    </div>
-
-                    <div class="line">
-                        <div class="dot"><!--punto--></div>
-                    </div>
-
-                    <div class="timeline-tile">
-                        <h3>Javascript</h3>
-                        <p>Some Text.</p>
-                    </div>
+                    <?php 
+                        for ($i = 0; $i < $cantidad_registros; $i++) { 
+                            if ($i % 2 == 0) { 
+                    ?>
+                                <div><!--Espacio--></div>
+                                <div class="line">
+                                    <div class="dot"> <!--punto--> </div>
+                                </div>
+                                <div class="timeline-tile">
+                                    <h2>Estado: <?php echo $estados[$i] ?></h2>
+                                    <?php 
+                                        $fecha_traducida = strftime('%A, %d de %B de %Y', strtotime($fechas[$i]));
+                                        $fecha_traducida = str_replace(
+                                            ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                                            ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+                                            $fecha_traducida
+                                        );
+                                        
+                                        // Traducir el nombre del mes al español
+                                        $fecha_traducida = str_replace(
+                                            ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                                            ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                                            $fecha_traducida
+                                        );
+                                    ?>
+                                    <p>Fecha: <?php echo $fecha_traducida ?></p>
+                                    <p>Cantidad: <?php echo $cantidades[$i] ?> semillas</p>
+                                    <p>Perdida: <?php echo $resultados[$i] ?></p>
+                                </div>
+                    <?php            
+                            } else {
+                    ?>
+                                <div class="timeline-tile">
+                                    <h2>Estado: <?php echo $estados[$i] ?></h2>
+                                    <?php 
+                                        $fecha_traducida = strftime('%A, %d de %B de %Y', strtotime($fechas[$i]));
+                                        $fecha_traducida = str_replace(
+                                            ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                                            ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+                                            $fecha_traducida
+                                        );
+                                        
+                                        // Traducir el nombre del mes al español
+                                        $fecha_traducida = str_replace(
+                                            ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                                            ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                                            $fecha_traducida
+                                        );
+                                    ?>
+                                    <p>Fecha de inicio: <?php echo $fecha_traducida ?></p>
+                                    <p>Cantidad: <?php echo $cantidades[$i]; ?></p>
+                                    <p>Perdida: <?php echo $resultados[$i] ?></p>
+                                </div>
+                                <div class="line">
+                                    <div class="dot"></div>
+                                </div>
+                                <div>
+                                    <!--Espacio-->
+                                </div>
+                    <?php
+                            }   
+                        } 
+                    ?>
                 </div>
             </section>
         </center>
-        <?php 
-        for ($i = 0; $i < $cantidad_registros; $i++) { 
-            echo $estados[$i];
-            echo $fechas[$i];
-            echo $cantidades[$i];
-        }
-
-        ?>
+      
     </section>
 </body>
 <script src="../assets/js/barra_lateral.js"></script>

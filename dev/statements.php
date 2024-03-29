@@ -33,7 +33,7 @@
 
     $update_lote = "UPDATE lote SET nombre_lote = ?, cantidad_actual = ? WHERE id_lote = ?";
 
-    $actualizar_valores_optimos = "UPDATE lote SET temperatura_optima = ?, humedad_optima = ? WHERE id_lote = ?";
+    $actualizar_valores_optimos = "";
 
     $consulta_pfp = "SELECT imagen FROM usuarios WHERE id_usuario = ?";
 ?>
