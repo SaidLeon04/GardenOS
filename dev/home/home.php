@@ -118,6 +118,34 @@
                 Bienvenido:  <?php echo $usuario; ?> 
             </header>
         </div>
+
+        <div class="table-container">
+                    <div class="table-controls">
+                        <div class="titulo-tabla">Humedad</div>
+                        <div class="controles-tabla">
+                            <button class="btn"><</button>
+                            <button class="btn">></button>
+                        </div>
+                    </div>
+                    <table border="2px">
+                        <?php 
+                            $stmt = $conexion->prepare("SELECT * FROM humedad WHERE id_lote = ? ORDER BY fecha DESC, hora DESC LIMIT 5");
+                            $stmt->bind_param("i", $id_lote);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            if ($result->num_rows > 0) {
+                                echo "<tr><th>Fecha</th><th>Hora</th><th>Humedad</th></tr>";
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<tr><td>" . $row['fecha'] . "</td><td>" . $row['hora'] . "</td><td>" . $row['humedad'] . "</td></tr>";
+                                }
+                            } else {
+                                echo "No hay registros de humedad.";
+                            }
+                        ?>
+
+                    </table>
+
+                </div>
     </section>
     <script src="../assets/js/barra_lateral.js"></script>
 </body>

@@ -129,7 +129,7 @@
     <section class="home">
         <div class="text">
             <header>
-                Información de la planta
+                <?php echo $nombre; ?>
             </header>
         </div>
         <center>
@@ -140,7 +140,7 @@
                     <form id="planta" enctype="multipart/form-data" method=POST action="crud/edit.php">
                         <input name="id_planta" value="<?php echo $id_planta; ?>" readonly hidden>
                         <label for="nombre" class="text">Nombre: </label>
-                            <input type="text" id="nombre" name="nombre" value=<?php echo $nombre; ?> readonly>
+                            <input type="text" id="nombre" name="nombre" value="<?php echo $nombre ?>" readonly>
                             <br>
                         <label for="nombre" class="text">Tipo: </label>
                             <p id="tipo_parrafo" class="parrafo"><?php echo $tipo; ?></p>

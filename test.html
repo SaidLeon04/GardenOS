@@ -1,47 +1,84 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Obtener y mostrar número</title>
-</head>
-<body>
-  <h1>Número obtenido:</h1>
-  <p id="numeroObtenido"></p>
+<div class="tables">
+                
+    <div class="seccion-humedad">
+        <div>
+            <div class="titulo-tabla">
+                <h3>Gráfica de Humedad</h3>
+                <button type="button" onclick="return cambiarHumedad()" class="next-button">-></button> 
+            </div>
+        </div>
 
-  <script>
-    // URL de la API
-    const apiUrl = 'https://gardenos-5a87b-default-rtdb.firebaseio.com/gardenos/1.json';
+        <div>    
+            <canvas id="graficaHumedad" style="display:none"></canvas>
+            
+            <table id="tablaHumedad" style="width=100%; height:285;">
+                <th colspan=3>
+                    <div class="titulo-tabla">
+                        <h3>Humedad</h3>
+                        
+                    </div>
+                </th>
+                <?php 
+                    $stmt = $conexion->prepare("SELECT * FROM humedad WHERE id_lote = ? ORDER BY fecha DESC, hora DESC LIMIT 5");
+                    $stmt->bind_param("i", $id_lote);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    if ($result->num_rows > 0) {
+                        echo "<tr><th>Fecha</th><th>Hora</th><th>Humedad</th></tr>";
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<tr><td>" . $row['fecha'] . "</td><td>" . $row['hora'] . "hrs.</td><td>" . $row['humedad'] . "%</td></tr>";
+                        }
+                    } else {
+                        echo "No hay registros de humedad.";
+                    }
+                ?>
+            </table>
+        </div>
 
-    // Función para obtener el número y mostrarlo en HTML
-    async function obtenerNumeroYMostrar() {
-      try {
-        // Hacer la solicitud GET a la URL
-        const respuesta = await fetch(apiUrl);
+        
+    </div>
+    <div>
+        <table id="tablaTemperatura">
+            <th colspan=3>
+                <div class="titulo-tabla">
+                    <h3>Temperatura</h3>
+                    <button type="button" onclick="return cambiarTemperatura()">-></button>
+                </div>
+            </th>
+            <?php 
+                $stmt = $conexion->prepare("SELECT * FROM temperatura WHERE id_lote = ? ORDER BY fecha DESC, hora DESC LIMIT 5");
+                $stmt->bind_param("i", $id_lote);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if ($result->num_rows > 0) {
+                    echo "<tr><th>Fecha</th><th>Hora</th><th>Temperatura</th></tr>";
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr><td>" . $row['fecha'] . "</td><td>" . $row['hora'] . "</td><td>" . $row['temperatura'] . "</td></tr>";
+                    }
+                } else {
+                    echo "No hay registros de humedad.";
+                }
+            ?>
+        </table>
+    </div>   
+</div>
 
-        // Verificar si la respuesta es exitosa (código 200)
-        if (respuesta.ok) {
-          // Obtener el cuerpo de la respuesta como JSON
-          const datos = await respuesta.json();
+<div class="container-datos">
+    <div class="valores-actuales">
+        
+        </div>
+    </div>
 
-          // Verificar si los datos son un número
-          if (typeof datos === 'number') {
-            // Mostrar el número en el elemento HTML
-            const numeroElemento = document.getElementById('numeroObtenido');
-            numeroElemento.textContent = datos;
-          } else {
-            console.log('Los datos no son un número válido:', datos);
-          }
-        } else {
-          console.log('Error al obtener los datos:', respuesta.status);
-        }
-      } catch (error) {
-        console.error('Error en la solicitud:', error);
-      }
-    }
+    <div class="valores-optimos">
+            
+    </div>
 
-    // Llamar a la función para obtener el número y mostrarlo en HTML
-    obtenerNumeroYMostrar();
-  </script>
-</body>
-</html>
+        <div class="controls">
+            <button class="btn"><a href="../avance/avance.php?key=<?php echo $id_lote ?>">Avanzar al siguiente paso</a></button>
+            <button class="btn"><a href="../historial/historial.php?key=<?php echo $id_lote ?>">Historial</a></button>
+            <button class="btn">IA</button>
+        </div>
+    
+
+    
+</div>

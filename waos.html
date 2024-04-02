@@ -1,45 +1,123 @@
-<link rel="stylesheet" href="waos.css">
-<center>  
-    <section class="main-container">
-        <div class="timeline">
-                <div>
-                    <!--Espacio-->
-                </div>
-            <div class="line">
-                <div class="dot"></div>
-            </div>
-            <div class="timeline-tile">
-                <h3>HTML</h3>
-                <p>Some Text</p>
-            </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Regresión Lineal con Fechas en Eje X</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Estilos para el contenedor de la gráfica */
+        #contenedorGrafica {
+            width: 800px; /* Ancho deseado */
+            height: 400px; /* Alto deseado */
+            border: 1px solid #ccc; /* Borde para visualización */
+        }
+    </style>
+</head>
+<body>
+    <div id="contenedorGrafica">
+        <!-- Aquí se generará la gráfica -->
+    </div>
 
-            <div class="timeline-tile">
-                <h3>CSS</h3>
-                <p>Some Text.</p>
-            </div>
-            <div class="line">
-                <div class="dot"></div>
-                </div>
-                <div>
-                    <!--Espacio-->
-                </div>
+    <script>
+        // Datos de ejemplo (reemplaza con tus propios datos)
+        const puntosX = ['2023-01-01', '2023-01-02', '2023-01-03', '2023-01-04', '2023-01-05'];
+        const puntosY = [2, 3, 5, 4, 6];
 
-            <div>
-                <!--Espacio-->
-            </div>
+        // Función para convertir fechas a timestamps Unix
+        function fechaATimestamp(fecha) {
+            return new Date(fecha).getTime();
+        }
 
-                <div class="line">
-                    <div class="dot"></div>
-                </div>
-                <div class="timeline-tile">
-                    <h3>Javascript</h3>
-                    <p>Some Text.</p>
-                </div>
+        // Convertir fechas a timestamps Unix
+        const timestampsX = puntosX.map(fechaATimestamp);
 
+        // Calcular la regresión lineal (método de mínimos cuadrados)
+        function calcularRegresionLineal(x, y) {
+            const n = x.length;
+            let sumX = 0;
+            let sumY = 0;
+            let sumXY = 0;
+            let sumXSquared = 0;
 
-               
+            for (let i = 0; i < n; i++) {
+                sumX += x[i];
+                sumY += y[i];
+                sumXY += x[i] * y[i];
+                sumXSquared += x[i] ** 2;
+            }
 
-        </div>
-        </div> 
-    </section>
-</center>
+            const m = (n * sumXY - sumX * sumY) / (n * sumXSquared - sumX ** 2);
+            const b = (sumY - m * sumX) / n;
+
+            return { m, b };
+        }
+
+        const regresion = calcularRegresionLineal(timestampsX, puntosY);
+
+        // Crear el elemento canvas y añadirlo al contenedor
+        const contenedorGrafica = document.getElementById('contenedorGrafica');
+        const canvas = document.createElement('canvas');
+        contenedorGrafica.appendChild(canvas);
+
+        // Configurar la gráfica de regresión lineal con Chart.js
+        const ctx = canvas.getContext('2d');
+
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: puntosX,
+                datasets: [
+                    {
+                        label: 'Datos',
+                        data: puntosY,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Regresión Lineal',
+                        data: puntosX.map(x => regresion.m * fechaATimestamp(x) + regresion.b),
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Gráfico de Regresión Lineal'
+                },
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            unit: 'day',
+                            displayFormats: {
+                                day: 'DD/MM/YYYY'
+                            }
+                        },
+                        ticks: {
+                            autoSkip: true,
+                            maxTicksLimit: 10
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                plugins: {
+                    afterDraw: function(chart) {
+                        const ctx = chart.ctx;
+                        ctx.fillText('Pie de Gráfica', chart.width / 2, chart.height - 10);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
