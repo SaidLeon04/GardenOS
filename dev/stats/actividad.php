@@ -10,7 +10,9 @@
 
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
+        $usuario = $_SESSION['nombre'];
         $id_lote = $_GET['id_lote'];
+        
 
         # obtener los datos necesarios
         $stmt = $conexion->prepare("SELECT imagen FROM usuarios WHERE id_usuario = ?");
@@ -48,10 +50,7 @@
         $fecha_actual = new DateTime();
         $diferencia = $fecha_inicial->diff($fecha_actual);
         $dias = $diferencia->days;
-        
-        # minutos
-        $intervalo_convertido = $intervalo * 60 ;
-        
+    
     ?>
     <title>Dashboard <?php echo $nombre_lote; ?></title>
 </head>
@@ -142,79 +141,84 @@
     </nav>
 
     <section class="home">
-        <div class="text">
-            <header>
-                Lote: <strong> <?php echo $nombre_lote; ?> </strong>
-            </header> 
-        </div>
         <center>
             <div class="main-container">
+                <center>
+                <div class="titulo">
+                    Lote: <strong> <?php echo $nombre_lote; ?> </strong>
+                </div>
+                </center>
+
+
                 <div class="contenedor1">
-                    <div class="general-seccion1">
-                        <div class="carta-stats">
-                            <div style="display:flex; flex-direction:row; justify-content: space-around;">
+                    <div class="carta-stats">
+                        <div style="display:flex; flex-direction:row; justify-content: space-around;">
                                 <h3>Días Activo</h3>
                                 <img src="../assets/svg/dias.svg" alt="dias">    
-                            </div>
-                            <div>
-                                <?php echo $dias; ?>
-                            </div>  
                         </div>
-                        <div class="carta-stats">
-                            <div style="display:flex; flex-direction:row; justify-content: space-around;">
-                                <h3>Cantidad Actual</h3>
-                                <img src="../assets/svg/cantidad.svg" alt="cantidad">    
-                            </div>
+                        <div>
+                            <?php echo $dias; ?>
+                        </div>  
+                    </div>
+
+                    <div class="carta-stats">
+                        <div style="display:flex; flex-direction:row; justify-content: space-around;">
+                            <h3>Cantidad Actual</h3>
+                            <img src="../assets/svg/cantidad.svg" alt="cantidad">    
+                        </div>
+                        <div>
                             <?php echo $cantidad_actual ?>
                         </div>
                     </div>
-
-                    <div class="general-seccion2">
-                        <div class="carta-stats">
-                            <div style="display:flex; flex-direction:row; justify-content: space-around;">
+            
+                    <div class="carta-stats">
+                        <div style="display:flex; flex-direction:row; justify-content: space-around;">
                                 <h3>Proceso Actual</h3>
                                 <img src="../assets/svg/proceso.svg" alt="proceso">
-                            </div>
+                        </div>
+                        <div>
                             <?php echo $estado ?>
                         </div>
-                        <div class="carta-stats">
-                            <div style="display:flex; flex-direction:row; justify-content: space-around;">
-                                <h3>Previsión</h3>
-                                <img src="../assets/svg/prevision.svg" alt="prevision">
-                            </div>
+                    </div>
+
+                    <div class="carta-stats">
+                        <div style="display:flex; flex-direction:row; justify-content: space-around;">
                             <h3>Previsión</h3>
+                            <img src="../assets/svg/prevision.svg" alt="prevision">
+                        </div>
+                        <div>
+                            <h3>76% efectividad</h3>
                             <?php #TODO consulta para obtener previsión ?>
                         </div>
                     </div>
+                </div>
 
-                    <div class="general-seccion3">
-                        <div style="display:flex; flex-direction:row; justify-content: space-around;">
-                            <h3>Valores Optimos</h3>
-                            <button class="edit-button"><a href="config_valores.php?id_lote=<?php echo $id_lote; ?>">Establecer</a></button>
-                        </div>
-                       
-                        <div>
+                <div class="contenedor2">
+                    <div class="valores-optimos">
+                        <h3>Valores Optimos</h3>
+                        
                             <?php
                                 if ($temperatura_optima == 0 || $humedad_optima == 0 || $riego == 0) {
-                                    echo "No hay valores óptimos establecidos correctamente.";
+                                        echo "No hay valores óptimos establecidos correctamente.";
                                 }else {
-                                    echo "<div class='static-num-unique'><h4>Humedad: </h4>" . $humedad_optima . "%</div>";
-                                    echo "<div class='static-num-unique'><h4>Temperatura: </h4>" . $temperatura_optima . "°C</div>";
-                                    echo "<div class='static-num-unique'><h4>Riego con humedad al: </h4>" . $riego . "%</div>";    
+                                        echo "<div class='valor-optimo'><h4>Humedad: </h4>" . $humedad_optima . "%</div>";
+                                        echo "<div class='valor-optimo'><h4>Temperatura: </h4>" . $temperatura_optima . "°C</div>";
+                                        echo "<div class='valor-optimo'><h4>Riego con humedad al: </h4>" . $riego . "%</div>";    
                                 }
                             ?>
-                        </div> 
-
+                        <center>
+                            <button class="edit-button"><a href="config_valores.php?id_lote=<?php echo $id_lote; ?>">Establecer</a></button>
+                        </center>
                     </div>
 
-                    <div class="general-seccion4">
+                    <div class="valores-actuales">
                         <h3>Valores Actuales</h3>
-                        <div>
+                      
                             <?php
                                 if(is_null($id_sensor)){
                                     echo "No hay un sensor conectado.";
                                 }else{
-                                    echo "<div class='static-num-unique'>Tu sensor estara actualizando los valores cada: ". $intervalo . " minutos. </div>";
+                                    echo "<div class='valor-optimo'><h4>Tu sensor estara actualizando los valores cada: </h4>". $intervalo . " minutos. </div>";
                                     $stmt = $conexion->prepare("SELECT url_conexion FROM sensores WHERE id_lote = ? AND id_usuario = ?");
                                     $stmt->bind_param("ii", $id_lote, $id_usuario);
                                     $stmt->execute();
@@ -228,45 +232,50 @@
                                         $humedad = $datos->humedad;
                                         $temperatura = $datos->temperatura;
 
-                                        echo '<h4>Humedad: </h4>';
-                                        echo '<p class="texto-valores">' . $humedad .'%</p>';
-                                        echo '<h4>Temperatura: </h4>';
-                                        echo '<p class="texto-valores">'. $temperatura . '</p>';
+                                        echo "<div class='valor-optimo'><h4>Humedad: </h4><p>" . $humedad . "%</p></div>";
+                                        echo "<div class='valor-optimo'><h4>Temperatura: </h4><p>" . $temperatura . "</p></div>";
                                         
 
-                                        $stmt = $conexion->prepare("SELECT hora FROM humedad WHERE id_lote = ? ORDER BY id_humedad DESC LIMIT 1");
+                                        $stmt = $conexion->prepare("SELECT CONCAT(fecha, ' ', hora) AS fecha_hora FROM humedad WHERE id_lote = ? ORDER BY id_humedad DESC LIMIT 1;");
                                         $stmt->bind_param("i", $id_lote);
                                         $stmt->execute();
                                         $result = $stmt->get_result();
                                         if ($result->num_rows > 0) {
-                                            $hora_bd = $result->fetch_assoc()['hora'];
-                                
-                                            $hora_parseo = strtotime($hora_bd);
-                                            $ultima_hora = date("H:i", $hora_parseo); # hora de la ultima insersion a la bd   
+                                            $fecha = $result->fetch_assoc();
+                                            $fecha_hora_bd = $fecha['fecha_hora'];
+                                            $fecha_hora_actual = date("Y-m-d H:i:s");
+                                       
 
-                                            $fecha_actual = date("Y-m-d");
+                                            $timestamp_bd = strtotime($fecha_hora_bd);
+                                            $timestamp_actual = strtotime($fecha_hora_actual);
+
+                                            // Sumar el intervalo de minutos al timestamp de la fecha actual
+                                            $timestamp_intervalo = $timestamp_bd + ($intervalo * 60);
+                                       
+                                            // Convertir el timestamp del intervalo de tiempo a formato de fecha y hora
+                                            $fecha_hora_intervalo = date("Y-m-d H:i:s", $timestamp_intervalo);
                                             
-                                            $hora_actual = date("H:i");   
+                                            
+                                            $fecha_con_nombres = date("l, j F Y H:i:s", $timestamp_bd);
+                                            echo "<div class='valor-optimo'><h4>Ultima actualización: </h4><p>" . $fecha_con_nombres . "</p></div>";
+                                            
+                                           
 
-                                            $ultima_hora = $fecha_insert . " " . $hora_actual;
+                                            if ($timestamp_actual >= $timestamp_intervalo) {
+                                                
+                                                $fecha_actual = substr($fecha_hora_actual, 0, 10); // Obtiene "Y-m-d"
+                                                $hora_actual = substr($fecha_hora_actual, 11); 
 
-                                            echo "hora insert".  $hora_insert;
-
-                                            $nueva_hora = date("Y--m-d H:i", strtotime($ultima_hora . "+" . $intervalo . "minutes"));
-                                            echo $nueva_hora;
-
-                                            echo "Ultima actualización hoy a las: " . $ultima_hora . " hrs<br>";
-
-                                            if ($hora_insert >= $nueva_hora) {
                                                 $stmt = $conexion->prepare("INSERT INTO humedad (id_lote, fecha, hora, humedad) VALUES (?, ?, ?, ?)");
-                                                $stmt->bind_param("isss", $id_lote, $fecha_insert, $hora_actual, $humedad);
+                                                $stmt->bind_param("isss", $id_lote, $fecha_actual, $hora_actual, $humedad);
                                                 $stmt->execute();
 
                                                 $stmt = $conexion->prepare("INSERT INTO temperatura (id_lote, fecha, hora, temperatura) VALUES (?, ?, ?, ?)");
-                                                $stmt->bind_param("isss", $id_lote, $fecha_insert, $hora_actual, $temperatura);
+                                                $stmt->bind_param("isss", $id_lote, $fecha_actual, $hora_actual, $temperatura);
                                                 $stmt->execute();
                                             } else {
-                                                echo "no se ha actualizado la base de datos.";
+                                                $nothis = "no";
+                                                #echo "no se ha actualizado la base de datos.";
                                             }
                                         } else {
                                             echo "No hay registros de humedad.";
@@ -286,66 +295,50 @@
                                     }
                                 }
                             ?>
-                        </div>
-                    </div>
-                </div>                
-                <div class="contenedor2">
-                    <div style="display:flex; flex-direction:row; justify-content: space-between; width: 65%;">
-                        <h2>Registros</h2>
-                        <button type="button" onclick="return cambiarHumedad()" class="next-button">Ver siguiente</button>
-                    </div>
-                    <div style="display:flex; flex-direction:row; justify-content: center; width:30%">
-                        Acciones
-                    </div>
-              </div>
-
-                <div class="contenedor3">   
-
-                    <div class="tabla-seccion1">
-                                <table id="tablaHumedad" style="width=100%; height:285;">
-                            <th colspan=3>
-                                <div class="titulo-tabla">
-                                    <h3>Humedad</h3>
-                                    
-                                </div>
-                            </th>
-                            <?php 
-                                $stmt = $conexion->prepare("SELECT * FROM humedad WHERE id_lote = ? ORDER BY fecha DESC, hora DESC LIMIT 5");
-                                $stmt->bind_param("i", $id_lote);
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-                                if ($result->num_rows > 0) {
-                                    echo "<tr><th>Fecha</th><th>Hora</th><th>Humedad</th></tr>";
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo "<tr><td>" . $row['fecha'] . "</td><td>" . $row['hora'] . "hrs.</td><td>" . $row['humedad'] . "%</td></tr>";
-                                    }
-                                } else {
-                                    echo "No hay registros de humedad.";
-                                }
-                            ?>
-                        </table>
+                      
                     </div>
 
-                    <div class="tabla-seccion2">
-                        <canvas id="graficaHumedad"></canvas>
-                    </div>
-
-                    
                     <div class="controls">
                         <button class="btn"><a href="../avance/avance.php?key=<?php echo $id_lote ?>">Avanzar al siguiente paso</a></button>
                         <button class="btn"><a href="../historial/historial.php?key=<?php echo $id_lote ?>">Historial</a></button>
                         <button class="btn"><a href="http://127.0.0.1:8081/">Prick IA</a></button>
                         <!-- TODO enviar nombre del lote y gg -->
                     </div>
-
-
-
                 </div>
 
-
-
-               
-                     
+                <div class="contenedor3">   
+                    <div class="control-tabla">
+                        <button class="btn" onclick="showHide('tablaTemperatura')">Estadisticas de temperatura</button>
+                        <button class="btn" onclick="showHide('tablaHumedad')">Estadisticas de humedad</button>
+                    </div>  
+                    <div class="seccion-tabla">
+                        <div class="tabla">
+                            <table id="tablaHumedad">
+                                <th colspan=3>
+                                    Humedad
+                                </th>
+                                <?php 
+                                    $stmt = $conexion->prepare("SELECT * FROM humedad WHERE id_lote = ? ORDER BY fecha DESC, hora DESC LIMIT 5");
+                                    $stmt->bind_param("i", $id_lote);
+                                    $stmt->execute();
+                                    $result = $stmt->get_result();
+                                    if ($result->num_rows > 0) {
+                                        echo "<tr><th>Fecha</th><th>Hora</th><th>Humedad</th></tr>";
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo "<tr><td>" . $row['fecha'] . "</td><td>" . $row['hora'] . "hrs.</td><td>" . $row['humedad'] . "%</td></tr>";
+                                        }
+                                    } else {
+                                        echo "No hay registros de humedad.";
+                                    }
+                                ?>
+                            </table>
+                            <button class="btn">Ver todo</button>
+                        </div>
+                        <div class=grafica>
+                            <canvas id="graficaHumedad"></canvas>
+                        </div>
+                    </div>  
+                </div>      
             </div>     
         </center>
     </section>
