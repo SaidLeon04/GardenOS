@@ -24,9 +24,9 @@ if ($result->num_rows > 0) {
     $stmt->execute();
     $stmt->close();
     $conexion->close();
-    header("Location: ../lotes/otes.php");
+    header("Location: ../lotes/lotes.php");
 }else{
-    echo "La planta no existe";
+    echo "El lote no existe";
     $stmt->close();
     $conexion->close();
 }

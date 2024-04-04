@@ -1,14 +1,11 @@
-function humedad() {
-    const graficaHumedad = document.getElementById('graficaHumedad');
-    const tablaHumedad = document.getElementById('tablaHumedad');
+function showHideTable(id1, id2) {
+    var tablaHumedad = document.getElementById(id1);
+    var tablaTemperatura = document.getElementById(id2);
 
-
-    if (tablaHumedad.style.display === 'block') {
-        graficaHumedad.style.display = 'none';
+    if (tablaTemperatura.style.display == 'none') {
+        tableHumedad.style.display = 'flex';
     } else {
-        graficaHumedad.style.display = 'block';
-        tablaHumedad.style.display = 'none';
+        tableHumedad.style.display = 'none';
+        tablaTemperatura.style.display = 'flex';
     }
-
-
 }

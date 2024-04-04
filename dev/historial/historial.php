@@ -27,20 +27,7 @@
             header("Location: ../login/login.php");
         }
 
-        $stmt = $conexion->prepare("SELECT * FROM historial WHERE id_lote = ?");
-        $stmt->bind_param('i', $id_lote);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $estados = [];
-            $fechas = [];
-            $cantidades = [];
-            $cantidad_registros = $result->num_rows;
-            while ($info = $result->fetch_assoc()) {
-                $estados[] = $info['estado'];
-                $fechas[] = $info['fecha'];
-                $cantidades[] = $info['cantidad'];
-            }
+       
             $stmt = $conexion->prepare("SELECT * FROM lote WHERE id_usuario = ? AND id_lote = ?");
             $stmt->bind_param('ii',$id_usuario, $id_lote);
             $stmt->execute();
@@ -51,15 +38,7 @@
             } else {
                 echo "EL lote no existe";
             }
-        } else {
-            echo "No hay historial";
-        }
-
-        for ($i = 0; $i < count($cantidades) - 1; $i++) {
-            $resultado_resta = $cantidades[$i] - $cantidades[$i + 1];
-            $resultados[] = $resultado_resta;
-            
-        }
+    
 
         
     ?>
@@ -154,73 +133,314 @@
         <div class="text">
             <header>
                 Historial de: <?php echo $nombre_lote;?>  
+                <button>Ayuda</button>
             </header>
         </div>
         <center>  
             <section class="main-container">
                 <div class="timeline">
-                    <?php 
-                        for ($i = 0; $i < $cantidad_registros; $i++) { 
-                            if ($i % 2 == 0) { 
-                    ?>
+                <?php 
+                    $stmt = $conexion->prepare("SELECT * FROM historial WHERE id_lote = ?");
+                    $stmt->bind_param('i', $id_lote);
+                    $stmt->execute();
+                    $result = $stmt->get_result(); 
+
+                    $fila_anterior = array();   
+                    $fila_siguiente = array(); 
+
+                        while ($info = $result->fetch_assoc()) {
+                            $fecha_traducida = strftime('%A, %d de %B de %Y', strtotime($info['fecha']));
+                            $fecha_traducida = str_replace(
+                                    ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                                    ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+                                    $fecha_traducida
+                            );
+                            
+                            $fecha_traducida = str_replace(
+                                    ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                                    ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                                    $fecha_traducida
+                            );
+                            if ($info['estado'] == "germinacion") {  
+
+                                $stmt = $conexion->prepare("SELECT fecha FROM historial WHERE id_lote = ? LIMIT 2");
+                                $stmt->bind_param('i', $id_lote);
+                                $stmt->execute();
+                                $fechas = $stmt->get_result();
+                                $num_filas = $fechas->num_rows;
+
+                                if ($num_filas == 1) {
+                                    $diferencia_dias = "En proceso... ";
+                                    $promedio_humedad = "En proceso... ";
+                                    $temperatura_formateada = "En proceso... ";
+                                    $horas_riego = "En proceso... ";
+                                } elseif ($num_filas === 2) {
+                                    if ($info1 = $fechas->fetch_assoc()) {
+                                        $fecha1 = $info1['fecha'];
+                                    }
+                                    if ($info2 = $fechas->fetch_assoc()) {
+                                        $fecha2 = $info2['fecha'];
+                                    }
+                                    $fecha1_obj = new DateTime($fecha1);
+                                    $fecha2_obj = new DateTime($fecha2);
+
+                                    $diferencia = $fecha1_obj->diff($fecha2_obj);
+
+                                    $diferencia_dias = $diferencia->days;
+
+                                    $stmt = $conexion->prepare("SELECT AVG(humedad) AS promedio_humedad FROM humedad WHERE id_lote = ? AND fecha BETWEEN ? AND ?");    
+                                    $stmt->bind_param('iss', $id_lote, $fecha1, $fecha2);
+                                    $stmt->execute();
+                                    $resultado = $stmt->get_result();
+                                    $humedad = $resultado->fetch_assoc();
+                                    $promedio_humedad = $humedad['promedio_humedad'];  
+
+                                    $stmt = $conexion->prepare("SELECT AVG(temperatura) AS promedio_temperatura FROM temperatura WHERE id_lote = ? AND fecha BETWEEN ? AND ?");    
+                                    $stmt->bind_param('iss', $id_lote, $fecha1, $fecha2);
+                                    $stmt->execute();
+                                    $resultado = $stmt->get_result();
+                                    $temperatura = $resultado->fetch_assoc();
+                                    $promedio_temperatura = $temperatura['promedio_temperatura'];  
+                                    $temperatura_formateada = number_format($promedio_temperatura, 2);
+
+                                    $stmt = $conexion->prepare("SELECT SUM(duracion) AS horas_riego FROM riego WHERE id_lote = ? AND fecha BETWEEN ? AND ?");    
+                                    $stmt->bind_param('iss', $id_lote, $fecha1, $fecha2);
+                                    $stmt->execute();
+                                    $resultado = $stmt->get_result();
+                                    $riego = $resultado->fetch_assoc();
+                                    $horas_riego = $riego['horas_riego'];  
+                                }
+                               
+                ?>
                                 <div><!--Espacio--></div>
                                 <div class="line">
-                                    <div class="dot"> <!--punto--> </div>
+                                <div class="dot"> <!--punto--> </div>
                                 </div>
+
                                 <div class="timeline-tile">
-                                    <h2>Estado: <?php echo $estados[$i] ?></h2>
-                                    <?php 
-                                        $fecha_traducida = strftime('%A, %d de %B de %Y', strtotime($fechas[$i]));
-                                        $fecha_traducida = str_replace(
-                                            ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-                                            ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
-                                            $fecha_traducida
-                                        );
-                                        
-                                        // Traducir el nombre del mes al español
-                                        $fecha_traducida = str_replace(
-                                            ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                                            ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                                            $fecha_traducida
-                                        );
-                                    ?>
-                                    <p>Fecha: <?php echo $fecha_traducida ?></p>
-                                    <p>Cantidad: <?php echo $cantidades[$i] ?> semillas</p>
-                                    <p>Perdida: <?php echo $resultados[$i] ?></p>
-                                </div>
-                    <?php            
-                            } else {
-                    ?>
-                                <div class="timeline-tile">
-                                    <h2>Estado: <?php echo $estados[$i] ?></h2>
-                                    <?php 
-                                        $fecha_traducida = strftime('%A, %d de %B de %Y', strtotime($fechas[$i]));
-                                        $fecha_traducida = str_replace(
-                                            ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-                                            ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
-                                            $fecha_traducida
-                                        );
-                                        
-                                        // Traducir el nombre del mes al español
-                                        $fecha_traducida = str_replace(
-                                            ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                                            ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                                            $fecha_traducida
-                                        );
-                                    ?>
+                                    <h2>Estado: Germinación</h2>
                                     <p>Fecha de inicio: <?php echo $fecha_traducida ?></p>
-                                    <p>Cantidad: <?php echo $cantidades[$i]; ?></p>
-                                    <p>Perdida: <?php echo $resultados[$i] ?></p>
+                                    <p>Dias: <?php echo $diferencia_dias ?></p>
+                                    <p>Cantidad: <?php echo $info['cantidad'] ?> semillas </p>
+                                    <p>Promedio de humedad: <?php echo $promedio_humedad ?>%</p>
+                                    <p>Promedio de temperatura: <?php echo $temperatura_formateada ?>°C </p>
+                                    <p>Horas de riego: <?php echo $horas_riego ?> hrs.</p>
+                                </div>
+                <?php
+                            } else if ($info['estado'] == "siembra") {
+                                if ($fila_anterior !== null) {
+                                    $cantidad_siguiente = $fila_anterior['cantidad'];
+                                    $perdida = $cantidad_siguiente -  $info['cantidad'];
+                                   
+                                    $stmt = $conexion->prepare("SELECT fecha FROM historial WHERE id_lote = ? AND estado = 'crecimiento'");
+                                    $stmt->bind_param('i', $id_lote);
+                                    $stmt->execute();
+                                    $fechas = $stmt->get_result();
+                                    $infofecha = $fechas->fetch_assoc();
+                                    $num_filas = $fechas->num_rows;
+                                    
+
+                                    if ($num_filas !== 1) {
+                                        $diferencia_dias = "En proceso... ";
+                                        $promedio_humedad = "En proceso... ";
+                                        $temperatura_formateada = "En proceso... ";
+                                        $horas_riego = "En proceso... ";
+                                    } elseif ($num_filas === 1){
+                                        $fecha1 = $info['fecha'];
+                                        $fecha2 = $infofecha['fecha'];
+                                        $fecha1_obj = new DateTime($fecha1);
+                                        $fecha2_obj = new DateTime($fecha2);
+
+                                        $diferencia = $fecha1_obj->diff($fecha2_obj);
+
+                                        $diferencia_dias = $diferencia->days;
+
+                                        $stmt = $conexion->prepare("SELECT AVG(humedad) AS promedio_humedad FROM humedad WHERE id_lote = ? AND fecha BETWEEN ? AND ?");    
+                                        $stmt->bind_param('iss', $id_lote, $fecha1, $fecha2);
+                                        $stmt->execute();
+                                        $resultado = $stmt->get_result();
+                                        $humedad = $resultado->fetch_assoc();
+                                        $promedio_humedad = $humedad['promedio_humedad'];  
+
+                                        $stmt = $conexion->prepare("SELECT AVG(temperatura) AS promedio_temperatura FROM temperatura WHERE id_lote = ? AND fecha BETWEEN ? AND ?");    
+                                        $stmt->bind_param('iss', $id_lote, $fecha1, $fecha2);
+                                        $stmt->execute();
+                                        $resultado = $stmt->get_result();
+                                        $temperatura = $resultado->fetch_assoc();
+                                        $promedio_temperatura = $temperatura['promedio_temperatura'];  
+                                        $temperatura_formateada = number_format($promedio_temperatura, 2);
+
+                                        $stmt = $conexion->prepare("SELECT SUM(duracion) AS horas_riego FROM riego WHERE id_lote = ? AND fecha BETWEEN ? AND ?");    
+                                        $stmt->bind_param('iss', $id_lote, $fecha1, $fecha2);
+                                        $stmt->execute();
+                                        $resultado = $stmt->get_result();
+                                        $riego = $resultado->fetch_assoc();
+                                        $horas_riego = $riego['horas_riego'];
+                                    }   
+                                }   
+                ?>
+                                <div class="timeline-tile">
+                                        <h2>Estado: Siembra</h2>
+                                        <p>Fecha de inicio: <?php echo $fecha_traducida ?></p>
+                                        <p>Dias: <?php echo $diferencia_dias ?></p>
+                                        <p>Cantidad: <?php echo $info['cantidad'] ?> semillas </p>
+                                        <p>Perdidas: <?php echo $perdida ?> semillas </p>
+                                        <p>Promedio de humedad: <?php echo $promedio_humedad ?>%</p>
+                                        <p>Promedio de temperatura: <?php echo $temperatura_formateada ?>°C </p>
+                                        <p>Horas de riego: <?php echo $horas_riego ?> hrs.</p>
                                 </div>
                                 <div class="line">
                                     <div class="dot"></div>
-                                </div>
+                                    </div>
                                 <div>
                                     <!--Espacio-->
                                 </div>
-                    <?php
-                            }   
-                        } 
+                <?php 
+                            } elseif ($info['estado'] == "crecimiento") {
+                                if ($fila_anterior !== null) {
+                                    $cantidad_siguiente = $fila_anterior['cantidad']; 
+                                    $perdida = $cantidad_siguiente -  $info['cantidad']; 
+
+                                    $stmt = $conexion->prepare("SELECT fecha FROM historial WHERE id_lote = ? AND estado = 'cosecha'");
+                                    $stmt->bind_param('i', $id_lote);
+                                    $stmt->execute();
+                                    $fechas = $stmt->get_result();
+                                    $infofecha = $fechas->fetch_assoc();
+                                    $num_filas = $fechas->num_rows;
+
+                                    if ($num_filas === 1) {
+                                        $diferencia_dias = "En proceso... ";
+                                        $promedio_humedad = "En proceso... ";
+                                        $temperatura_formateada = "En proceso... ";
+                                        $horas_riego = "En proceso... ";
+                                    } elseif ($num_filas !== 1){
+                                        $fecha1 = $info['fecha'];
+                                        $fecha2 = $infofecha['fecha'];
+                                        $fecha1_obj = new DateTime($fecha1);
+                                        $fecha2_obj = new DateTime($fecha2);
+
+                                        $diferencia = $fecha1_obj->diff($fecha2_obj);
+
+                                        $diferencia_dias = $diferencia->days;
+
+                                        $stmt = $conexion->prepare("SELECT AVG(humedad) AS promedio_humedad FROM humedad WHERE id_lote = ? AND fecha BETWEEN ? AND ?");    
+                                        $stmt->bind_param('iss', $id_lote, $fecha1, $fecha2);
+                                        $stmt->execute();
+                                        $resultado = $stmt->get_result();
+                                        $humedad = $resultado->fetch_assoc();
+                                        $promedio_humedad = $humedad['promedio_humedad'];  
+
+                                        $stmt = $conexion->prepare("SELECT AVG(temperatura) AS promedio_temperatura FROM temperatura WHERE id_lote = ? AND fecha BETWEEN ? AND ?");    
+                                        $stmt->bind_param('iss', $id_lote, $fecha1, $fecha2);
+                                        $stmt->execute();
+                                        $resultado = $stmt->get_result();
+                                        $temperatura = $resultado->fetch_assoc();
+                                        $promedio_temperatura = $temperatura['promedio_temperatura'];  
+                                        $temperatura_formateada = number_format($promedio_temperatura, 2);
+
+                                        $stmt = $conexion->prepare("SELECT SUM(duracion) AS horas_riego FROM riego WHERE id_lote = ? AND fecha BETWEEN ? AND ?");    
+                                        $stmt->bind_param('iss', $id_lote, $fecha1, $fecha2);
+                                        $stmt->execute();
+                                        $resultado = $stmt->get_result();
+                                        $riego = $resultado->fetch_assoc();
+                                        $horas_riego = $riego['horas_riego'];
+                                    }   
+                                }   
+                ?>
+                                <div><!--Espacio--></div>
+                                <div class="line">
+                                <div class="dot"> <!--punto--> </div>
+                                </div>
+
+                                <div class="timeline-tile">
+                                    <h2>Estado: Crecimiento</h2>
+                                    <p>Fecha de inicio: <?php echo $fecha_traducida ?></p>
+                                    <p>Dias: </p>
+                                    <p>Cantidad: <?php echo $info['cantidad'] ?> semillas </p>
+                                    <p>Perdidas: <?php echo $perdida ?> semillas </p>
+                                    <p>Promedio de humedad: </p>
+                                    <p>Promedio de temperatura: </p>
+                                    <p>Horas de riego: </p>
+                                </div>
+                <?php
+                            } elseif ($info['estado'] == "cosecha") {
+                                if ($fila_anterior !== null) {
+                                    $cantidad_siguiente = $fila_anterior['cantidad'];
+                                    $perdida = $cantidad_siguiente -  $info['cantidad']; 
+                                    
+                                    $stmt = $conexion->prepare("SELECT fecha FROM historial WHERE id_lote = ? AND estado = 'cosecha'");
+                                    $stmt->bind_param('i', $id_lote);
+                                    $stmt->execute();
+                                    $fechas = $stmt->get_result();
+                                    $infofecha = $fechas->fetch_assoc();
+                                    $num_filas = $fechas->num_rows;
+                                    
+
+                                    if ($num_filas === 1) {
+                                        $diferencia_dias = "En proceso... ";
+                                        $promedio_humedad = "En proceso... ";
+                                        $temperatura_formateada = "En proceso... ";
+                                        $horas_riego = "En proceso... ";
+                                    } elseif ($num_filas !== 1){
+                                        $fecha1 = $info['fecha'];
+                                        $fecha2 = $infofecha['fecha'];
+                                        $fecha1_obj = new DateTime($fecha1);
+                                        $fecha2_obj = new DateTime($fecha2);
+
+                                        $diferencia = $fecha1_obj->diff($fecha2_obj);
+
+                                        $diferencia_dias = $diferencia->days;
+
+                                        $stmt = $conexion->prepare("SELECT AVG(humedad) AS promedio_humedad FROM humedad WHERE id_lote = ? AND fecha BETWEEN ? AND ?");    
+                                        $stmt->bind_param('iss', $id_lote, $fecha1, $fecha2);
+                                        $stmt->execute();
+                                        $resultado = $stmt->get_result();
+                                        $humedad = $resultado->fetch_assoc();
+                                        $promedio_humedad = $humedad['promedio_humedad'];  
+
+                                        $stmt = $conexion->prepare("SELECT AVG(temperatura) AS promedio_temperatura FROM temperatura WHERE id_lote = ? AND fecha BETWEEN ? AND ?");    
+                                        $stmt->bind_param('iss', $id_lote, $fecha1, $fecha2);
+                                        $stmt->execute();
+                                        $resultado = $stmt->get_result();
+                                        $temperatura = $resultado->fetch_assoc();
+                                        $promedio_temperatura = $temperatura['promedio_temperatura'];  
+                                        $temperatura_formateada = number_format($promedio_temperatura, 2);
+
+                                        $stmt = $conexion->prepare("SELECT SUM(duracion) AS horas_riego FROM riego WHERE id_lote = ? AND fecha BETWEEN ? AND ?");    
+                                        $stmt->bind_param('iss', $id_lote, $fecha1, $fecha2);
+                                        $stmt->execute();
+                                        $resultado = $stmt->get_result();
+                                        $riego = $resultado->fetch_assoc();
+                                        $horas_riego = $riego['horas_riego'];
+                                    }   
+                                }   
+                                
+                ?>
+                                <div class="timeline-tile">
+                                        <h2>Estado: Cosecha</h2>
+                                        <p>Fecha de inicio: <?php echo $fecha_traducida ?></p>
+                                        <p>Dias: <?php echo $diferencia_dias ?></p>
+                                        <p>Cantidad: <?php echo $info['cantidad'] ?> semillas </p>
+                                        <p>Perdidas: <?php echo $perdida ?> semillas </p>
+                                        <p>Promedio de humedad: <?php echo $promedio_humedad ?>%</p>
+                                        <p>Promedio de temperatura: <?php echo $temperatura_formateada ?>°C </p>
+                                        <p>Horas de riego: <?php echo $horas_riego ?> hrs.</p>
+                                    </div>
+                                    <div class="line">
+                                        <div class="dot"></div>
+                                    </div>
+                                    <div>
+                                        <!--Espacio-->
+                                    </div>
+                <?php
+                            }
+                           
+                            $fila_anterior = $info;
+                            
+                           
+                        }
+                
+                
                     ?>
                 </div>
             </section>

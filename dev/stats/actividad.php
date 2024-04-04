@@ -256,8 +256,8 @@
                                             $fecha_hora_intervalo = date("Y-m-d H:i:s", $timestamp_intervalo);
                                             
                                             
-                                            $fecha_con_nombres = date("l, j F Y H:i:s", $timestamp_bd);
-                                            echo "<div class='valor-optimo'><h4>Ultima actualización: </h4><p>" . $fecha_con_nombres . "</p></div>";
+                                            $fecha_con_nombres = date("l, j F Y -    H:i:s", $timestamp_bd);
+                                            echo "<div class='valor-optimo'><h4>Ultima actualización: </h4><p>" . $fecha_con_nombres . " hrs.</p></div>";
                                             
                                            
 
@@ -308,8 +308,8 @@
 
                 <div class="contenedor3">   
                     <div class="control-tabla">
-                        <button class="btn" onclick="showHide('tablaTemperatura')">Estadisticas de temperatura</button>
-                        <button class="btn" onclick="showHide('tablaHumedad')">Estadisticas de humedad</button>
+                        <button class="btn" onclick="showHideTable('tablaTemperatura, tablaHumedad')">Estadisticas de temperatura</button>
+                        <button class="btn" onclick="showHideTable('tablaHumedad, tablaTemperatura')">Estadisticas de humedad</button>
                     </div>  
                     <div class="seccion-tabla">
                         <div class="tabla">
@@ -332,10 +332,31 @@
                                     }
                                 ?>
                             </table>
-                            <button class="btn">Ver todo</button>
+                            
+                            <table id="tablaTemperatura" style="display:none">
+                                <th colspan=3>
+                                    Temperatura
+                                </th>
+                                <?php 
+                                    $stmt = $conexion->prepare("SELECT * FROM temperatura WHERE id_lote = ? ORDER BY fecha DESC, hora DESC LIMIT 5");
+                                    $stmt->bind_param("i", $id_lote);
+                                    $stmt->execute();
+                                    $result = $stmt->get_result();
+                                    if ($result->num_rows > 0) {
+                                        echo "<tr><th>Fecha</th><th>Hora</th><th>Temperatura</th></tr>";
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo "<tr><td>" . $row['fecha'] . "</td><td>" . $row['hora'] . "hrs.</td><td>" . $row['temperatura'] . "°C</td></tr>";
+                                        }
+                                    } else {
+                                        echo "No hay registros de temperatura.";
+                                    }
+                                ?>
+                            </table>
+
                         </div>
                         <div class=grafica>
                             <canvas id="graficaHumedad"></canvas>
+        
                         </div>
                     </div>  
                 </div>      

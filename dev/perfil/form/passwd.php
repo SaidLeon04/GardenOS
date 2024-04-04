@@ -7,14 +7,13 @@
     <link rel="stylesheet" href="../css/view_perfil.css">
     <title>Perfil</title>
     <?php 
-        include("../../statements.php");
         include("../../conexion.php");
 
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
 
-        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt = $conexion->prepare("SELECT nombre, imagen FROM usuarios WHERE id_usuario = ?");
         $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -123,7 +122,7 @@
                 <div class="info">
                     <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_usuario" id="imagen_usuario">
             
-                    <form id="usuario" enctype="multipart/form-data" method=POST action="../crud/editar_passwd.php">
+                    <form id="usuario" enctype="multipart/form-data" method=POST action="../crud/passwd.php">
                         <label for="nombre" class="text">Nombre: </label>
                             <p class="parrafo"><?php echo $nombre ?></p>
                             <br>

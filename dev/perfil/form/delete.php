@@ -7,14 +7,13 @@
     <link rel="stylesheet" href="../css/view_perfil.css">
     <title>Perfil</title>
     <?php 
-        include("../../statements.php");
         include("../../conexion.php");
 
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
 
-        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt = $conexion->prepare("SELECT nombre, imagen, correo FROM usuarios WHERE id_usuario = ?");
         $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();

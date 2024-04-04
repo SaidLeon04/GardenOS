@@ -91,7 +91,7 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="lotes.php">
+                        <a href="../lotes/lotes.php">
                             <img src="../assets/svg/lotes.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes</span>
                         </a>
@@ -183,6 +183,8 @@
                                         echo "<option value='cosecha'>Cosecha</option>";
                                     } elseif ($estado == "crecimiento") {
                                         echo "<option value='cosecha'>Cosecha</option>";
+                                    } elseif ($estado == "cosecha") {
+                                        echo "<option value='finalizado'>Terminar Lote</option>";
                                     }
                                     ?>
                                 </select>

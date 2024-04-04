@@ -7,14 +7,13 @@
     <link rel="stylesheet" href="../css/view_perfil.css">
     <title>Perfil</title>
     <?php 
-        include("../../statements.php");
         include("../../conexion.php");
 
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
 
-        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt = $conexion->prepare("SELECT nombre, imagen, correo FROM usuarios WHERE id_usuario = ?");
         $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -124,12 +123,13 @@
                 <div class="info">
                     <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_usuario" id="imagen_usuario">
             
-                    <form id="usuario" enctype="multipart/form-data" method=POST action="../crud/editar_email.php">
-                        <label for="nombre" class="text">Nombre: </label>
-                            <p class="parrafo" name="nombre"><?php echo $nombre ?></p>
+                        <form id="usuario" enctype="multipart/form-data" method=POST action="../crud/email.php">
+                            <label for="nombre" class="text">Nombre: </label>
+                                <p class="parrafo" name="nombre"><?php echo $nombre ?></p>
                             <br>
                         <label for="correo" class="text">Correo Actual: </label>
-                            <p class="parrafo" name="correo"><?php echo $correo ?></p>
+                            <input type="hidden" name="nombre" value="<?php echo $correo ?>">
+                            <p class="parrafo"><?php echo $correo ?></p>
 
                         <label for="new_email" class="text">Correo nuevo: </label>
                             <input type="email" id="new_email" name="new_email">

@@ -13,7 +13,7 @@
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
 
-        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt = $conexion->prepare("SELECT * FROM usuarios WHERE id_usuario = ?");
         $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -24,7 +24,7 @@
             echo "El usuario no existe";
         }
 
-        $stmt = $conexion->prepare($consulta_join);
+        $stmt = $conexion->prepare("SELECT plantas.id_planta, plantas.nombre, plantas.tipo, plantas.imagen, lote.id_lote, lote.id_sensor, lote.nombre_lote, lote.fecha_inicial, lote.cantidad_actual, lote.estado, lote.temperatura_optima, lote.humedad_optima FROM plantas JOIN lote ON plantas.id_planta = lote.id_planta WHERE plantas.id_usuario = ? AND estado != 'finalizado' GROUP BY nombre_lote");
         $stmt->bind_param("i", $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -161,11 +161,25 @@
                             <h3><?php echo $nombre_lote[$i]; ?></h3>
                         
                             <img src="data:image;base64,<?php echo $imagen[$i]; ?>" alt="imagen_planta" class="img-tile">
+                            <?php
+                                $fecha_traducida = strftime('%A, %d de %B de %Y', strtotime($fecha_inicial[$i]));
+                                $fecha_traducida = str_replace(
+                                        ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                                        ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+                                        $fecha_traducida
+                                );
 
-                            <p><?php echo $nombre_planta[$i]; ?></p>
-                            <p><?php echo $estado[$i]; ?></p>
-                            <p><?php echo $cantidad_actual[$i]; ?></p>
-                            <p><?php echo $fecha_inicial[$i]; ?></p>
+                                $fecha_traducida = str_replace(
+                                        ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                                        ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                                        $fecha_traducida
+                                );
+                            ?>
+
+                            <p>Planta: <?php echo $nombre_planta[$i]; ?></p>
+                            <p>Estado actual: <?php echo $estado[$i]; ?></p>
+                            <p>Cantidad actual: <?php echo $cantidad_actual[$i]; ?></p>
+                            <p>Activo desde: <?php echo $fecha_traducida ?></p>
                         </center>
                     </a>
                 </div>

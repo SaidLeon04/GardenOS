@@ -4,22 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, init-scale=1.0">
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">   
+    <link rel="stylesheet" href="css/lotes.css">
+    <title>Lotes Terminados</title>
     <?php 
+        
         include("../conexion.php");
-        include("../statements.php");
+
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
 
-        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt = $conexion->prepare("SELECT * FROM usuarios WHERE id_usuario = ?");
         $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             $datos_usuario = $result->fetch_assoc();
-            $imagen = $datos_usuario['imagen'];
+            $pfp = $datos_usuario['imagen'];
         } else {
             echo "El usuario no existe";
+        }
+
+        $stmt = $conexion->prepare("SELECT plantas.id_planta, plantas.nombre, plantas.tipo, plantas.imagen, lote.id_lote, lote.id_sensor, lote.nombre_lote, lote.fecha_inicial, lote.cantidad_actual, lote.estado, lote.temperatura_optima, lote.humedad_optima FROM plantas JOIN lote ON plantas.id_planta = lote.id_planta WHERE plantas.id_usuario = ? AND estado = 'finalizado' GROUP BY nombre_lote");
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $id_lote = [];
+            $id_planta = [];
+            $nombre_planta = [];
+            $tipo = [];
+            $imagen = [];
+            $nombre_lote = [];
+            $estado = [];
+            $cantidad_actual = [];
+            $fecha_inicial = [];
+            $cantidad_registros = $result->num_rows;
+            while ($info = $result->fetch_assoc()) {
+                $id_lote[] = $info['id_lote'];
+                $id_planta[] = $info['id_planta'];
+                $nombre_planta[] = $info['nombre'];
+                $tipo[] = $info['tipo'];
+                $nombre_lote[] = $info['nombre_lote'];
+                $estado[] = $info['estado'];
+                $cantidad_actual[] = $info['cantidad_actual'];
+                $fecha_inicial[] = $info['fecha_inicial'];
+                $imagen[] = $info['imagen'];
+            }
+        }else{
+            $cantidad_registros = 0;   
         }
     ?>
 </head>
@@ -28,17 +61,18 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="data:image;base64,<?php echo $imagen; ?>" alt="pfp" id="pfp">
+                    <img src="data:image;base64,<?php echo $pfp; ?>" alt="pfp" id="pfp">
                 </span>
 
                 <div class="text logo-text">
                     <span class="name">
-                        <a class="pfp-link" href="view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
+                        <a class="pfp-link" href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
                     </span>
                 </div>
             </div>
                 <img src="../assets/svg/arrow.svg" alt="icono_arrow" class="toggle">
         </header>
+
 
         <div class="menu-bar">
             <div class="menu">
@@ -114,7 +148,7 @@
                 Lotes Terminados
             </header> 
         </div>
-        <!--TODO make it xd
+        
         <div class="main-container">
             <?php
                 $registros_impresos = 0;
@@ -123,7 +157,7 @@
             <div class="group-tile">
                 <?php for ($i = 0; $i < $cantidad_registros; $i++) { ?>
                 <div class="lote-tile">
-                    <a href="view_lote.php?id_lote=<?php echo $id_lote[$i]; ?>" class="tile-link">
+                    <a href="view_lote_terminado.php?key=<?php echo $id_lote[$i]; ?>" class="tile-link">
                         <center>
                             <h3><?php echo $nombre_lote[$i]; ?></h3>
                         
@@ -131,7 +165,8 @@
 
                             <p><?php echo $nombre_planta[$i]; ?></p>
                             <p><?php echo $estado[$i]; ?></p>
-                            <p><?php echo $cantidad_actual[$i]; ?></p>
+                            <p>Cantidad inicial: <?php echo $cantidad_actual[$i]; ?></p>
+                            <p>Cantidad final: </p>
                             <p><?php echo $fecha_inicial[$i]; ?></p>
                         </center>
                     </a>
@@ -145,7 +180,7 @@
                     $contador_grupo = 0; 
                 }
             } ?>
-        </div>-->
+        </div>
 
 </section>
 </body>
