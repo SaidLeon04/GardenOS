@@ -1,16 +1,32 @@
-// Datos de ejemplo (reemplaza con tus propios datos)
-const puntosX = ['2023-01-01', '2023-01-02', '2023-01-03', '2023-01-04', '2023-01-05'];
-const puntosY = [2, 3, 5, 4, 6];
+const tabla = document.getElementById('tablaHumedad');
+const filas = tabla.querySelectorAll('tbody tr');
+const puntosX = [];
+const puntosY = [];
 
-// Función para convertir fechas a timestamps Unix
-function fechaATimestamp(fecha) {
-    return new Date(fecha).getTime();
+filas.forEach((fila, index) => {
+    if (index !== 0 && index !== 1){
+        const hora = fila.children[1].textContent
+        const horaCut = hora.slice(0, -4);
+
+        const humedad = parseFloat(fila.children[2].textContent);
+
+        puntosX.unshift(horaCut);
+        puntosY.unshift(humedad);
+    }else{
+        console.log('Cabecera');
+    }
+});
+ 
+
+function horaATimestamp(hora) {
+    const [horas, minutos, segundos] = hora.split(':');
+    const fecha = new Date();
+    fecha.setHours(parseInt(horas, 10), parseInt(minutos, 10), parseInt(segundos, 10), 0);
+    return fecha.getTime();
 }
 
-// Convertir fechas a timestamps Unix
-const timestampsX = puntosX.map(fechaATimestamp);
+const timestampsX = puntosX.map(horaATimestamp);
 
-// Calcular la regresión lineal (método de mínimos cuadrados)
 function calcularRegresionLineal(x, y) {
     const n = x.length;
     let sumX = 0;
@@ -43,15 +59,15 @@ const myChart = new Chart(ctx, {
         labels: puntosX,
         datasets: [
             {
-                label: 'Datos',
+                label: 'Humedad Real (%)',
                 data: puntosY,
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
             },
             {
-                label: 'Regresión Lineal',
-                data: puntosX.map(x => regresion.m * fechaATimestamp(x) + regresion.b),
+                label: 'Humedad Prevista (%)',
+                data: puntosX.map((x, index) => regresion.m * timestampsX[index] + regresion.b),
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1,
@@ -64,9 +80,10 @@ const myChart = new Chart(ctx, {
             xAxes: [{
                 type: 'time',
                 time: {
-                    unit: 'day',
+                    parser: 'HH:mm:ss',
+                    unit: 'hour',
                     displayFormats: {
-                        day: 'DD/MM/YYYY'
+                        hour: 'HH:mm'
                     }
                 },
                 ticks: {

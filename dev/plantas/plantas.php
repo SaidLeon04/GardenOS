@@ -138,7 +138,7 @@
         <div class="text">
             <header>
                 Catalogo de plantas
-                <button><a href="form/add.php">Agregar</a></button>
+                <button class="create-button"><a href="form/add.php">Agregar</a></button>
             </header>
         </div>
         

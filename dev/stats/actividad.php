@@ -306,14 +306,20 @@
                     </div>
                 </div>
 
+                
+
                 <div class="contenedor3">   
                     <div class="control-tabla">
-                        <button class="btn" onclick="showHideTable('tablaTemperatura, tablaHumedad')">Estadisticas de temperatura</button>
-                        <button class="btn" onclick="showHideTable('tablaHumedad, tablaTemperatura')">Estadisticas de humedad</button>
+                        <button class="btn"  onclick="showHide()" >Cambiar</button>
                     </div>  
+                    <h1 id="tituloHumedad">Humedad</h1>   
+                    <h1 style= "display: none;" id="tituloTemperatura" >Temperatura</h1>
+                    
                     <div class="seccion-tabla">
-                        <div class="tabla">
-                            <table id="tablaHumedad">
+ 
+                        <div class="tablas">
+                            <br><br>
+                            <table id="tablaHumedad" style="display: block;" >
                                 <th colspan=3>
                                     Humedad
                                 </th>
@@ -332,8 +338,8 @@
                                     }
                                 ?>
                             </table>
-                            
-                            <table id="tablaTemperatura" style="display:none">
+            
+                            <table id="tablaTemperatura" style="display: none;">
                                 <th colspan=3>
                                     Temperatura
                                 </th>
@@ -354,9 +360,11 @@
                             </table>
 
                         </div>
-                        <div class=grafica>
+                        <div class=graficas>
+                            <br><br>
                             <canvas id="graficaHumedad"></canvas>
-        
+
+                            <canvas id="graficaTemperatura" style="display: none;"></canvas>
                         </div>
                     </div>  
                 </div>      
@@ -366,6 +374,9 @@
 </body>
 <script src="../assets/js/barra_lateral.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="js/regresion.js"></script>
+<script src="js/graficaHumedad.js"></script>
+<script src="js/graficaTemperatura.js"></script>
 <script src="js/showHide.js"></script>
+
+
 </html>

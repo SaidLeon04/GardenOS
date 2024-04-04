@@ -12,7 +12,7 @@
         $id_usuario = $_SESSION['id_usuario'];
         $usuario = $_SESSION['nombre'];
 
-        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt = $conexion->prepare("SELECT * FROM usuarios WHERE id_usuario = ?");
         $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -23,7 +23,7 @@
             echo "El usuario no existe";
         }
 
-        $stmt = $conexion->prepare($sensores_usuario);
+        $stmt = $conexion->prepare("SELECT * FROM sensores WHERE id_usuario = ?");
         $stmt->bind_param("i", $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -135,7 +135,7 @@
         <div class="text">
             <header>
                 Sensores registrados
-                <button><a href="form/add.php">Agregar Sensor</a></button>
+                <button class="create-button"><a href="form/add.php">Agregar Sensor</a></button>
             </header>
         </div>
         
@@ -160,7 +160,7 @@
                 <div class="lote-tile">
                     <a href="view_sensor.php?id_sensor=<?php echo $id_sensor[$i]; ?>" class="tile-link">
                         <center>
-                            <h3><?php echo $nombre[$i]; ?></h3>
+                            <h1><?php echo $nombre[$i]; ?></h1>
                         
                             <?php
                                 if ($tipo[$i] == "dht22") {
@@ -170,9 +170,9 @@
                                 }
                             ?>
 
-                            <p><?php echo $tipo[$i]; ?></p>
-                            <p><?php echo $valor[$i] ?></p>
-                            <h4>Conectado a: <?php echo $nombre_lote; ?></h4>
+                            <h2><?php echo $tipo[$i]; ?></h2>
+                            
+                            <h2>Conectado a: <?php echo $nombre_lote; ?></h2>
                         </center>
                     </a>
                 </div>

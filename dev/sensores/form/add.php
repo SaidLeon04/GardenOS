@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="../css/form.css">
     <?php 
         include("../../conexion.php");
-        include("../../statements.php");
+
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
 
-        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt = $conexion->prepare("SELECT * FROM usuarios WHERE id_usuario = ?");
         $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -22,7 +22,7 @@
             echo "El usuario no existe";
         }
 
-        $stmt = $conexion->prepare($lote_usuario);
+        $stmt = $conexion->prepare("SELECT * FROM lote WHERE id_usuario = ?");
         $stmt->bind_param("i", $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
