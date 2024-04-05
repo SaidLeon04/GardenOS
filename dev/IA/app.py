@@ -2,7 +2,7 @@ import web
 import google.generativeai as genai
 
 urls = (
-    '/', 'controllers.generative.Generative',
+    '/(.*)', 'controllers.generative.Generative',
 )
 
 app = web.application(urls, globals())

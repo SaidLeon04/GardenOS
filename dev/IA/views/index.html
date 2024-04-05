@@ -1,17 +1,54 @@
-$def with (valores_optimos)
+$def with (valores_optimos, key)
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interfaz de Usuario</title>
+
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Garden IA (Experimental)</title>
 </head>
 <body>
-    <h1>Se va a morir o no we?: </h1>
-    <div id="output">
-        <p>$valores_optimos</p>
+    <div class="main-container">
+        <div class="contenedor1">
+            <button class="delete-button"><a href="http://localhost/proyectos/GardenOS/dev/lotes/lotes.php">Volver</a></button>
+            <h1>$key</h1>
+            <button class="help-button">Conoce más... </button>
+        </div>
+
+        <div class="contenedor2">
+            <div class="lateral1">
+                <h2>Garden IA</h2>
+                <p>Garden IA analizará los valores de humedad y temperatura 
+                    de tu lote actual y será capaz de enviar recomendaciones 
+                    para los valores óptimos y condiciones especificas para la estabilidad 
+                    de tu lote.</p><br>
+
+                <p>Garden IA tiene en su modelo varios registros de lotes anteriores y datos basados en articulos de botanica.</p><br>
+
+                <p>Con el uso de GardenOS aumentas la cantidad de registros en GardenIA, gracias por eso :D</p>
+                
+
+            </div>
+            <div class="lateral2">
+                <h2>GardenIA: </h2><br><br><br>
+
+                <p>$valores_optimos</p><br><br><br>
+
+                <button class="create-button" onclick="return recargar()">Regenerar</button>
+
+            </div>
+        </div>
     </div>
 
+    <script>
+        function recargar(){
+            location.reload();
+        }
+    </script>
+    
+ 
 
 </body>
+
 </html>

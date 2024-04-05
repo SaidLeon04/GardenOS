@@ -2,7 +2,7 @@ import mysql.connector
 import google.generativeai as genai
 
 # IA Stuff
-genai.configure(api_key="")
+genai.configure(api_key="AIzaSyDLzvnrcjUvkXtmrei5AwPHLp6IucRmddI")
 
 generation_config = {
   "temperature": 1,
@@ -118,6 +118,7 @@ class ObtenerValoresOptimos:
                                 ]
 
                             resultado = model.generate_content(prompt_parts)
+                            print(resultado.text)
                             return resultado.text
                     else:
                         return None

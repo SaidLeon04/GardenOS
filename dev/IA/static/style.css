@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+*{
+    font-family: 'Poppins';
+    margin: 0px;
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.contenedor1{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color:#ffffffce;
+    height: 10%;
+    margin: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin:20px;
+    border:2px solid  black;
+}
+
+.contenedor2{
+    display: flex;
+    flex-direction: row;
+    height: 80%;
+    margin: 20px;
+}
+
+.lateral1{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin:20px;
+    border:2px solid  black;
+}
+
+.lateral2{
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin:20px;
+    border:2px solid  black;
+}
+
+
+.help-button{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-image: linear-gradient(to right, #ffcd90, #FF8D21);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.help-button:hover{
+    background-image: linear-gradient(to right, #FF8D21, #ffcd90);
+    transform: scale(1.05);
+}
+
+.create-button{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-image: linear-gradient(to right, #7DCEA0, #67d21a);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.create-button:hover{
+    background-image: linear-gradient(to right, #67d21a, #7DCEA0);
+    transform: scale(1.05);
+}
+
+.edit-button{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-image: linear-gradient(to right, #3395eb, #1a0079);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.edit-button:hover{
+    background-image: linear-gradient(to right, #1a0079, #3395eb);
+    transform: scale(1.05);
+}
+
+.delete-button{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-image: linear-gradient(to right, #f26046, #FF416C);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.delete-button:hover{
+    background-image: linear-gradient(to right, #FF416C, #f26046);
+    transform: scale(1.05);
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.contenedor1:hover,
+.lateral1:hover,
+.lateral2:hover{
+    -webkit-box-shadow: 21px 17px 36px 12px rgba(0,0,0,0.23);
+    -moz-box-shadow: 21px 17px 36px 12px rgba(0,0,0,0.23);
+    box-shadow: 21px 17px 36px 12px rgba(0,0,0,0.23);
+    transition: all 0.5s ease;
+}
