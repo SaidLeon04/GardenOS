@@ -2,7 +2,7 @@ import mysql.connector
 import google.generativeai as genai
 
 # IA Stuff
-genai.configure(api_key="AIzaSyDLzvnrcjUvkXtmrei5AwPHLp6IucRmddI")
+genai.configure(api_key="")
 
 generation_config = {
   "temperature": 1,
