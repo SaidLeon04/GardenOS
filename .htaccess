@@ -1,0 +1,7 @@
+RewriteEngine On
+
+RewriteRule ^$ dev/index.html
+RewriteRule ^login$ dev/login/login.html
+
+
+

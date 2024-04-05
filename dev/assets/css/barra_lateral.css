@@ -337,20 +337,6 @@ body.dark .switch::before{
     transform: scale(1.05);
 }
 
-.edit-button{
-    border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-image: linear-gradient(to right, #3395eb, #1a0079);
-    cursor: pointer;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-.edit-button:hover{
-    background-image: linear-gradient(to right, #1a0079, #3395eb);
-    transform: scale(1.05);
-}
 
 .delete-button{
     border: none;

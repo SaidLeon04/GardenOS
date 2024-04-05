@@ -1,3 +1,0 @@
-function comprobarContrasena() {
-	alert("working");
-}

@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="../assets/css/barra_lateral.css">   
     <link rel="stylesheet" href="css/lotes.css">
     <?php 
-        
         include("../conexion.php");
         include("../statements.php");
         session_start();
