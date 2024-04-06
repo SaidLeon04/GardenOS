@@ -26,7 +26,7 @@ if ($result->num_rows > 0){
 
         $stmt->close();
         $conexion->close();
-        header("Location: ../../login/login.html");
+        header("Location: /proyectos/garden_os/login");
     } else {
         echo "Los datos enviados son incorrectos.";
     }

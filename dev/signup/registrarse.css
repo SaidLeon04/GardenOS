@@ -1,8 +1,8 @@
 body {
-    background-image: url('assets/img/background003.jpeg');
+    background-image: url('assets/img/background_register.jpg');
     background-size: cover;
     margin: 0;
-    padding: 0;
+    padding: 0; 
 }
 
 .container {
@@ -16,7 +16,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease-in-out;
     animation: fade 1s;
-    background-image: linear-gradient(to bottom, rgba(156, 245, 134, 0.979), rgba(209, 247, 198, 0.808));
+    background-image: linear-gradient(to bottom, #ffffffce, rgba(255, 255, 255, 0.808));
 }
 
 .container:hover {
@@ -25,8 +25,10 @@ body {
 
 .side-l{
     width: 50%;
-    border-right: 1px solid rgba(0, 0, 0, 0.3);
-    margin: 10px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .side-r{
@@ -36,6 +38,7 @@ body {
     justify-content: center;
     align-items: center;
     margin: 10px;
+    border-left: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .text{
@@ -45,8 +48,7 @@ body {
     padding: 12px 60px;
 }
 
-
-h1 {
+h1{
     color: #000000;
     font-size: 32px;
     margin-bottom: 20px;
@@ -54,15 +56,14 @@ h1 {
 }
 
 h1:hover {
-    color: #2f5f18;
+    color: #0cc42d;
     transform: scale(1.05);
 }
 
 input[type="text"],
 input[type="password"],
 input[type="submit"],
-input[type="email"],
-select {
+input[type="email"]{
     border: none;
     border-radius: 20px;
     padding: 10px 20px;
@@ -79,7 +80,7 @@ input[type="password"]:focus,
 input[type="submit"]:focus,
 input[type="email"]:focus,
 select:focus{
-    background-color: rgb(200, 243, 214);
+    background-color: lightgray;
     outline: none;
     transform: scale(1.05);
 }
@@ -89,7 +90,7 @@ input[type="submit"]{
     border-radius: 20px;
     padding: 10px 20px;
     font-size: 16px;
-    background-image: linear-gradient(to right, #2f5f18, #000000);
+    background-image: linear-gradient(to right, #0cc42d, #000000);
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
@@ -99,17 +100,20 @@ input[type="submit"]{
 }
 
 input[type="submit"]:hover{
-    background-image: linear-gradient(to right, #000000, #2f5f18);
+    background-image: linear-gradient(to right, #0cc42d, #000000);
     animation: pulse 1s infinite;
     transform: scale(1.05);
 }
 
 .logo-registro{
-    width: 400px;
-    height: 400px;
+    width: 290px;
+    height: 289px;
 }
 
-.logo-registro:hover{
-    transform: scale(1.05);
-    transition: transform 1.5s ease-in-out;
+a{
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    font-weight: bolder;
+    transition: color 0.3s ease;
 }

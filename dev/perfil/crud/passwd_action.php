@@ -1,6 +1,5 @@
 <?php
 include("../../conexion.php");
-include("../../statements.php");
 
 session_start();
 $id_usuario = $_SESSION['id_usuario'];
@@ -32,7 +31,7 @@ if ($new_passwd == $new_passwdr) {
                 session_destroy();
                 $stmt->close();
                 $conexion->close();
-                header("Location: ../../login/login.html");
+                header("Location: /proyectos/garden_os/login");
 
             }else{
                 echo "No se realizaron cambios";

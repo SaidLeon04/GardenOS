@@ -1,7 +1,46 @@
 RewriteEngine On
 
-RewriteRule ^$ dev/index.html
-RewriteRule ^login$ dev/login/login.html
 
+RewriteRule ^$                  dev/bienvenida/index.html 
+
+
+RewriteRule ^sign_in$           dev/login/login.php
+RewriteRule ^login_action$      dev/login/php/login_action.php
+
+
+RewriteRule ^sign_up$           dev/signup/sign_up.html
+RewriteRule ^sign_up_action$    dev/signup/sign_up_action.php
+
+
+RewriteRule ^home$              dev/home/home.php
+
+RewriteRule ^perfil$            dev/perfil/view_perfil.php
+RewriteRule ^perfil_action$     dev/perfil/crud/perfil_action.php
+
+RewriteRule ^perfil/passwd$     dev/perfil/form/passwd.php
+RewriteRule ^passwd_action$     dev/perfil/crud/passwd_action.php
+
+RewriteRule ^perfil/email$      dev/perfil/form/email.php
+RewriteRule ^email_action$      dev/perfil/crud/email_action.php
+
+RewriteRule ^perfil/delete$     dev/perfil/form/delete.php
+RewriteRule ^delete_action$     dev/perfil/crud/delete_action.php
+
+RewriteRule ^perfil/email$      dev/config/config.php
+
+RewriteRule ^plantas$           dev/plantas/plantas.php
+
+RewriteRule ^lotes_terminados$  dev/lotes_terminados/lotes_terminados.php
+
+RewriteRule ^sensores$          dev/sensores/sensores.php
+
+RewriteRule ^zen$               dev/zen/zen.php
+
+RewriteRule ^ayuda$             dev/ayuda/ayuda.php
+
+RewriteRule ^logout$            dev/logout/logout.php
+
+
+RewriteRule ^lotes$             dev/lotes/lotes.php
 
 

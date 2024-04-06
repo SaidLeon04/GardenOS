@@ -21,7 +21,7 @@ if ($stmt->num_rows > 0){
         if ($stmt->affected_rows > 0) {
             session_unset();
             session_destroy();
-            header("Location: ../../login/login.html");
+            header("Location: /proyectos/garden_os/sign_in");
             $stmt->close();
             $conexion->close();
         } else {
@@ -32,5 +32,4 @@ if ($stmt->num_rows > 0){
     echo "El usuario no existe";
 }
 
-# TODO actualizar todo? o solo los campos que se quieren cambiar?
 ?>

@@ -22,7 +22,7 @@ if ($new_email == $new_emailr) {
             session_destroy();
             $stmt->close();
             $conexion->close();
-            header("Location: ../../login/login.html");
+            header("Location: /proyectos/garden_os/login");
         } else {
             echo "No se realizaron cambios";
         }    
@@ -33,6 +33,4 @@ if ($new_email == $new_emailr) {
 } else {
     echo "Los correos no coinciden";
 }
-$conexion->close();
-
 ?>

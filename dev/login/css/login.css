@@ -1,6 +1,7 @@
 body {
-    background-image: url('../assets/img/background001.jpeg');
+    background-image: url('../assets/img/background_login.jpg');
     background-size: cover;
+    background-size: 100% 100%;
     margin: 0;
     padding: 0;
 }
@@ -16,7 +17,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease-in-out;
     animation: fade 1s;
-    background-image: linear-gradient(to bottom, rgba(228, 187, 255, 0.979), rgba(236, 217, 240, 0.808));
+    background-image: linear-gradient(to bottom, #ffffffce, rgba(255, 255, 255, 0.808));
 }
 
 .container:hover {
@@ -24,9 +25,12 @@ body {
 }
 
 .side-l{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    
+    align-items: center;
     width: 50%;
-    border-right: 1px solid rgba(0, 0, 0, 0.3);
-    margin: 10px;
+    border-right: 5px solid rgba(0, 0, 0, 0.3);
 }
 
 .side-r{
@@ -34,7 +38,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     margin: 10px;
 }
 
@@ -53,7 +56,7 @@ h1 {
 }
 
 h1:hover {
-    color: #ce0cf5;
+    color: #0cc42d;
     transform: scale(1.05);
 }
 
@@ -85,7 +88,7 @@ input[type="submit"]{
     border-radius: 20px;
     padding: 10px 20px;
     font-size: 16px;
-    background-image: linear-gradient(to right, #ce0cf5, #000000);
+    background-image: linear-gradient(to right, #0cc42d, #000000);
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
@@ -95,17 +98,20 @@ input[type="submit"]{
 }
 
 input[type="submit"]:hover {
-    background-image: linear-gradient(to right, #000000, #ce0cf5);
+    background-image: linear-gradient(to right, #000000, #0cc42d);
     animation: pulse 1s infinite;
     transform: scale(1.05);
 }
 
 .logo-registro{
-    width: 400px;
-    height: 400px;
+    width: 290px;
+    height: 289px;
 }
 
-.logo-registro:hover{
-    transform: scale(1.05);
-    transition: transform 1.5s ease-in-out;
+a{
+    text-decoration: none;
+    color: black;
+    font-weight: bolder;
+    font-size: 16px;
+    transition: color 0.3s ease;
 }

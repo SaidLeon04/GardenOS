@@ -1,15 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:300,400,900');
-
 body{
   margin: 0;
   padding: 0;
   background-color: #FEFFFF;
-  font-family: 'Raleway', sans-serif;
 }
 
-*::selection{
-  outline: none;
-}
 
 .nav{
   text-align: right;
@@ -34,10 +28,6 @@ body{
   transition: all 250ms ease;
 }
 
-@keyframes strike{
-  0%   { width : 0; }
-  100% { width: 100%; }
-}
 
 .strike {
   position: relative;
@@ -91,7 +81,7 @@ label{
   width: 100%;
   height: 700px;
   position: relative;
-  background: url('https://st2.depositphotos.com/13946484/49389/i/450/depositphotos_493892244-stock-photo-beautiful-romantic-flowers-wallpaper-colorful.jpg') center;
+  background-image: ('dev/bienvenida/background.jpg');
   background-size: cover;
   overflow: hidden;
 }

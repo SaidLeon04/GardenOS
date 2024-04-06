@@ -8,3 +8,5 @@ modeText = body.querySelector(".mode-text");
 toggle.addEventListener("click" , () =>{  
 sidebar.classList.toggle("close");
 })
+
+console.log("barra lateral cargada");

@@ -15,7 +15,7 @@ if (strlen($_POST['nombre'])> 0 && strlen($_POST['passwd'])>0) {
 		session_start();
 		$_SESSION['id_usuario'] = $usuario['id_usuario'];
 		$_SESSION['nombre'] = $usuario['nombre'];
-		header("Location: ../../home/home.php");
+		header("Location: http://localhost/proyectos/garden_os/home");
 		
 	}else{
 		echo "Nombre de usuario o contraseña incorrecta";
@@ -31,7 +31,7 @@ if (strlen($_POST['nombre'])> 0 && strlen($_POST['passwd'])>0) {
 			session_start();
 			$_SESSION['id_usuario'] = $usuario['id_usuario'];
 			$_SESSION['nombre'] = $usuario['nombre'];
-			header("Location: ../../home/home.php");
+			header("Location: http://localhost/proyectos/garden_os/home");
 		}else{
 			echo "Correo o contraseña incorrecta";
 			# header("Location: ../../error/login_correo.php");
@@ -40,7 +40,6 @@ if (strlen($_POST['nombre'])> 0 && strlen($_POST['passwd'])>0) {
 	$stmt->close();
 	$conexion->close();
 }else{
-	# echo "Faltan datos";
-	header("Location: ../../error/login_null.php");
+	echo "Faltan datos";
 }
 ?>
