@@ -6,7 +6,7 @@ modelo = ObtenerValoresOptimos(host='localhost', user='root', database='testgard
 render = web.template.render('views/')
 
 class Generative:
-    def GET(self, key="el alcatraz >:("):
+    def GET(self, key):
         try:
             resultado = modelo.obtener_valores(key)
             return render.index(resultado, key)

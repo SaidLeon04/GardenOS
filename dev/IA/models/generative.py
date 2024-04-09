@@ -62,19 +62,22 @@ class ObtenerValoresOptimos:
 
                     cursor.execute("SELECT humedad FROM humedad WHERE id_lote = %s", (id_lote,))
                     humedad = cursor.fetchall()
+                    print(humedad)
                     if humedad:
-                        humedad = [h[0] for h in humedad]
-                        humedad_promedio = sum(humedad) / len(humedad)
-                        humedad_promedio = round(humedad_promedio, 2)
-                        humedad_promedio = str(humedad_promedio)
+                        humedad = [h[0] for h in humedad if h[0] is not None]
+                        if humedad: 
+                          humedad_promedio = sum(humedad) / len(humedad)
+                          humedad_promedio = round(humedad_promedio, 2)
+                          humedad_promedio = str(humedad_promedio)
 
                         cursor.execute("SELECT temperatura FROM temperatura WHERE id_lote = %s", (id_lote,))
                         temperatura = cursor.fetchall()
                         if temperatura: 
-                            temperatura = [h[0] for h in temperatura]
-                            temperatura_promedio = sum(temperatura) / len(temperatura)
-                            temperatura_promedio = round(temperatura_promedio, 2)
-                            temperatura_promedio = str(temperatura_promedio)
+                            temperatura = [h[0] for h in temperatura if h[0] is not None]  # Filtrar valores None
+                            if temperatura:
+                                temperatura_promedio = sum(temperatura) / len(temperatura)
+                                temperatura_promedio = round(temperatura_promedio, 2)
+                                temperatura_promedio = str(temperatura_promedio)
 
                             cursor.execute(f"SELECT COUNT(*) FROM riego WHERE id_lote = {id_lote}")
                             riegos = cursor.fetchone()
@@ -83,7 +86,6 @@ class ObtenerValoresOptimos:
 
                             # valores enviados:
                             # id_lote, id_planta, fecha_inicial, cantidad_actual, nombre_planta, humedad_promedio, temperatura_promedio, riegos
-                            # TODO obtener dias de germinacion
                             prompt_parts = [
                                 "input: Nombre: Girasoles\nHumedad promedio: 65\nTemperatura promedio: 24\nProceso actual: germinacion\nCantidad semillas: 100\nDías: 20\nDias Riego: 15",
                                 "output: La humedad promedio del 65% se encuentra dentro del rango óptimo para la germinación de los girasoles, que oscila entre el 60% y el 80%.\n\nLa temperatura promedio de 24°C se encuentra dentro del rango óptimo para la germinación de los girasoles, que oscila entre 20°C y 30°C.\n\nLa mayoría de las semillas de girasol germinan entre 4 y 10 días, aunque algunas pueden tardar más.\n\nEs importante verificar el estado del suelo antes de regar, asegurándose de que esté ligeramente húmedo pero no encharcado.",
@@ -153,4 +155,5 @@ if resultado:
     print(f"Humedad promedio: {humedad_promedio}")
     print(f"Temperatura promedio: {temperatura_promedio}")
     print(f"Número de riegos: {riegos}")
+
 """
