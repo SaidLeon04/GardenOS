@@ -1,11 +1,10 @@
 <?php
 include("../../conexion.php");
-include("../../statements.php");
 
 $id_planta = $_GET['id_planta'];
 $existe = false;
 
-    $stmt = $conexion->prepare($consulta_planta);
+    $stmt = $conexion->prepare("SELECT * FROM plantas WHERE id_planta = ?");
     $stmt->bind_param('i', $id_planta);
     $stmt->execute();
     $stmt->store_result(); 
@@ -17,7 +16,7 @@ $existe = false;
     }
 
     if ($existe){
-        $stmt= $conexion->prepare($consulta_lote);
+        $stmt= $conexion->prepare("SELECT * FROM lote WHERE id_lote = ?");
         $stmt->bind_param("i", $id_planta);
         $stmt->execute();
         $stmt->store_result();
@@ -25,10 +24,10 @@ $existe = false;
         if ($stmt->num_rows > 0){
             echo "La planta existe en un lote, por lo tanto no puede ser eliminada";
         }else{
-            $stmt= $conexion->prepare($borrar_planta);
+            $stmt= $conexion->prepare("DELETE FROM plantas WHERE id_planta = ?");
             $stmt->bind_param("i", $id_planta);
             $stmt->execute();
-            header("Location: ../plantas.php");
+            header("Location: /proyectos/garden_os/plantas");
         }
     }
     $stmt->close();

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, init-scale=1.0">
-<link rel="stylesheet" href="/proyectos/garden_os/dev/assets/css/barra_lateral.css">
+    <link rel="stylesheet" href="/proyectos/garden_os/dev/assets/css/barra_lateral.css">
     <link rel="stylesheet" href="/proyectos/garden_os/dev/assets/fonts/font.css">
     <link rel="stylesheet" href="/proyectos/garden_os/dev/plantas/css/plantas.css">
     <?php 
@@ -139,7 +139,7 @@
         <div class="text">
             <header>
                 Catalogo de plantas
-                <button class="create-button"><a href="form/add.php">Agregar</a></button>
+                <button class="create-button"><a href="/proyectos/garden_os/plantas/c">Agregar</a></button>
             </header>
         </div>
         
@@ -151,7 +151,7 @@
             <div class="group-tile">
                 <?php for ($i = 0; $i < $cantidad_registros; $i++) { ?>
                 <div class="plant-tile">
-                    <a href="view_planta.php?id_planta=<?php echo $id_planta[$i]; ?>" class="tile-link">
+                    <a href="/proyectos/garden_os/planta/v?id_planta=<?php echo $id_planta[$i]; ?>" class="tile-link">
                         <center>
                             <h3><?php echo $nombres[$i]; ?></h3>
                         
@@ -178,6 +178,5 @@
     </section>
 </body>
 <script src="/proyectos/garden_os/dev/assets/js/barra_lateral.js"></script>
-
 </html>
 

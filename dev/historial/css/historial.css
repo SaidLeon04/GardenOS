@@ -41,3 +41,18 @@
   box-shadow: 21px 17px 36px 12px rgba(0,0,0,0.23);
   transition: all 0.5s ease;
 }
+
+.help-button{
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-image: linear-gradient(to right, #ffcd90, #FF8D21);
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.help-button:hover{
+  background-image: linear-gradient(to right, #FF8D21, #ffcd90);
+  transform: scale(1.05);
+}

@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/proyectos/garden_os/dev/assets/css/barra_lateral.css">
     <link rel="stylesheet" href="/proyectos/garden_os/dev/assets/fonts/font.css">
     <link rel="stylesheet" href="/proyectos/garden_os/dev/lotes/css/lotes.css">
+    <title>Lotes</title>
     <?php 
         include("../conexion.php");
 
@@ -155,7 +156,7 @@
             <div class="group-tile">
                 <?php for ($i = 0; $i < $cantidad_registros; $i++) { ?>
                 <div class="lote-tile">
-                    <a href="view_lote.php?id_lote=<?php echo $id_lote[$i]; ?>" class="tile-link">
+                    <a href="/proyectos/garden_os/lote/v?id_lote=<?php echo $id_lote[$i]; ?>" class="tile-link">
                         <center>
                             <h3><?php echo $nombre_lote[$i]; ?></h3>
                         

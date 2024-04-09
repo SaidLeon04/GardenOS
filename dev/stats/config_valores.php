@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="css/config_valores.css">
+    <link rel="stylesheet" href="/proyectos/garden_os/dev/assets/fonts/font.css">
+    <link rel="stylesheet" href="/proyectos/garden_os/dev/assets/css/barra_lateral.css">
+    <link rel="stylesheet" href="/proyectos/garden_os/dev/stats/css/config_valores.css">
     <?php 
-        include("../statements.php");
         include("../conexion.php");
 
         session_start();
@@ -14,6 +14,14 @@
         $usuario = $_SESSION['nombre'];
         $id_lote = $_GET['id_lote'];
         
+        $stmt = $conexion->prepare("SELECT imagen FROM usuarios WHERE id_usuario = ?");
+        $stmt->bind_param('i', $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $datos_usuario = $result->fetch_assoc();
+            $pfp = $datos_usuario['imagen'];
+        }
     ?>
 </head>
 <body>
@@ -21,54 +29,52 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="../assets/img/clean.png" alt="pfp.jpg">
+                    <img src="data:image;base64,<?php echo $pfp; ?>" alt="pfp" id="pfp">
                 </span>
 
                 <div class="text logo-text">
                     <span class="name">
-                        <?php 
-				            echo $usuario;
-                        ?>
+                        <a href="/proyectos/garden_os/perfil?id_usuario=<?php echo $id_usuario; ?>" class="pfp-link"><?php echo $usuario; ?></a>
                     </span>
                 </div>
             </div>
-                <img src="../assets/svg/arrow.svg" alt="icono_arrow" class="toggle">
+                <img src="/proyectos/garden_os/dev/assets/svg/arrow.svg" alt="icono_arrow" class="toggle">
         </header>
 
         <div class="menu-bar">
             <div class="menu">
                 <ul class="menu-links">
                     <li class="nav-link">
-                        <a href="../home/home.php" title="Volver al inicio">
-                            <img src="../assets/svg/home.svg" alt="icono_home" class="icon">
+                        <a href="/proyectos/garden_os/home" title="Volver al inicio">
+                            <img src="/proyectos/garden_os/dev/assets/svg/home.svg" alt="icono_home" class="icon">
                             <span class="text nav-text">Inicio</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="plantas.php" title="Ver catálogo de plantas">
-                            <img src="../assets/svg/planta.svg" alt="icono_planta" class="icon">
+                        <a href="/proyectos/garden_os/plantas" title="Ver catálogo de plantas">
+                            <img src="/proyectos/garden_os/dev/assets/svg/planta.svg" alt="icono_planta" class="icon">
                             <span class="text nav-text">Plantas</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="../lotes/lotes.php">
-                            <img src="../assets/svg/lotes.svg" alt="icono_lotes" class="icon">
+                        <a href="/proyectos/garden_os/lotes">
+                            <img src="/proyectos/garden_os/dev/assets/svg/lotes.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="../lotes_terminados/lotes_terminados.php">
-                            <img src="../assets/svg/lotes_terminados.svg" alt="icono_lotes" class="icon">
+                        <a href="/proyectos/garden_os/lotes_terminados">
+                            <img src="/proyectos/garden_os/dev/assets/svg/lotes_terminados.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes Terminados</span>
                         </a>
                     </li>  
 
                     <li class="nav-link">
-                        <a href="../sensores/sensores.php">
-                            <img src="../assets/svg/humedad.svg" alt="icono_humedad" class="icon">
+                        <a href="/proyectos/garden_os/sensores">
+                            <img src="/proyectos/garden_os/dev/assets/svg/humedad.svg" alt="icono_humedad" class="icon">
                             <span class="text nav-text">
                                 Sensores
                             </span>
@@ -76,8 +82,8 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="../zen/zen.php">
-                            <img src="../assets/svg/zen.svg" alt="icono_zen" class="icon">
+                        <a href="/proyectos/garden_os/zen">
+                            <img src="/proyectos/garden_os/dev/assets/svg/zen.svg" alt="icono_zen" class="icon">
                             <span class="text nav-text">
                                 Zen
                             </span>
@@ -88,14 +94,14 @@
 
             <div class="bottom-content">
                 <li class="nav-link">
-                    <a href="../ayuda/ayuda.php">
-                        <img src="../assets/svg/help.svg" alt="icono_help" class="icon">
+                    <a href="/proyectos/garden_os/help">
+                        <img src="/proyectos/garden_os/dev/assets/svg/help.svg" alt="icono_help" class="icon">
                         <span class="text nav-text">Ayuda</span>
                     </a>
                 </li>
                 <li class="nav-link">
-                    <a href="../logout/logout.php">
-                        <img src="../assets/svg/logout.svg" alt="icono_logout" class="icon">
+                    <a href="/proyectos/garden_os/logout">
+                        <img src="/proyectos/garden_os/dev/assets/svg/logout.svg" alt="icono_logout" class="icon">
                         <span class="text nav-text">Salir</span>
                     </a>
                 </li>
@@ -109,8 +115,8 @@
             <header>
                 Establecer valores óptimos 
             <?php
-                $stmt = $conexion->prepare("SELECT * FROM lote WHERE id_lote = ? AND id_usuario = ?");
-                $stmt->bind_param("ii", $id_lote, $id_usuario);
+                $stmt = $conexion->prepare("SELECT plantas.imagen, lote.nombre_lote, lote.estado, lote.temperatura_optima, lote.humedad_optima, lote.riego, lote.intervalo FROM plantas JOIN lote ON plantas.id_planta = lote.id_planta WHERE plantas.id_usuario = ? AND id_lote = ?");
+                $stmt->bind_param("ii", $id_usuario, $id_lote);
                 $stmt->execute();
                 $result = $stmt->get_result();
                 if ($result->num_rows > 0) {
@@ -121,9 +127,11 @@
                     $humedad_optima = $info['humedad_optima'];
                     $riego = $info['riego'];
                     $intervalo = $info['intervalo'];
+                    $imagen = $info['imagen'];
                 } else {
                     echo "El lote no existe";
                 }
+
             ?>
             </header>
         </div>
@@ -131,27 +139,28 @@
             <div class="form-info">
                 <div class="info">
                     <div class="info1">
-                        <form id="valores" method=POST action="editar_valores_optimos.php">
+                        <form id="valores" method=POST action="/proyectos/garden_os/config_action">
                             <input hidden readonly name="id_lote" value=<?php echo $id_lote; ?>>
-                            <label for="nombre_lote" class="text">Nombre lote: </label>
+                            <label for="nombre_lote" class="texto">Nombre lote: </label>
                                 <p class="parrafo"><?php echo $nombre_lote ?></p>
                                 <br>
-                            <label for="estado" class="text">Estado Actual: </label>
+                            <label for="estado" class="texto">Estado Actual: </label>
                                 <p class="parrafo"><?php echo $estado ?></p>
                                 <br>
+                            <img src="data:image;base64,<?php echo $imagen; ?>" alt="pfp" class="imagen">
                     </div>
                     <div class="info2">
-                        <label for="temperatura" class="text">Temperatura óptima: </label>
-                            <div class="inputView"><input type="number" id="temperatura" name="temperatura_optima" value=<?php echo $temperatura_optima; ?> readonly required min=1 max=80><p class="text">°C</p></div>
+                        <label for="temperatura" class="texto">Temperatura óptima: </label>
+                            <div class="inputView"><input type="number" id="temperatura" name="temperatura_optima" value=<?php echo $temperatura_optima; ?> readonly required min=1 max=80><p class="texto">°C</p></div>
                             <br>
-                        <label for="humedad" class="text">Humedad óptima: </label>
-                            <div class="inputView"><input type="number" id="humedad" name="humedad_optima" value=<?php echo $humedad_optima; ?> readonly required min=1 max=100><p class="text">%</p></div>
+                        <label for="humedad" class="texto">Humedad óptima: </label>
+                            <div class="inputView"><input type="number" id="humedad" name="humedad_optima" value=<?php echo $humedad_optima; ?> readonly required min=1 max=100><p class="texto">%</p></div>
                             <br>   
-                        <label for="riego" class="text">Riego con la humedad al: </label>
-                            <div class="inputView"><input type="number" id="riego" name="riego" value="<?php echo $riego ?>" readonly required min=1 max=100><p class="text">%</p></div>
+                        <label for="riego" class="texto">Riego con la humedad al: </label>
+                            <div class="inputView"><input type="number" id="riego" name="riego" value="<?php echo $riego ?>" readonly required min=1 max=100><p class="texto">%</p></div>
                             <br>
-                        <label for="riego" class="text">Intervalo: </label>
-                            <div class="inputView"><input type="number" id="intervalo" name="intervalo" value="<?php echo $intervalo ?>" readonly required min=1 max=1000><p class="text">minutos</p></div>
+                        <label for="riego" class="texto">Intervalo: </label>
+                            <div class="inputView"><input type="number" id="intervalo" name="intervalo" value="<?php echo $intervalo ?>" readonly required min=1 max=1000><p class="texto">minutos</p></div>
                             <br>
                     </div>    
                 </div>
@@ -167,7 +176,7 @@
         </center>
     </section>
 </body>
-<script src="../assets/js/barra_lateral.js"></script>
-<script src="js/functions.js"></script>
+<script src="/proyectos/garden_os/dev/assets/js/barra_lateral.js"></script>
+<script src="/proyectos/garden_os/dev/stats/js/functions.js"></script>
 </html>
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="../assets/css/barra_lateral.css">
-    <link rel="stylesheet" href="css/view_lote.css">
-    <?php 
-        include("sql/lotes.php");
-        include("../statements.php");
+    <link rel="stylesheet" href="/proyectos/garden_os/dev/assets/fonts/font.css">
+    <link rel="stylesheet" href="/proyectos/garden_os/dev/lotes/css/view_lote.css">
+    <link rel="stylesheet" href="/proyectos/garden_os/dev/assets/css/barra_lateral.css">
+    <title>Lote</title>
+    <?php
         include("../conexion.php");
 
         session_start();
@@ -15,7 +15,7 @@
         $usuario = $_SESSION['nombre'];
         $id_lote = $_GET['id_lote'];
 
-        $stmt = $conexion->prepare($consulta_usuario);
+        $stmt = $conexion->prepare("SELECT * FROM usuarios WHERE id_usuario = ?");
         $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -26,7 +26,7 @@
             echo "El usuario no existe";
         }
 
-        $stmt = $conexion->prepare($lote_one);
+        $stmt = $conexion->prepare("SELECT plantas.nombre, plantas.imagen, lote.nombre_lote, lote.fecha_inicial, lote.cantidad_actual FROM plantas JOIN lote ON plantas.id_planta = lote.id_planta WHERE plantas.id_usuario = ? AND id_lote=?");
         $stmt->bind_param('ii',$id_usuario, $id_lote);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -53,47 +53,47 @@
 
                 <div class="text logo-text">
                     <span class="name">
-                        <a class="pfp-link" href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
+                        <a href="/proyectos/garden_os/perfil?id_usuario=<?php echo $id_usuario; ?>" class="pfp-link"><?php echo $usuario; ?></a>
                     </span>
                 </div>
             </div>
-                <img src="../assets/svg/arrow.svg" alt="icono_arrow" class="toggle">
+                <img src="/proyectos/garden_os/dev/assets/svg/arrow.svg" alt="icono_arrow" class="toggle">
         </header>
 
         <div class="menu-bar">
             <div class="menu">
                 <ul class="menu-links">
                     <li class="nav-link">
-                        <a href="../home/home.php" title="Volver al inicio">
-                            <img src="../assets/svg/home.svg" alt="icono_home" class="icon">
+                        <a href="/proyectos/garden_os/home" title="Volver al inicio">
+                            <img src="/proyectos/garden_os/dev/assets/svg/home.svg" alt="icono_home" class="icon">
                             <span class="text nav-text">Inicio</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="../plantas/plantas.php" title="Ver catálogo de plantas">
-                            <img src="../assets/svg/planta.svg" alt="icono_planta" class="icon">
+                        <a href="/proyectos/garden_os/plantas" title="Ver catálogo de plantas">
+                            <img src="/proyectos/garden_os/dev/assets/svg/planta.svg" alt="icono_planta" class="icon">
                             <span class="text nav-text">Plantas</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="lotes.php">
-                            <img src="../assets/svg/lotes.svg" alt="icono_lotes" class="icon">
+                        <a href="/proyectos/garden_os/lotes">
+                            <img src="/proyectos/garden_os/dev/assets/svg/lotes.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="../lotes_terminados/lotes_terminados.php">
-                            <img src="../assets/svg/lotes_terminados.svg" alt="icono_lotes" class="icon">
+                        <a href="/proyectos/garden_os/lotes_terminados">
+                            <img src="/proyectos/garden_os/dev/assets/svg/lotes_terminados.svg" alt="icono_lotes" class="icon">
                             <span class="text nav-text">Lotes Terminados</span>
                         </a>
                     </li>  
 
                     <li class="nav-link">
-                        <a href="../sensores/sensores.php">
-                            <img src="../assets/svg/humedad.svg" alt="icono_humedad" class="icon">
+                        <a href="/proyectos/garden_os/sensores">
+                            <img src="/proyectos/garden_os/dev/assets/svg/humedad.svg" alt="icono_humedad" class="icon">
                             <span class="text nav-text">
                                 Sensores
                             </span>
@@ -101,8 +101,8 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="../zen/zen.php">
-                            <img src="../assets/svg/zen.svg" alt="icono_zen" class="icon">
+                        <a href="/proyectos/garden_os/zen">
+                            <img src="/proyectos/garden_os/dev/assets/svg/zen.svg" alt="icono_zen" class="icon">
                             <span class="text nav-text">
                                 Zen
                             </span>
@@ -113,14 +113,14 @@
 
             <div class="bottom-content">
                 <li class="nav-link">
-                    <a href="../ayuda/ayuda.php">
-                        <img src="../assets/svg/help.svg" alt="icono_help" class="icon">
+                    <a href="/proyectos/garden_os/help">
+                        <img src="/proyectos/garden_os/dev/assets/svg/help.svg" alt="icono_help" class="icon">
                         <span class="text nav-text">Ayuda</span>
                     </a>
                 </li>
                 <li class="nav-link">
-                    <a href="../logout/logout.php">
-                        <img src="../assets/svg/logout.svg" alt="icono_logout" class="icon">
+                    <a href="/proyectos/garden_os/logout">
+                        <img src="/proyectos/garden_os/dev/assets/svg/logout.svg" alt="icono_logout" class="icon">
                         <span class="text nav-text">Salir</span>
                     </a>
                 </li>
@@ -141,7 +141,7 @@
                     <!-- TODO can save all moves in a lot, like edit date = show it in history??? -->
                     <img src="data:image;base64,<?php echo $imagen; ?>" alt="imagen_lote" id="imagen_lote">
             
-                    <form id="lote" enctype="multipart/form-data" method=POST action="crud/edit.php">
+                    <form id="lote" enctype="multipart/form-data" method=POST action="/proyectos/garden_os/lote/e">
                         <p class="alert">Zona peligrosa. Editar aspectos del lote puede alterar cultivos reales.</p>
                         <input type="hidden" name="id_lote" value=<?php echo $id_lote; ?>>
                         <input type="hidden" name="id_usuario" value=<?php echo $id_usuario ?>>
@@ -153,10 +153,10 @@
                             <br>
                 </div>
                 <div class="actions">
-                        <button class="create-button" id="btn-crear"><a href="../stats/actividad.php?id_lote=<?php echo $id_lote; ?>">Actividad</a></button>
+                        <button class="create-button" id="btn-crear"><a href="/proyectos/garden_os/dashboard?id_lote=<?php echo $id_lote; ?>">Actividad</a></button>
                         <button class="create-button" id="btn-guardar" onclick="return editarLote()" type="submit" hidden>Guardar</button>
                         <button class="edit-button" id="btn-edit" onclick="return editActive('lote')" type="button"><a href="#">Editar</a></button>
-                        <button class="delete-button" id="btn-delete" onclick="return eliminarLote()"><a href="crud/delete.php?id_lote=<?php echo $id_lote; ?>">Eliminar lote</a></button>
+                        <button class="delete-button" id="btn-delete" onclick="return eliminarLote()"><a href="/proyectos/garden_os/lote/d?id_lote=<?php echo $id_lote; ?>">Eliminar lote</a></button>
                         <button class="delete-button" id="btn-cancel" onclick="return editInactive('lote')" type="button" hidden><a href="#">Cancelar</a></button>
                     </form>
                 </div>    
@@ -164,8 +164,7 @@
         </center>
     </section>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
-<script src="../assets/js/barra_lateral.js"></script>
-<script src="js/functions.js"></script>
+<script src="/proyectos/garden_os/dev/assets/js/barra_lateral.js"></script>
+<script src="/proyectos/garden_os/dev/lotes/js/functions.js"></script>
 </html>
 

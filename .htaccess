@@ -1,8 +1,6 @@
 RewriteEngine On
 
-
 RewriteRule ^$                  dev/bienvenida/index.html 
-
 
 RewriteRule ^sign_in$           dev/login/login.php
 RewriteRule ^login_action$      dev/login/php/login_action.php
@@ -10,7 +8,6 @@ RewriteRule ^login_action$      dev/login/php/login_action.php
 
 RewriteRule ^sign_up$           dev/signup/sign_up.html
 RewriteRule ^sign_up_action$    dev/signup/sign_up_action.php
-
 
 RewriteRule ^home$              dev/home/home.php
 
@@ -24,23 +21,47 @@ RewriteRule ^perfil/email$      dev/perfil/form/email.php
 RewriteRule ^email_action$      dev/perfil/crud/email_action.php
 
 RewriteRule ^perfil/delete$     dev/perfil/form/delete.php
-RewriteRule ^delete_action$     dev/perfil/crud/delete_action.php
-
-RewriteRule ^perfil/email$      dev/config/config.php
+RewriteRule ^delete_action$     dev/perfil/form/delete_action.php
 
 RewriteRule ^plantas$           dev/plantas/plantas.php
+RewriteRule ^plantas/c$         dev/plantas/form/add.php 
+RewriteRule ^planta_action$     dev/plantas/crud/add.php
+RewriteRule ^planta/v$          dev/plantas/view_planta.php
+RewriteRule ^planta/e$          dev/plantas/crud/edit.php
+RewriteRule ^planta/d$          dev/plantas/crud/delete.php
+
+RewriteRule ^lotes$             dev/lotes/lotes.php
+RewriteRule ^lotes/c$           dev/lotes/form/add.php
+RewriteRule ^lotes/a$           dev/lotes/crud/add.php
+RewriteRule ^lote/v$            dev/lotes/view_lote.php
+RewriteRule ^lote/e$            dev/lotes/crud/edit.php
+RewriteRule ^lote/d$            dev/lotes/crud/delete.php
+
+RewriteRule ^dashboard$         dev/stats/actividad.php
+RewriteRule ^configuracion$     dev/stats/config_valores.php
+RewriteRule ^config_action$     dev/stats/editar_valores_optimos.php
+RewriteRule ^avanzar$           dev/avance/avance.php
+RewriteRule ^avance_action$     dev/avance/crud/avance.php 
+RewriteRule ^historial$         dev/historial/historial.php
 
 RewriteRule ^lotes_terminados$  dev/lotes_terminados/lotes_terminados.php
 
 RewriteRule ^sensores$          dev/sensores/sensores.php
+RewriteRule ^sensores/c$        dev/sensores/form/add.php
+RewriteRule ^sensor/v$          dev/sensores/view_sensor.php
+RewriteRule ^sensor/e$          dev/sensores/crud/edit.php
+RewriteRule ^sensor/desvicular$ dev/sensores/crud/desactivate.php
+RewriteRule ^sensor/d$          dev/sensores/crud/delete.php
+
 
 RewriteRule ^zen$               dev/zen/zen.php
+RewriteRule ^flowers$           dev/zen/tiles/drawFlowers/drawFlowers.html
 
 RewriteRule ^ayuda$             dev/ayuda/ayuda.php
 
 RewriteRule ^logout$            dev/logout/logout.php
 
 
-RewriteRule ^lotes$             dev/lotes/lotes.php
+
 
 

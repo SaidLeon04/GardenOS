@@ -1,34 +1,40 @@
 .form-info{
     display: flex;
     flex-direction: column;
-    width: 900px;
+    width:1200px;
     margin: 20px;
     border-radius: 20px;
+    background-color: #B6CDB1;
 }
+
+.info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .actions{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    margin-top: 20px;
+    margin: 20px;
 }
-.info{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-}
+
 
 .info1{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    margin: 40px;
-    width: 400px;
+    width: 600px;
+    margin: 20px;
 }
 
 .info2{
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    width: 600px;
+    margin: 20px;
 }
 
 a{
@@ -106,4 +112,16 @@ input[type="number"]{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+}
+
+.imagen{
+    width: 400px;
+    height: 300px;
+}
+
+.texto{
+    font-size: 30px;
+    font-weight: 500;
+    color: black;
+    padding: 12px 60px;
 }

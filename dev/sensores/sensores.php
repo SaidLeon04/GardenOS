@@ -136,7 +136,7 @@
         <div class="text">
             <header>
                 Sensores registrados
-                <button class="create-button"><a href="form/add.php">Agregar Sensor</a></button>
+                <button class="create-button"><a href="/proyectos/garden_os/sensores/c">Agregar Sensor</a></button>
             </header>
         </div>
         
@@ -159,7 +159,7 @@
                     }
                 ?>
                 <div class="lote-tile">
-                    <a href="view_sensor.php?id_sensor=<?php echo $id_sensor[$i]; ?>" class="tile-link">
+                    <a href="/proyectos/garden_os/sensor/v?id_sensor=<?php echo $id_sensor[$i]; ?>" class="tile-link">
                         <center>
                             <h1><?php echo $nombre[$i]; ?></h1>
                         
@@ -167,7 +167,7 @@
                                 if ($tipo[$i] == "dht22") {
                                     echo "<img src='/proyectos/garden_os/dev/sensores/assets/img/dht22.png' alt='sensor_dht22' class='img-tile'>";
                                 }elseif ($tipo[$i] == "dht11"){
-                                    echo "<img src='assets/img/dht11.png' alt='sensor_dht11' class='img-tile'>";
+                                    echo "<img src='/proyectos/garden_os/dev/sensores/assets/img/dht11.png' alt='sensor_dht11' class='img-tile'>";
                                 }
                             ?>
 

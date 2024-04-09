@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/barra_lateral.css">  
-    <link rel="stylesheet" href="css/stats.css">
+    <link rel="stylesheet" href="/proyectos/garden_os/dev/assets/fonts/font.css">
+    <link rel="stylesheet" href="/proyectos/garden_os/dev/assets/css/barra_lateral.css">
+    <link rel="stylesheet" href="/proyectos/garden_os/dev/stats/css/stats.css">
+
     <?php 
         include("../conexion.php");
 
@@ -54,91 +56,91 @@
     ?>
     <title>Dashboard <?php echo $nombre_lote; ?></title>
 </head>
-    <body>
-        <nav class="sidebar close">
-            <header>
-                <div class="image-text">
-                    <span class="image">
-                        <img src="data:image;base64,<?php echo $pfp; ?>" alt="pfp" id="pfp">
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="data:image;base64,<?php echo $pfp; ?>" alt="pfp" id="pfp">
+                </span>
+
+                <div class="text logo-text">
+                    <span class="name">
+                        <a href="/proyectos/garden_os/perfil?id_usuario=<?php echo $id_usuario; ?>" class="pfp-link"><?php echo $usuario; ?></a>
                     </span>
-
-                    <div class="text logo-text">
-                        <span class="name">
-                            <a class="pfp-link" href="../perfil/view_perfil.php?id_usuario=<?php echo $id_usuario; ?>"><?php echo $usuario; ?></a>
-                        </span>
-                    </div>
                 </div>
-                    <img src="../assets/svg/arrow.svg" alt="icono_arrow" class="toggle">
-            </header>
-
-            <div class="menu-bar">
-                <div class="menu">
-                    <ul class="menu-links">
-                        <li class="nav-link">
-                            <a href="../home/home.php" title="Volver al inicio">
-                                <img src="../assets/svg/home.svg" alt="icono_home" class="icon">
-                                <span class="text nav-text">Inicio</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-link">
-                            <a href="../plantas/plantas.php" title="Ver catálogo de plantas">
-                                <img src="../assets/svg/planta.svg" alt="icono_planta" class="icon">
-                                <span class="text nav-text">Plantas</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-link">
-                            <a href="../lotes/lotes.php">
-                                <img src="../assets/svg/lotes.svg" alt="icono_lotes" class="icon">
-                                <span class="text nav-text">Lotes</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-link">
-                            <a href="../lotes_terminados/lotes_terminados.php">
-                                <img src="../assets/svg/lotes_terminados.svg" alt="icono_lotes" class="icon">
-                                <span class="text nav-text">Lotes Terminados</span>
-                            </a>
-                        </li>  
-
-                        <li class="nav-link">
-                            <a href="../sensores/sensores.php">
-                                <img src="../assets/svg/humedad.svg" alt="icono_humedad" class="icon">
-                                <span class="text nav-text">
-                                    Sensores
-                                </span>
-                            </a>
-                        </li>
-
-                        <li class="nav-link">
-                            <a href="../zen/zen.php">
-                                <img src="../assets/svg/zen.svg" alt="icono_zen" class="icon">
-                                <span class="text nav-text">
-                                    Zen
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="bottom-content">
-                    <li class="nav-link">
-                        <a href="../ayuda/ayuda.php">
-                            <img src="../assets/svg/help.svg" alt="icono_help" class="icon">
-                            <span class="text nav-text">Ayuda</span>
-                        </a>
-                    </li>
-                    <li class="nav-link">
-                        <a href="../logout/logout.php">
-                            <img src="../assets/svg/logout.svg" alt="icono_logout" class="icon">
-                            <span class="text nav-text">Salir</span>
-                        </a>
-                    </li>
-                </div>
-
             </div>
-        </nav>
+                <img src="/proyectos/garden_os/dev/assets/svg/arrow.svg" alt="icono_arrow" class="toggle">
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="/proyectos/garden_os/home" title="Volver al inicio">
+                            <img src="/proyectos/garden_os/dev/assets/svg/home.svg" alt="icono_home" class="icon">
+                            <span class="text nav-text">Inicio</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="/proyectos/garden_os/plantas" title="Ver catálogo de plantas">
+                            <img src="/proyectos/garden_os/dev/assets/svg/planta.svg" alt="icono_planta" class="icon">
+                            <span class="text nav-text">Plantas</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="/proyectos/garden_os/lotes">
+                            <img src="/proyectos/garden_os/dev/assets/svg/lotes.svg" alt="icono_lotes" class="icon">
+                            <span class="text nav-text">Lotes</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="/proyectos/garden_os/lotes_terminados">
+                            <img src="/proyectos/garden_os/dev/assets/svg/lotes_terminados.svg" alt="icono_lotes" class="icon">
+                            <span class="text nav-text">Lotes Terminados</span>
+                        </a>
+                    </li>  
+
+                    <li class="nav-link">
+                        <a href="/proyectos/garden_os/sensores">
+                            <img src="/proyectos/garden_os/dev/assets/svg/humedad.svg" alt="icono_humedad" class="icon">
+                            <span class="text nav-text">
+                                Sensores
+                            </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="/proyectos/garden_os/zen">
+                            <img src="/proyectos/garden_os/dev/assets/svg/zen.svg" alt="icono_zen" class="icon">
+                            <span class="text nav-text">
+                                Zen
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <li class="nav-link">
+                    <a href="/proyectos/garden_os/help">
+                        <img src="/proyectos/garden_os/dev/assets/svg/help.svg" alt="icono_help" class="icon">
+                        <span class="text nav-text">Ayuda</span>
+                    </a>
+                </li>
+                <li class="nav-link">
+                    <a href="/proyectos/garden_os/logout">
+                        <img src="/proyectos/garden_os/dev/assets/svg/logout.svg" alt="icono_logout" class="icon">
+                        <span class="text nav-text">Salir</span>
+                    </a>
+                </li>
+            </div>
+
+        </div>
+    </nav>
 
         <section class="home">
             <center>
@@ -153,7 +155,7 @@
                         <div class="carta-stats">
                             <div style="display:flex; flex-direction:row; justify-content: space-around;">
                                     <h3>Días Activo</h3>
-                                    <img src="../assets/svg/dias.svg" alt="dias">    
+                                    <img src="/proyectos/garden_os/dev/assets/svg/dias.svg" alt="dias">    
                             </div>
                             <div>
                                 <?php echo $dias; ?>
@@ -163,7 +165,7 @@
                         <div class="carta-stats">
                             <div style="display:flex; flex-direction:row; justify-content: space-around;">
                                 <h3>Cantidad Actual</h3>
-                                <img src="../assets/svg/cantidad.svg" alt="cantidad">    
+                                <img src="/proyectos/garden_os/dev/assets/svg/cantidad.svg" alt="cantidad">    
                             </div>
                             <div>
                                 <?php echo $cantidad_actual ?>
@@ -173,7 +175,7 @@
                         <div class="carta-stats">
                             <div style="display:flex; flex-direction:row; justify-content: space-around;">
                                     <h3>Proceso Actual</h3>
-                                    <img src="../assets/svg/proceso.svg" alt="proceso">
+                                    <img src="/proyectos/garden_os/dev/assets/svg/proceso.svg" alt="proceso">
                             </div>
                             <div>
                                 <?php echo $estado ?>
@@ -183,7 +185,7 @@
                         <div class="carta-stats">
                             <div style="display:flex; flex-direction:row; justify-content: space-around;">
                                 <h3>Previsión</h3>
-                                <img src="../assets/svg/prevision.svg" alt="prevision">
+                                <img src="/proyectos/garden_os/dev/assets/svg/prevision.svg" alt="prevision">
                             </div>
                             <div>
                                 <h3>76% efectividad</h3>
@@ -206,7 +208,7 @@
                                     }
                                 ?>
                             <center>
-                                <button class="edit-button"><a href="config_valores.php?id_lote=<?php echo $id_lote; ?>">Establecer</a></button>
+                                <button class="edit-button"><a href="/proyectos/garden_os/configuracion?id_lote=<?php echo $id_lote; ?>">Establecer</a></button>
                             </center>
                         </div>
 
@@ -224,8 +226,8 @@
                                         $result = $stmt->get_result();
                                         if ($result->num_rows > 0) {
                                             $url = $result->fetch_assoc()['url_conexion'];
-                                            $uri = 'https://gardenos-5a87b-default-rtdb.firebaseio.com/gardenos/3.json';
-                                            $respuesta = file_get_contents($uri);
+                                            # $uri = 'https://gardenos-5a87b-default-rtdb.firebaseio.com/gardenos/3.json';
+                                            $respuesta = file_get_contents($url);
                                             $datos = json_decode($respuesta);
 
                                             $humedad = $datos->humedad;
@@ -298,8 +300,8 @@
                         </div>
 
                         <div class="controls">
-                            <button class="btn"><a href="../avance/avance.php?key=<?php echo $id_lote ?>">Avanzar al siguiente paso</a></button>
-                            <button class="btn"><a href="../historial/historial.php?key=<?php echo $id_lote ?>">Historial</a></button>
+                            <button class="btn"><a href="/proyectos/garden_os/avanzar?key=<?php echo $id_lote ?>">Avanzar al siguiente paso</a></button>
+                            <button class="btn"><a href="/proyectos/garden_os/historial?key=<?php echo $id_lote ?>">Historial</a></button>
                             <button class="btn"><a href="http://127.0.0.1:8081/<?php echo $nombre_lote ?>">Prick IA</a></button>
                             <!-- TODO enviar nombre del lote y gg -->
                         </div>
@@ -370,9 +372,9 @@
             </center>
         </section>
     </body>
-    <script src="../assets/js/barra_lateral.js"></script>
+    <script src="/proyectos/garden_os/dev/assets/js/barra_lateral.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="js/graficaHumedad.js"></script>
-    <script src="js/graficaTemperatura.js"></script>
-    <script src="js/showHide.js"></script>
+    <script src="/proyectos/garden_os/dev/stats/js/graficaHumedad.js"></script>
+    <script src="/proyectos/garden_os/dev/stats/js/graficaTemperatura.js"></script>
+    <script src="/proyectos/garden_os/dev/stats/js/showHide.js"></script>
 </html>

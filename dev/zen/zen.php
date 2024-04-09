@@ -114,11 +114,12 @@
                 <button>Feedback Zen</button>
             </header>
         </div>
+        <br><br>
 
         <div class="main-container">
             <div class="group-tile">
                 <div class="zen-tile">
-                    <a href="/proyectos/garden_os/dev/zen/tiles/drawFlowers/drawFlowers.html" class="tile-link">
+                    <a href="/proyectos/garden_os/flowers" class="tile-link">
                         <center>
                             <h3>Dibuja flores</h3>
                         

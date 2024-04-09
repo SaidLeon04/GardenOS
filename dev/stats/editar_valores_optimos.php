@@ -1,7 +1,6 @@
 <?php
 
 include("../conexion.php");
-include("../statements.php");
 
 session_start();
 $id_usuario = $_SESSION['id_usuario'];
@@ -12,7 +11,7 @@ $humedad_optima = $_POST['humedad_optima'];
 $riego = $_POST['riego'];
 $intervalo = $_POST['intervalo'];
 
-$stmt = $conexion->prepare($consulta_lote);
+$stmt = $conexion->prepare("SELECT * FROM lote WHERE id_lote = ?");
 $stmt->bind_param("i", $id_lote);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -22,7 +21,7 @@ if ($result->num_rows > 0){
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
-        header("Location: ../lotes/lotes.php");
+        header("Location: /proyectos/garden_os/lotes");
     } else {
         echo "No se realizaron cambios.";
     }

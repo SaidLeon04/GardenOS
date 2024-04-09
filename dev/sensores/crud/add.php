@@ -1,6 +1,5 @@
 <?php
 include("../../conexion.php");
-include("../../statements.php");
 
 session_start();
 $id_usuario = $_SESSION['id_usuario'];
@@ -10,12 +9,12 @@ $tipo = $_POST['tipo'];
 $lote = $_POST['lote'];
 $url_conexion = $_POST['url_conexion'];
 
-$stmt = $conexion->prepare($consulta_usuario);
+$stmt = $conexion->prepare("SELECT * FROM usuarios WHERE id_usuario = ?");
 $stmt->bind_param('i', $id_usuario);
 $stmt->execute();
 $result = $stmt->get_result();
 if ($result->num_rows > 0) {
-    $stmt = $conexion->prepare($consulta_lote);
+    $stmt = $conexion->prepare("SELECT * FROM lote WHERE id_lote = ?");
     $stmt->bind_param("i", $lote);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -38,15 +37,13 @@ if ($result->num_rows > 0) {
                 if ($stmt->affected_rows > 0){
                     $stmt->close();
                     $conexion->close();
-                    header("Location: ../../sensores/sensores.php");
+                    header("Location: /proyectos/garden_os/sensores");
                 }else{
                     echo "No se pudo agregar el sensor al lote";
                 }
             }else{
-
+                echo "idfk";
             }
-            
-
         }else{
             echo "Error al insertar el sensor";
         }
@@ -56,7 +53,4 @@ if ($result->num_rows > 0) {
 } else {
     echo "El usuario no existe";
 }
-
-
-
 ?>

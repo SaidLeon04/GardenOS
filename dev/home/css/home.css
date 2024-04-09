@@ -1,0 +1,156 @@
+.main-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 90%;
+}
+
+.medium-container{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 100%;
+}
+
+.contenedor1{
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    height: 100%;
+    border-radius: 20px;
+    background-color: white;
+    margin: 20px;
+    align-items: center;
+    border:2px solid  black;   
+}
+
+.datos-lote{
+    display: flex;
+    flex-direction: row;
+}
+
+.datos-lote-texto{
+    margin-right: 100px;
+}
+
+.contenedor2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+    height: 100%;
+    margin: 20px;
+    border-radius: 20px;
+    background-color: white;
+    border:2px solid  black;
+}
+
+.contenedor3{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20%;
+    height: 95%;
+    margin: 20px;
+    border-radius: 20px;
+    background-color: white;
+    border:2px solid  black;
+}
+
+.contenedor1:hover,
+.contenedor2:hover,
+.contenedor3:hover{
+    -webkit-box-shadow: 21px 17px 36px 12px rgba(0,0,0,0.23);
+    -moz-box-shadow: 21px 17px 36px 12px rgba(0,0,0,0.23);
+    box-shadow: 21px 17px 36px 12px rgba(0,0,0,0.23);
+    transition: all 0.5s ease;
+}
+
+.img{
+    width: 400px;
+    height: 250px;
+}
+
+.parrafo{
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    background-color: white;
+}
+
+.nombre-lote{
+    margin: 20px;
+}
+.boton-actividad{
+    margin: 20px;
+}
+
+.datos-sensor{
+    display: flex;
+    flex-direction: row;
+}
+
+.sensor1{
+    margin-right: 200px;
+}
+
+.sensor2{
+    margin-top: 75px;
+}
+
+.create-button-re{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 10px;
+    margin: 10px;
+    font-size: 16px;
+    background-image: linear-gradient(to right, #7DCEA0, #67d21a);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.create-button-re:hover{
+    background-image: linear-gradient(to right, #67d21a, #7DCEA0);
+    transform: scale(1.05);
+}
+
+.help-button-re{
+    border: none;
+    width: 90%;
+    border-radius: 20px;
+    padding: 10px 10px;
+    margin: 10px;
+    font-size: 16px;
+    background-image: linear-gradient(to right, #ffcd90, #FF8D21);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.help-button-re:hover{
+    background-image: linear-gradient(to right, #FF8D21, #ffcd90);
+    transform: scale(1.05);
+}
+
+.ia-button-re{
+    border: none;
+    width: 90%;
+    border-radius: 20px;
+    padding: 10px 10px;
+    margin: 10px;
+    font-size: 16px;
+    background-image: linear-gradient(to right, #a73fe8, #550487);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+
+}
+
+.ia-button-re:hover{
+    background-image: linear-gradient(to right, #550487, #a73fe8);
+    transform: scale(1.05);
+}
+.link{
+    color: black;
+}

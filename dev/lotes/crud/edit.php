@@ -1,6 +1,5 @@
 <?php
 include("../../conexion.php");
-include("../../statements.php");
 
 # TODO validar tipo de imagenes y tal vez tamaño
 $id_lote = $_POST['id_lote'];
@@ -9,7 +8,7 @@ $nombre_lote = $_POST['nombre_lote'];
 $cantidad_actual = $_POST['cantidad_actual'];
 $existe = false;
 
-    $stmt = $conexion->prepare($consulta_lote);
+    $stmt = $conexion->prepare("SELECT * FROM lote WHERE id_lote = ?");
     $stmt->bind_param("i", $id_lote);
     $stmt->execute();
     $stmt->store_result(); 
@@ -22,12 +21,12 @@ $existe = false;
 
     # TODO actualizar todo? o solo los campos que se quieren cambiar?
     if($existe){
-        $stmt = $conexion->prepare($update_lote);
+        $stmt = $conexion->prepare("UPDATE lote SET nombre_lote = ?, cantidad_actual = ? WHERE id_lote = ?");
         $stmt->bind_param("sii", $nombre_lote, $cantidad_actual, $id_lote);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
-            header("Location: ../lotes.php");
+            header("Location: /proyectos/garden_os/lotes");
         } else {
             echo "No se realizaron cambios.";
         }

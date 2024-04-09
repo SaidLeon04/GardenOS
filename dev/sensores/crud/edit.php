@@ -23,7 +23,7 @@ if ($result->num_rows > 0) {
         $stmt->bind_param("iii", $id_sensor, $id_lote, $id_usuario);
         $stmt->execute();
         if ($stmt->affected_rows > 0){
-            header("Location: ../../lotes/lotes.php");
+            header("Location: /proyectos/garden_os/sensores");
         } else {
             echo "Ocurrio un error al actualizar el lote";
         }   

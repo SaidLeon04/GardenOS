@@ -25,7 +25,7 @@ if ($result->num_rows > 0){
             if ($stmt->affected_rows > 0){
                 $stmt->close();
                 $conexion->close();
-                header("Location: ../sensores.php");
+                header("Location: /proyectos/garden_os/sensores");
             }else{
                 echo "No se pudo eliminar el sensor";
             }
@@ -47,7 +47,7 @@ if ($result->num_rows > 0){
         if ($stmt->affected_rows > 0){
             $stmt->close();
             $conexion->close();
-            header("Location: ../sensores.php");
+            header("Location: /proyectos/garden_os/sensores");
         }else{
             echo "No se pudo eliminar el sensor";
         }

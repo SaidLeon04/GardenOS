@@ -1,6 +1,5 @@
 <?php
 include("../../conexion.php");
-include("../../statements.php");
 
 # TODO validar tipo de imagenes y tal vez tamaño
 $id_planta = $_POST['id_planta'];
@@ -11,7 +10,7 @@ $temporal_imagen = $_FILES['imagen']['tmp_name'];
 $image = base64_encode(file_get_contents(addslashes($temporal_imagen)));
 $existe = false;
 
-    $stmt = $conexion->prepare($consulta_planta);
+    $stmt = $conexion->prepare("SELECT * FROM plantas WHERE id_planta = ?");
     $stmt->bind_param("i", $id_planta);
     $stmt->execute();
     $stmt->store_result(); 
@@ -29,7 +28,7 @@ $existe = false;
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
-            header("Location: ../plantas.php");
+            header("Location: /proyectos/garden_os/plantas");
         } else {
             echo "No se realizaron cambios.";
         }
