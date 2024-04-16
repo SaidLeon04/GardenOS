@@ -10,7 +10,7 @@ $stmt->bind_param("ii", $id_sensor, $id_usuario);
 $stmt->execute();
 $result = $stmt->get_result();
 if ($result->num_rows > 0){
-    $stmt = $conexion->prepare("UPDATE lote SET id_sensor = NULL WHERE id_sensor = ? AND id_usuario = ?");
+    $stmt = $conexion->prepare("UPDATE lote SET id_sensor = 0 WHERE id_sensor = ? AND id_usuario = ?");
     $stmt->bind_param("ii", $id_sensor, $id_usuario);
     $stmt->execute();
     if ($stmt->affected_rows > 0){

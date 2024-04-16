@@ -111,7 +111,7 @@
         <div class="text">
             <header>
                 Zen: Simula y relajate
-                <button>Feedback Zen</button>
+                <button class="help-button">Feedback Zen</button>
             </header>
         </div>
         <br><br>

@@ -131,7 +131,7 @@
     <section class="home">
         <div class="text">
             <header>
-                Inicia un sensor <?php echo $id_usuario; ?>
+                Inicia un sensor
             </header>
         </div>
         <center>

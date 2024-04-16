@@ -27,7 +27,7 @@
             header("Location: /proyectos/garden_os/sign_in");
         }
 
-        $stmt = $conexion->prepare("SELECT id_lote FROM lote WHERE id_usuario = ?");
+        $stmt = $conexion->prepare("SELECT id_lote FROM lote WHERE id_usuario = ? AND estado != 'finalizado'");
         $stmt->bind_param('i', $id_usuario);
         $stmt->execute();
         $resultado = $stmt->get_result();
@@ -72,8 +72,8 @@
             }
             $id_sensor_aleatorio = $array_id_sensor[array_rand($array_id_sensor)];
 
-            $stmt = $conexion->prepare("SELECT * FROM sensores WHERE id_usuario = ? AND id_sensor = ?");
-            $stmt->bind_param('ii',$id_usuario, $id_sensor_aleatorio);
+            $stmt = $conexion->prepare("SELECT * FROM sensores WHERE id_usuario = ? AND id_sensor != 0");
+            $stmt->bind_param('i',$id_usuario);
             $stmt->execute();
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
@@ -96,15 +96,10 @@
                     $lote_sensor = $result->fetch_assoc();
                     $nombre_lote_sensor = $lote_sensor['nombre_lote'];
                 }
-
-
-
             } 
         }else{
             $titulo_sensor = 0;
-        }
-
-        
+        }  
     ?>
 </head>
 <body>
@@ -195,7 +190,7 @@
     <section class="home">
         <div class="text">
             <header>
-                Bienvenido  <?php echo $usuario; ?> 
+                Bienvenido  <?php echo $usuario;?> 
             </header>
         </div>
 
@@ -205,7 +200,7 @@
                     <?php 
                         if ($titulo === 0) {
                     ?>
-                    <h1>Crea tu primer lote</h1>
+                    <h1 style="margin:20px">Crea tu primer lote</h1>
                     <button class="create-button">Crear</button>
                     
                     <?php
@@ -232,12 +227,11 @@
 
                 <div class="contenedor2">
                     <?php 
-                        if ($titulo_sensor === 0) {
+                        if($titulo_sensor === 0){
                     ?>
-                    <h1>Comprueba lo que puedes hacer con un sensor.</h1>
-                    <button class="create-button">Agregar sensor</button>
-                    <img src="/assets/img/dht22.png" alt="dht22.png">
-                    
+                    <h1 style="margin:20px">Comprueba lo que puedes hacer con un sensor.</h1>
+                    <button class="create-button"><a href="/proyectos/garden_os/sensores/c">Agregar sensor</a></button>
+                    <img src="/proyectos/garden_os/dev/sensores/assets/img/dht22.png" alt="dht22.png" class="img-sensor">
                     <?php
                         }else{
                     ?>
@@ -258,7 +252,6 @@
                             <p class="parrafo">Humedad actual: <?php echo $humedad ?></p>
                             </center>
                         </div>
-                        
                     </div>
                     <?php
                         }
@@ -269,19 +262,13 @@
                 <h1>¿Donde iniciar?</h1>
 
                 <button class="create-button-re"><a href="/proyectos/garden_os/plantas/c">Agrega plantas a tu catalogo</a></button>
-                <br><br>
                 
                 <button class="help-button-re"><a href="">Conoce a DHT22</a></button>
-                <img src="assets/img/dht22" alt="dht22">
+                <img src="/proyectos/garden_os/dev/sensores/assets/img/dht22.png" alt="dht22" class="img-lat">
 
                 <button class="ia-button-re"><a href="">GardenIA</a></button>
-
-
-
             </div>
-        </div>
-        
-             
+        </div>     
     </section>
     <script src="/proyectos/garden_os/dev/assets/js/barra_lateral.js"></script>
 </body>

@@ -135,7 +135,7 @@
     <section class="home">
         <div class="text">
             <header>
-                Sensores registrados
+                Sensores registrados 
                 <button class="create-button"><a href="/proyectos/garden_os/sensores/c">Agregar Sensor</a></button>
             </header>
         </div>
@@ -146,17 +146,19 @@
                 $contador_grupo = 0;
             ?>
             <div class="group-tile">
-                <?php for ($i = 0; $i < $cantidad_registros; $i++) {
-                    $stmt = $conexion->prepare("SELECT nombre_lote FROM lote WHERE id_lote = ? AND id_sensor = ?");
-                    $stmt->bind_param('ii', $id_lote[$i], $id_sensor[$i]);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    if ($result->num_rows > 0) {
-                        $lote = $result->fetch_assoc();
-                        $nombre_lote = $lote['nombre_lote'];    
-                    } else {
-                        $nombre_lote = "No esta asociado a ningún lote";
-                    }
+                <?php 
+                if($cantidad_registros > 0){
+                    for($i = 0; $i < $cantidad_registros; $i++){    
+                        $stmt = $conexion->prepare("SELECT nombre_lote FROM lote WHERE id_lote = ? AND id_sensor = ?"); 
+                        $stmt->bind_param("ii", $id_lote[$i], $id_sensor[$i]);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        if ($result->num_rows > 0) {
+                            $info = $result->fetch_assoc();
+                            $nombre_lote[] = $info['nombre_lote'];
+                        } else {
+                            $nombre_lote[] = "No asignado";
+                        }       
                 ?>
                 <div class="lote-tile">
                     <a href="/proyectos/garden_os/sensor/v?id_sensor=<?php echo $id_sensor[$i]; ?>" class="tile-link">
@@ -173,7 +175,7 @@
 
                             <h2><?php echo $tipo[$i]; ?></h2>
                             
-                            <h2>Conectado a: <?php echo $nombre_lote; ?></h2>
+                            <h2>Conectado a: <?php echo $nombre_lote[$i]; ?></h2>
                         </center>
                     </a>
                 </div>
@@ -185,7 +187,11 @@
                     echo '<div class="group-tile">';
                     $contador_grupo = 0; 
                 }
-            } ?>
+                    }
+                } else {
+                    echo "<h1>$nothing</h1>";
+                }
+            ?>
         </div>
     </section>
 </body>

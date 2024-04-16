@@ -180,18 +180,7 @@
                             <div>
                                 <?php echo $estado ?>
                             </div>
-                        </div>
-
-                        <div class="carta-stats">
-                            <div style="display:flex; flex-direction:row; justify-content: space-around;">
-                                <h3>Previsión</h3>
-                                <img src="/proyectos/garden_os/dev/assets/svg/prevision.svg" alt="prevision">
-                            </div>
-                            <div>
-                                <h3>76% efectividad</h3>
-                                <?php #TODO consulta para obtener previsión ?>
-                            </div>
-                        </div>
+    </div>
                     </div>
 
                     <div class="contenedor2">
@@ -302,7 +291,7 @@
                         <div class="controls">
                             <button class="btn"><a href="/proyectos/garden_os/avanzar?key=<?php echo $id_lote ?>">Avanzar al siguiente paso</a></button>
                             <button class="btn"><a href="/proyectos/garden_os/historial?key=<?php echo $id_lote ?>">Historial</a></button>
-                            <button class="btn"><a href="http://127.0.0.1:8081/<?php echo $nombre_lote ?>">Prick IA</a></button>
+                            <button class="btn"><a href="http://127.0.0.1:8081/<?php echo $nombre_lote ?>">NeblinaIA</a></button>
                             <!-- TODO enviar nombre del lote y gg -->
                         </div>
                     </div>

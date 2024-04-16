@@ -154,3 +154,13 @@
 .link{
     color: black;
 }
+
+.img-sensor{
+    width: 200px;
+    height: 200px;
+}
+
+.img-lat{
+    width: 200px;
+    height: 200px;
+}

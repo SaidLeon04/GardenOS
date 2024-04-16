@@ -1,3 +1,5 @@
+console.log('Grafica Temperatura');
+
 const tablaTemperatura = document.getElementById('tablaTemperatura');
 const filasTemperatura = tablaTemperatura.querySelectorAll('tbody tr');
 const puntosXT = [];

@@ -225,7 +225,6 @@
                                     <p>Cantidad: <?php echo $info['cantidad'] ?> semillas </p>
                                     <p>Promedio de humedad: <?php echo $promedio_humedad ?>%</p>
                                     <p>Promedio de temperatura: <?php echo $temperatura_formateada ?>°C </p>
-                                    <p>Horas de riego: <?php echo $horas_riego ?> hrs.</p>
                                 </div>
                 <?php
                             } else if ($info['estado'] == "siembra") {
@@ -285,11 +284,10 @@
                                         <h2>Estado: Siembra</h2>
                                         <p>Fecha de inicio: <?php echo $fecha_traducida ?></p>
                                         <p>Dias: <?php echo $diferencia_dias ?></p>
-                                        <p>Cantidad: <?php echo $info['cantidad'] ?> semillas </p>
+                                        <p>Cantidad: <?php echo $info['cantidad'] ?> semillas</p>
                                         <p>Perdidas: <?php echo $perdida ?> semillas </p>
                                         <p>Promedio de humedad: <?php echo $humedad_formateada ?>%</p>
-                                        <p>Promedio de temperatura: <?php echo $temperatura_formateada ?>°C </p>
-                                        <p>Horas de riego: <?php echo $horas_riego ?> hrs.</p>
+                                        <p>Promedio de temperatura: <?php echo $temperatura_formateada ?>°C</p>
                                 </div>
                                 <div class="line">
                                     <div class="dot"></div>
@@ -331,7 +329,8 @@
                                         $stmt->execute();
                                         $resultado = $stmt->get_result();
                                         $humedad = $resultado->fetch_assoc();
-                                        $promedio_humedad = $humedad['promedio_humedad'];  
+                                        $promedio_humedad = $humedad['promedio_humedad'];
+                                        $humedad_formateada = number_format($promedio_humedad, 2);  
 
                                         $stmt = $conexion->prepare("SELECT AVG(temperatura) AS promedio_temperatura FROM temperatura WHERE id_lote = ? AND fecha BETWEEN ? AND ?");    
                                         $stmt->bind_param('iss', $id_lote, $fecha1, $fecha2);
@@ -358,12 +357,11 @@
                                 <div class="timeline-tile">
                                     <h2>Estado: Crecimiento</h2>
                                     <p>Fecha de inicio: <?php echo $fecha_traducida ?></p>
-                                    <p>Dias: </p>
+                                    <p>Dias: <?php echo $diferencia_dias ?></p>
                                     <p>Cantidad: <?php echo $info['cantidad'] ?> semillas </p>
                                     <p>Perdidas: <?php echo $perdida ?> semillas </p>
-                                    <p>Promedio de humedad: <?php echo $promedio_humedad ?></p>
-                                    <p>Promedio de temperatura: <?php echo $temperatura_formateada ?></p>
-                                    <p>Horas de riego: <?php echo $horas_riego ?></p>
+                                    <p>Promedio de humedad: <?php echo $humedad_formateada ?>%</p>
+                                    <p>Promedio de temperatura: <?php echo $temperatura_formateada ?>°C<</p>
                                 </div>
                 <?php
                             } elseif ($info['estado'] == "cosecha") {
@@ -379,12 +377,12 @@
                                     $num_filas = $fechas->num_rows;
                                     
 
-                                    if ($num_filas === 1) {
+                                    if ($num_filas === 0) {
                                         $diferencia_dias = "En proceso... ";
                                         $promedio_humedad = "En proceso... ";
                                         $temperatura_formateada = "En proceso... ";
                                         $horas_riego = "En proceso... ";
-                                    } elseif ($num_filas !== 1){
+                                    } elseif ($num_filas !== 0){
                                         $fecha1 = $info['fecha'];
                                         $fecha2 = $infofecha['fecha'];
                                         $fecha1_obj = new DateTime($fecha1);
@@ -400,6 +398,7 @@
                                         $resultado = $stmt->get_result();
                                         $humedad = $resultado->fetch_assoc();
                                         $promedio_humedad = $humedad['promedio_humedad'];  
+                                        $humedad_formateada = number_format($promedio_humedad, 2);
 
                                         $stmt = $conexion->prepare("SELECT AVG(temperatura) AS promedio_temperatura FROM temperatura WHERE id_lote = ? AND fecha BETWEEN ? AND ?");    
                                         $stmt->bind_param('iss', $id_lote, $fecha1, $fecha2);
@@ -425,9 +424,8 @@
                                         <p>Dias: <?php echo $diferencia_dias ?></p>
                                         <p>Cantidad: <?php echo $info['cantidad'] ?> semillas </p>
                                         <p>Perdidas: <?php echo $perdida ?> semillas </p>
-                                        <p>Promedio de humedad: <?php echo $promedio_humedad ?>%</p>
-                                        <p>Promedio de temperatura: <?php echo $temperatura_formateada ?>°C </p>
-                                        <p>Horas de riego: <?php echo $horas_riego ?> hrs.</p>
+                                        <p>Promedio de humedad: <?php echo $humedad_formateada ?>%</p>
+                                        <p>Promedio de temperatura: <?php echo $temperatura_formateada ?>°C</p>
                                     </div>
                                     <div class="line">
                                         <div class="dot"></div>
@@ -438,12 +436,8 @@
                 <?php
                             }
                            
-                            $fila_anterior = $info;
-                            
-                           
+                            $fila_anterior = $info;  
                         }
-                
-                
                     ?>
                 </div>
             </section>

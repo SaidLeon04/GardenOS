@@ -45,6 +45,8 @@ RewriteRule ^avance_action$     dev/avance/crud/avance.php
 RewriteRule ^historial$         dev/historial/historial.php
 
 RewriteRule ^lotes_terminados$  dev/lotes_terminados/lotes_terminados.php
+RewriteRule ^lote_terminado/v$  dev/lotes_terminados/view_lote_terminado.php
+RewriteRule ^final$             dev/lotes_terminados/final.php	
 
 RewriteRule ^sensores$          dev/sensores/sensores.php
 RewriteRule ^sensores/c$        dev/sensores/form/add.php

@@ -157,7 +157,7 @@
                         
                             <img src="data:image;base64,<?php echo $imagenes[$i]; ?>" alt="imagen_planta" class="img-tile">
 
-                            <p><?php echo $tipos[$i]; ?></p>
+                            <p><strong>Tipo: </strong><?php echo $tipos[$i]; ?></p><br>
                             <p><?php echo $descripciones[$i]; ?></p>
                         </center>
                     </a>
